@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+:root{
+    --font-family-bold: "Rubik", sans-serif;
+    --color-accent-dark: #003524;
+}
+body{
+    font-family: var(--font-family-bold);
+}
+p {
+    font-size: 15px;
+    line-height: 1.8em;
+}
+.wave {
+    margin-top: -70px;
+    z-index: 99;
+    position: relative;
+}
+.hero-top-section {
+    margin-top: 102px;
+}
+.bg-dark-green {
+    background-color: var(--color-accent-dark);
+}
+.wave-middle-section {
+    padding: 80px 0;
+}
