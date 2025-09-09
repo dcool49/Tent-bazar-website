@@ -54,8 +54,8 @@
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center space-x-6">
-        <a routerLink="/home" routerLinkActive="font-bold text-blue-600">Home</a>
-        <a routerLink="/about-us" routerLinkActive="font-bold text-blue-600">About Us</a>
+        <a routerLink="/home" (click)="urlRout('home')" routerLinkActive="font-bold text-blue-600">Home</a>
+        <a routerLink="/about-us" (click)="urlRout('about-us')" routerLinkActive="font-bold text-blue-600">About Us</a>
         <a href="#" class="text-gray-900 hover:text-blue-600">Rate This App</a>
         <a href="#" class="text-gray-900 hover:text-blue-600">Share on Social</a>
         <a href="#" class="text-gray-900 hover:text-blue-600">Brochure</a>
