@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-offer-service',
+  selector: 'app-sub-category',
   imports: [],
-  templateUrl: './offer-service.component.html',
-  styleUrl: './offer-service.component.scss'
+  templateUrl: './sub-category.component.html',
+  styleUrl: './sub-category.component.scss'
 })
-export class OfferServiceComponent {
+export class SubCategoryComponent {
 constructor(private route: Router) { }
   urlRout(path: any) {
     this.route.navigate(['/' + path])

@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-constructor(private route:Router){}
-urlRout(path:any){
-this.route.navigate(['/'+path])
-}
+  constructor(private route: Router) { }
+  urlRout(path: any) {
+    this.route.navigate(['/' + path])
+  }
 }
