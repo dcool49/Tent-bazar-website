@@ -1,0 +1,32 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
+.container{
+    width: 400px;
+}
+.btn:hover{
+   background-color:rgb(25, 135, 84);
+   color: black;
+   border-color: rgb(25, 135, 84);
+}
+#address_box{
+  display: flex;
+  gap: 5px;
+}
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px; 
+}
+.form-group-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  margin-left: 24px;
+}
+.button-group{
+  text-align: right;
+}
