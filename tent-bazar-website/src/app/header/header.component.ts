@@ -1,15 +1,29 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';   // ⬅️ Needed for *ngIf, *ngFor
+import { RouterModule } from '@angular/router';   // ⬅️ Needed for routerLink, routerLinkActive
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  standalone: true,             // ⬅️ Mark it standalone
+  imports: [CommonModule, RouterModule],  // ⬅️ Add Angular directives here
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']  // ⬅️ fix: use styleUrls (plural)
 })
 export class HeaderComponent {
-  constructor(private route: Router) { }
-  urlRout(path: any) {
-    this.route.navigate(['/' + path])
+  constructor(private route: Router) {}
+
+  urlRout(path: string) {
+    this.route.navigate(['/' + path]);
+  }
+
+  isMenuOpen = false;
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
   }
 }

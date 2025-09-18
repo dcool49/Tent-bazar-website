@@ -24,3 +24,9 @@ p {
 .text-orange{
     color: var(--orange-text);
 }
+/* Mobile (smaller than md breakpoint = <768px) */
+@media (max-width: 767px) {
+  .hero-top-section {
+    margin-top: 62px; /* height of just the white header */
+  }
+}
