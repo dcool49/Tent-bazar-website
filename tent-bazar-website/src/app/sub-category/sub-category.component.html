@@ -42,7 +42,7 @@
 
       <!-- Card 1 -->
       <div *ngFor="let product of productList" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col">
-        <div class="relative">
+        <div (click)="urlRout('details',product._id)" class="relative">
           <img [src]="product?.image?.[0].img_name" alt="Parda / Side Wall" class="w-full h-56 object-[scale-down]">
           <span class="absolute top-2 left-2 bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-md shadow-md">{{product?.productName}}</span>
         </div>
