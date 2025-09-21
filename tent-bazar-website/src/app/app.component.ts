@@ -3,18 +3,31 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';  // ✅ add this
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
     HeaderComponent,
     FooterComponent,
-    RouterModule,HttpClientModule,CommonModule],
+    RouterModule,HttpClientModule,
+    CommonModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'tent-bazar-website';
+  hideSomePage = true;
+
+  constructor(private router: Router) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        // hide header only on admin-login route
+        this.hideSomePage = event.url !== '/admin-login';
+      });
+  }
 }
