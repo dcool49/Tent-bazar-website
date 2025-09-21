@@ -7,41 +7,17 @@
       
       <div class="space-y-6">
         
-       <!-- Cart Item -->
-<div class="flex flex-col md:flex-row md:items-center md:justify-between border-b pb-4 gap-4">
-  <!-- Product Info -->
-  <div class="flex items-center gap-4">
-    <img src="../assets/images/service/a1.jpg" alt="Product" class="w-20 h-20 rounded-md object-cover">
-    <div>
-      <h3 class="font-semibold text-lg">Parda / Side Wall</h3>
-      <p class="text-sm text-gray-500">Code: P-201</p>
-      <p class="text-sm text-gray-500">₹ 1,499</p>
-    </div>
-  </div>
-  
-  <!-- Quantity + Remove -->
-  <div class="flex items-center justify-between md:justify-end gap-4">
-    <!-- Quantity Selector -->
-    <div class="flex items-center border rounded-lg overflow-hidden">
-      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200">-</button>
-      <input type="text" value="1" class="w-12 text-center border-x outline-none">
-      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200">+</button>
-    </div>
-    
-    <!-- Remove -->
-    <button class="text-red-500 hover:underline">Remove</button>
-  </div>
-</div>
+
 
 <!-- Cart Item -->
-<div class="flex flex-col md:flex-row md:items-center md:justify-between border-b pb-4 gap-4">
+<div *ngFor="let prod of localStorageData" class="flex flex-col md:flex-row md:items-center md:justify-between border-b pb-4 gap-4">
   <!-- Product Info -->
   <div class="flex items-center gap-4">
-    <img src="../assets/images/service/a1.jpg" alt="Product" class="w-20 h-20 rounded-md object-cover">
+    <img [src]="prod?.image?.[0].img_name" alt="Product" class="w-20 h-20 rounded-md object-cover">
     <div>
-      <h3 class="font-semibold text-lg">Parda / Side Wall</h3>
-      <p class="text-sm text-gray-500">Code: P-201</p>
-      <p class="text-sm text-gray-500">₹ 1,499</p>
+      <h3 class="font-semibold text-lg">{{prod?.productName}}</h3>
+      <!-- <p class="text-sm text-gray-500">Code: P-201</p> -->
+      <p class="text-sm text-gray-500">₹ {{prod?.price}}</p>
     </div>
   </div>
   
@@ -49,41 +25,16 @@
   <div class="flex items-center justify-between md:justify-end gap-4">
     <!-- Quantity Selector -->
     <div class="flex items-center border rounded-lg overflow-hidden">
-      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200">-</button>
-      <input type="text" value="1" class="w-12 text-center border-x outline-none">
-      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200">+</button>
+      <button [disabled]="prod.quantity <= 1" (click)="prod.quantity= prod.quantity-1;insertQuantity()" class="px-3 py-1 bg-gray-100 hover:bg-gray-200">-</button>
+      <input type="text" [value]="prod?.quantity" class="w-12 text-center border-x outline-none">
+      <button (click)="prod.quantity= prod.quantity+1;insertQuantity()" class="px-3 py-1 bg-gray-100 hover:bg-gray-200">+</button>
     </div>
     
     <!-- Remove -->
-    <button class="text-red-500 hover:underline">Remove</button>
+    <button (click)="remove(prod._id)" class="text-red-500 hover:underline">Remove</button>
   </div>
 </div>
 <!-- Cart Item -->
-<div class="flex flex-col md:flex-row md:items-center md:justify-between border-b pb-4 gap-4">
-  <!-- Product Info -->
-  <div class="flex items-center gap-4">
-    <img src="../assets/images/service/a1.jpg" alt="Product" class="w-20 h-20 rounded-md object-cover">
-    <div>
-      <h3 class="font-semibold text-lg">Parda / Side Wall</h3>
-      <p class="text-sm text-gray-500">Code: P-201</p>
-      <p class="text-sm text-gray-500">₹ 1,499</p>
-    </div>
-  </div>
-  
-  <!-- Quantity + Remove -->
-  <div class="flex items-center justify-between md:justify-end gap-4">
-    <!-- Quantity Selector -->
-    <div class="flex items-center border rounded-lg overflow-hidden">
-      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200">-</button>
-      <input type="text" value="1" class="w-12 text-center border-x outline-none">
-      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200">+</button>
-    </div>
-    
-    <!-- Remove -->
-    <button class="text-red-500 hover:underline">Remove</button>
-  </div>
-</div>
-
 
         
       </div>
@@ -96,15 +47,15 @@
       <div class="space-y-3">
         <div class="flex justify-between">
           <span>Subtotal</span>
-          <span>₹ 3,297</span>
+          <span>₹ {{sumAmount}}</span>
         </div>
         <div class="flex justify-between">
           <span>Shipping</span>
-          <span>₹ 150</span>
+          <span>FREE</span>
         </div>
         <div class="flex justify-between font-bold text-lg">
           <span>Total</span>
-          <span>₹ 3,447</span>
+          <span>₹ {{sumAmount}}</span>
         </div>
       </div>
 

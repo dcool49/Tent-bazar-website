@@ -12,4 +12,7 @@ export class DataService {
   getAPICall(url: any) {
     return this.http.get(this.baseUrl + url);
   }
+  postAPICall(url:any,payload:any){
+    return this.http.post(this.baseUrl+url,payload);
+  }
 }

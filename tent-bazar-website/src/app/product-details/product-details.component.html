@@ -3,57 +3,59 @@
     
     <!-- Left: Product Image -->
     <div class="relative">
-      <img src="../assets/images/service/a1.jpg" alt="Parda / Side Wall" class="rounded-lg shadow-md w-full object-cover">
+      <img [src]="productDetals?.image?.[0].img_name" alt="Parda / Side Wall" class="rounded-lg shadow-md w-full object-cover">
       
       <!-- Product Code -->
       <span class="absolute top-3 left-3 bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-md shadow-md">
-        P-201
+        {{productDetals?.productName}}
       </span>
     </div>
 
     <!-- Right: Product Info -->
     <div class="flex flex-col justify-center">
-      <h1 class="text-3xl font-bold text-gray-800 mb-4">Parda / Side Wall</h1>
+      <h1 class="text-3xl font-bold text-gray-800 mb-4">{{productDetals?.productName}}</h1>
       <p class="text-gray-600 mb-6">
-        This high-quality side wall (Parda) is perfect for tents, events, and outdoor setups. 
-        Made from durable fabric with excellent finish, ensuring long-lasting use.
+        {{productDetals?.summery}}
       </p>
 
       <!-- Price -->
       <div class="mb-6">
-        <span class="text-2xl font-bold text-orange-600">₹ 1,499</span>
-        <span class="text-gray-400 line-through ml-3">₹ 1,999</span>
+        <span class="text-2xl font-bold text-orange-600">₹ {{productDetals?.price}}</span>
+        <!-- <span class="text-gray-400 line-through ml-3">₹ 1,999</span> -->
       </div>
 
       <!-- Quantity Selector -->
       <div class="flex items-center mb-6">
         <span class="mr-4 font-medium">Quantity:</span>
         <div class="flex items-center border rounded-lg overflow-hidden">
-          <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200">-</button>
-          <input type="text" value="1" class="w-12 text-center border-x outline-none">
-          <button class="px-3 py-2 bg-gray-100 hover:bg-gray-200">+</button>
+          <button (click)="quantity = quantity-1" [disabled]="quantity <= 1" class="px-3 py-2 bg-gray-100 hover:bg-gray-200">-</button>
+          <input type="text" [value]="quantity" class="w-12 text-center border-x outline-none">
+          <button (click)="quantity = quantity+1" class="px-3 py-2 bg-gray-100 hover:bg-gray-200">+</button>
         </div>
       </div>
 
       <!-- Buttons -->
       <div class="flex gap-4">
         <!-- Add to Cart -->
-        <button class="flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">
+        <button *ngIf="!cartAdded" (click)="addcart()" class="flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 2.25h1.386c.51 0 .955.343 1.087.835l.383 1.437m0 0l1.35 5.062m-.75-2.812h12.12c.63 0 1.17.444 1.27 1.067l1.2 7.2a1.125 1.125 0 01-1.113 1.308H6.18a1.125 1.125 0 01-1.113-1.308l1.2-7.2a1.125 1.125 0 011.113-1.067zm0 0L5.106 4.522A1.125 1.125 0 004.02 3.75H2.25M6.75 20.25a.75.75 0 100-1.5.75.75 0 000 1.5zm10.5 0a.75.75 0 100-1.5.75.75 0 000 1.5z" />
           </svg>
           Add to Cart
         </button>
 
+        <button *ngIf="cartAdded" (click)="removecart()" class="flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">
+          Remove From Cart
+        </button>
         <!-- Buy Now -->
-        <button (click)="urlRout('cart')" class="px-6 py-3 border border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition">
-          Buy Now
+        <button *ngIf="cartAdded" (click)="urlRout('cart')" class="px-6 py-3 border border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition">
+          View Cart
         </button>
       </div>
 
       <!-- Extra Details -->
       <div class="mt-8 space-y-3">
-        <p><span class="font-semibold">Category:</span> Tent Accessories</p>
+        <!-- <p><span class="font-semibold">Category:</span> Tent Accessories</p> -->
         <p><span class="font-semibold">Availability:</span> In Stock</p>
         <p><span class="font-semibold">Delivery:</span> 3–5 Business Days</p>
       </div>
