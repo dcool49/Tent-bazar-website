@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';  // ✅ add this
+import { MatDialogModule } from '@angular/material/dialog';
+import { DataModelComponent } from './data-model/data-model.component';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,9 @@ import { CommonModule } from '@angular/common';  // ✅ add this
     HeaderComponent,
     FooterComponent,
     RouterModule,HttpClientModule,
-    CommonModule
+    CommonModule,
+    MatDialogModule,
+    DataModelComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
