@@ -28,6 +28,7 @@ export class AppComponent {
       .subscribe((event: any) => {
         // hide header only on admin-login route
         this.hideSomePage = event.url !== '/admin-login';
+         this.hideSomePage = event.url !== '/admin-home';
       });
   }
 }

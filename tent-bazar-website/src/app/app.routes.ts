@@ -5,6 +5,7 @@ import { SubCategoryComponent } from './sub-category/sub-category.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { CartDetailsComponent } from './cart-details/cart-details.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { AdminHomeComponent } from './tent-admin/admin-home/admin-home.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -13,6 +14,7 @@ export const routes: Routes = [
     { path: 'details', component: ProductDetailsComponent },
     { path: 'cart', component: CartDetailsComponent },
     { path: 'admin-login', component: AdminLoginComponent },
+    { path: 'admin-home', component: AdminHomeComponent },
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];
