@@ -1,9 +1,12 @@
 import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { EnquiryFormComponent } from '../enquiry-form/enquiry-form.component';
 
 @Component({
   selector: 'app-cart-details',
-  imports: [NgFor],
+  imports: [NgFor,
+    EnquiryFormComponent
+  ],
   templateUrl: './cart-details.component.html',
   styleUrl: './cart-details.component.scss'
 })
