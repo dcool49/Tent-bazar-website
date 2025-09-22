@@ -6,12 +6,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';  // ✅ add this
+import { LoaderComponent } from './loader/loader.component';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
     HeaderComponent,
     FooterComponent,
+    LoaderComponent,
     RouterModule,HttpClientModule,
     CommonModule
   ],
@@ -22,7 +25,7 @@ export class AppComponent {
   title = 'tent-bazar-website';
   hideSomePage = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,public dataService:DataService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {

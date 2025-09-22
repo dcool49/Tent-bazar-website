@@ -17,7 +17,7 @@ export class HeaderComponent implements DoCheck {
   constructor(private route: Router) {}
   ngDoCheck(): void {
     const localStorageData = JSON.parse(localStorage.getItem("addedProduct") as any);
-    this.cartCount = localStorageData.length;
+    this.cartCount = localStorageData?.length || 0;
     console.log("cartCount",this.cartCount);
   }
   // ngOnChanges(changes: SimpleChanges): void {
