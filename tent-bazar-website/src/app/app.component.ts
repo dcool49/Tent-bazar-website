@@ -7,7 +7,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';  // ✅ add this
 import { MatDialogModule } from '@angular/material/dialog';
-import { DataModelComponent } from './data-model/data-model.component';
+//import { DataModelComponent } from './data-model/data-model.component';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,7 @@ import { DataModelComponent } from './data-model/data-model.component';
     RouterModule,HttpClientModule,
     CommonModule,
     MatDialogModule,
-    DataModelComponent
+    // DataModelComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

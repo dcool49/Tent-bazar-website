@@ -6,6 +6,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { CartDetailsComponent } from './cart-details/cart-details.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { ProductListSearchComponent } from './product-list-search/product-list-search.component';
+import { EnquiryFormComponent } from './enquiry-form/enquiry-form.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
     { path: 'cart', component: CartDetailsComponent },
     { path: 'admin-login', component: AdminLoginComponent },
     { path: 'product-search/:search', component: ProductListSearchComponent},
+    { path: 'enquiry', component: EnquiryFormComponent },
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];
