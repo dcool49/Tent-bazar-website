@@ -8,12 +8,15 @@ import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';  // ✅ add this
 import { MatDialogModule } from '@angular/material/dialog';
 //import { DataModelComponent } from './data-model/data-model.component';
+import { LoaderComponent } from './loader/loader.component';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,
     HeaderComponent,
     FooterComponent,
+    LoaderComponent,
     RouterModule,HttpClientModule,
     CommonModule,
     MatDialogModule,
@@ -26,7 +29,7 @@ export class AppComponent {
   title = 'tent-bazar-website';
   hideSomePage = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,public dataService:DataService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
