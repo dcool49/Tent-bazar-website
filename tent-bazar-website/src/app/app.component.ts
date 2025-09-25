@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';  // ✅ add this
+import { MatDialogModule } from '@angular/material/dialog';
+//import { DataModelComponent } from './data-model/data-model.component';
 import { LoaderComponent } from './loader/loader.component';
 import { DataService } from './services/data.service';
 
@@ -16,7 +18,9 @@ import { DataService } from './services/data.service';
     FooterComponent,
     LoaderComponent,
     RouterModule,HttpClientModule,
-    CommonModule
+    CommonModule,
+    MatDialogModule,
+    // DataModelComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
