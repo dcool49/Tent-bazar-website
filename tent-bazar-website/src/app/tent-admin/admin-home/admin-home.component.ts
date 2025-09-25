@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AdminSidenavComponent } from '../admin-sidenav/admin-sidenav.component';
+//import { AdminSidenavComponent } from '../admin-sidenav/admin-sidenav.component';
 import { AdminDashboardComponent } from '../admin-dashboard/admin-dashboard.component';
 
 @Component({
   selector: 'app-admin-home',
   imports: [
-    AdminSidenavComponent,
+    //AdminSidenavComponent,
     AdminDashboardComponent
   ],
   templateUrl: './admin-home.component.html',
