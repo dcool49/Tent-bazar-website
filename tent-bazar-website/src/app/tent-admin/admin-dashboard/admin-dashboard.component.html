@@ -1,129 +1,96 @@
 <!-- dashboard.component.html -->
 <div class="flex h-screen bg-gray-100">
 
-  <!-- Desktop Sidebar -->
-  <div class="hidden md:flex md:flex-col w-64 bg-gray-800 text-white">
-    <div class="p-6 text-2xl font-bold border-b border-gray-700">
-      CRM Dashboard
-    </div>
-    <nav class="flex-1 mt-4">
-      <a href="#" class="block px-6 py-3 hover:bg-gray-700">Dashboard</a>
-      <a href="#" class="block px-6 py-3 hover:bg-gray-700">Contacts</a>
-      <a href="#" class="block px-6 py-3 hover:bg-gray-700">Leads</a>
-      <a href="#" class="block px-6 py-3 hover:bg-gray-700">Opportunities</a>
-      <a href="#" class="block px-6 py-3 hover:bg-gray-700">Reports</a>
-      <a href="#" class="block px-6 py-3 hover:bg-gray-700">Settings</a>
-    </nav>
-  </div>
 
-  <!-- Mobile Sidebar -->
-  <div *ngIf="isSidebarOpen" class="fixed inset-0 z-50 bg-gray-800 text-white w-64 p-6 md:hidden">
-    <button class="mb-4 text-white" (click)="toggleSidebar()">Close ✕</button>
-    <nav>
-      <a href="#" class="block py-2 hover:bg-gray-700">Dashboard</a>
-      <a href="#" class="block py-2 hover:bg-gray-700">Contacts</a>
-      <a href="#" class="block py-2 hover:bg-gray-700">Leads</a>
-      <a href="#" class="block py-2 hover:bg-gray-700">Opportunities</a>
-      <a href="#" class="block py-2 hover:bg-gray-700">Reports</a>
-      <a href="#" class="block py-2 hover:bg-gray-700">Settings</a>
-    </nav>
-  </div>
 
   <!-- Main Content -->
   <div class="flex-1 flex flex-col overflow-hidden">
 
-    <!-- Top Navbar -->
-    <div class="flex items-center justify-between bg-white shadow p-4">
-      <div class="flex items-center space-x-4">
-        <!-- Mobile menu button -->
-        <button class="md:hidden text-gray-600" (click)="toggleSidebar()">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-               viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
-        <span class="font-semibold text-lg">Dashboard</span>
-      </div>
-      <div class="flex items-center space-x-4">
-        <input type="text" placeholder="Search..." class="border rounded px-3 py-1"/>
-        <img src="assets/profile.jpg" alt="Profile" class="h-8 w-8 rounded-full"/>
-      </div>
-    </div>
+    <!-- Sidebar + Main Layout -->
+    <div class="flex h-screen">
 
-    <!-- Dashboard Cards -->
-    <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="bg-white shadow rounded p-4">
-        <h3 class="text-gray-600 text-sm">Total Leads</h3>
-        <p class="text-2xl font-bold">120</p>
-      </div>
-      <div class="bg-white shadow rounded p-4">
-        <h3 class="text-gray-600 text-sm">Contacts</h3>
-        <p class="text-2xl font-bold">340</p>
-      </div>
-      <div class="bg-white shadow rounded p-4">
-        <h3 class="text-gray-600 text-sm">Opportunities</h3>
-        <p class="text-2xl font-bold">75</p>
-      </div>
-      <div class="bg-white shadow rounded p-4">
-        <h3 class="text-gray-600 text-sm">Closed Deals</h3>
-        <p class="text-2xl font-bold">52</p>
-      </div>
-      <div class="bg-white shadow rounded p-4">
-        <h3 class="text-gray-600 text-sm">Revenue</h3>
-        <p class="text-2xl font-bold">$12.5K</p>
-      </div>
-      <div class="bg-white shadow rounded p-4">
-        <h3 class="text-gray-600 text-sm">Pending Tasks</h3>
-        <p class="text-2xl font-bold">18</p>
-      </div>
-    </div>
 
-    <!-- Table Example -->
-    <div class="p-6">
-      <h2 class="text-xl font-semibold mb-4">Recent Leads</h2>
-      <div class="overflow-x-auto">
-        <table class="min-w-full bg-white shadow rounded">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="text-left py-2 px-4">Name</th>
-              <th class="text-left py-2 px-4">Company</th>
-              <th class="text-left py-2 px-4">Status</th>
-              <th class="text-left py-2 px-4">Contact</th>
-              <th class="text-left py-2 px-4">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="border-t hover:bg-gray-50">
-              <td class="py-2 px-4">John Doe</td>
-              <td class="py-2 px-4">Acme Inc.</td>
-              <td class="py-2 px-4 text-green-600">Open</td>
-              <td class="py-2 px-4">johncom</td>
-              <td class="py-2 px-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">View</button>
-              </td>
-            </tr>
-            <tr class="border-t hover:bg-gray-50">
-              <td class="py-2 px-4">Jane Smith</td>
-              <td class="py-2 px-4">Beta Corp.</td>
-              <td class="py-2 px-4 text-yellow-500">Pending</td>
-              <td class="py-2 px-4">janecom</td>
-              <td class="py-2 px-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">View</button>
-              </td>
-            </tr>
-            <tr class="border-t hover:bg-gray-50">
-              <td class="py-2 px-4">Alice Brown</td>
-              <td class="py-2 px-4">Gamma LLC</td>
-              <td class="py-2 px-4 text-red-500">Closed</td>
-              <td class="py-2 px-4">alicecom</td>
-              <td class="py-2 px-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">View</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
+      <!-- Main content -->
+      <main class="flex-1 p-6 overflow-y-auto">
+
+        <!-- Top Navbar -->
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-2xl font-bold text-gray-700">Dashboard Overview</h1>
+          <!-- <button class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">Logout</button> -->
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-6">
+
+          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+            <p class="text-gray-500">Orders</p>
+            <h2 class="text-2xl font-bold text-green-600">1,245</h2>
+          </div>
+
+          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+            <p class="text-gray-500">Users</p>
+            <h2 class="text-2xl font-bold text-blue-600">785</h2>
+          </div>
+
+          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+            <p class="text-gray-500">Employees</p>
+            <h2 class="text-2xl font-bold text-purple-600">48</h2>
+          </div>
+
+          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+            <p class="text-gray-500">Products</p>
+            <h2 class="text-2xl font-bold text-orange-600">320</h2>
+          </div>
+
+          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+            <p class="text-gray-500">Categories</p>
+            <h2 class="text-2xl font-bold text-pink-600">12</h2>
+          </div>
+        </div>
+
+        <!-- Recent Orders Table -->
+        <div class="bg-white rounded-xl shadow p-6">
+          <h2 class="text-xl font-bold mb-4">Recent Orders</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr class="bg-gray-100 text-left">
+                  <th class="p-3">#ID</th>
+                  <th class="p-3">Customer</th>
+                  <th class="p-3">Product</th>
+                  <th class="p-3">Amount</th>
+                  <th class="p-3">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b hover:bg-gray-50">
+                  <td class="p-3">1001</td>
+                  <td class="p-3">John Doe</td>
+                  <td class="p-3">Laptop</td>
+                  <td class="p-3">$1200</td>
+                  <td class="p-3 text-green-600">Completed</td>
+                </tr>
+                <tr class="border-b hover:bg-gray-50">
+                  <td class="p-3">1002</td>
+                  <td class="p-3">Jane Smith</td>
+                  <td class="p-3">Mobile</td>
+                  <td class="p-3">$800</td>
+                  <td class="p-3 text-yellow-600">Pending</td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="p-3">1003</td>
+                  <td class="p-3">Robert Lee</td>
+                  <td class="p-3">Headphones</td>
+                  <td class="p-3">$150</td>
+                  <td class="p-3 text-red-600">Cancelled</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
     </div>
 
   </div>
