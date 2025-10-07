@@ -1,0 +1,30 @@
+<!-- Top Navbar -->
+<div class="flex items-center justify-between bg-white shadow p-4">
+  <div class="flex items-center space-x-4">
+    <!-- Mobile menu button -->
+    <button class="md:hidden text-gray-600" (click)="toggleSidebar()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <span class="font-semibold text-lg">Admin</span>
+  </div>
+
+  <div class="flex items-center space-x-4 relative">
+     <!-- Profile Image with Dropdown -->
+    <div class="relative group">
+      <img src="/assets/images/logo.png" alt="Profile" class="h-8 w-8 rounded-full cursor-pointer" />
+
+      <!-- Dropdown menu -->
+      <div
+        class="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-10">
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+      </div>
+    </div>
+    <input type="text" placeholder="Search..." class="border rounded px-3 py-1" />
+
+   
+  </div>
+</div>
