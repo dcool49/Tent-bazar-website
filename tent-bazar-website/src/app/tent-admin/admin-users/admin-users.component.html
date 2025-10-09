@@ -1,5 +1,14 @@
 <div class="p-6 bg-gray-100 min-h-screen">
-  <h2 class="text-2xl font-bold mb-6">User List</h2>
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold mb-6">User List</h2>
+    <button onclick="openModal('addModal')" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Add User
+    </button>
+  </div>
+  
 
   <div class="overflow-x-auto bg-white rounded-xl shadow">
     <table class="w-full border-collapse">
@@ -25,7 +34,14 @@
           </td>
           <td class="p-3">2025-01-15</td>
           <td class="p-3">
-            <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
+            <div class="flex gap-2">
+              <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                View
+              </button>
+              <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">
+                Edit
+              </button>
+            </div>
           </td>
         </tr>
 
@@ -39,7 +55,14 @@
           </td>
           <td class="p-3">2025-03-22</td>
           <td class="p-3">
-            <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
+            <div class="flex gap-2">
+              <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                View
+              </button>
+              <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">
+                Edit
+              </button>
+            </div>
           </td>
         </tr>
 
@@ -53,7 +76,14 @@
           </td>
           <td class="p-3">2024-11-10</td>
           <td class="p-3">
-            <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
+            <div class="flex gap-2">
+              <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                View
+              </button>
+              <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">
+                Edit
+              </button>
+            </div>
           </td>
         </tr>
 
@@ -67,7 +97,14 @@
           </td>
           <td class="p-3">2025-04-05</td>
           <td class="p-3">
-            <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
+            <div class="flex gap-2">
+              <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                View
+              </button>
+              <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">
+                Edit
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
