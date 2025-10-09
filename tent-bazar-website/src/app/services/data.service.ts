@@ -19,6 +19,9 @@ export class DataService {
   postAPICall(url:any,payload:any){
     return this.http.post(this.baseUrl+url,payload);
   }
+  deleteAPICall(url:any){
+    return this.http.delete(this.baseUrl+url);
+  }
 
 
   showLoader() {

@@ -26,19 +26,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="border-b hover:bg-gray-50">
-          <td class="p-3">P001</td>
-          <td class="p-3">Laptop</td>
-          <td class="p-3">Electronics</td>
-          <td class="p-3">$1200</td>
+        <tr *ngFor="let prod of productList; let i=index" class="border-b hover:bg-gray-50">
+          <td class="p-3">{{i+1}}</td>
+          <td class="p-3">{{prod.productName}}</td>
+          <td class="p-3">{{getcatName(prod.category_id)}}</td>
+          <td class="p-3">Rs {{prod.price}}</td>
           <td class="p-3">
             <span class="px-2 py-1 rounded-full text-white bg-green-600 text-sm">In Stock</span>
           </td>
-          <td class="p-3">2025-05-10</td>
+          <td class="p-3">{{prod.createdAt | date}}</td>
           <td class="p-3 flex flex-wrap gap-2 justify-center">
-            <button onclick="openModal('viewModal')" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
+            <button (click)="openViewDialog(prod)" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
             <button onclick="openModal('editModal')" class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">Edit</button>
-            <button onclick="openModal('deleteModal')" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Delete</button>
+            <button (click)="openDialog(prod)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Delete</button>
           </td>
         </tr>
       </tbody>
@@ -145,7 +145,7 @@
     <p class="mb-4 text-gray-600">Are you sure you want to delete <strong>“Laptop”</strong>?</p>
     <div class="flex justify-center gap-3">
       <button onclick="closeModal('deleteModal')" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 text-sm">Cancel</button>
-      <button class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm">Delete</button>
+      <button (click)="deleteProduct(selectedID)" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm">Delete</button>
     </div>
   </div>
 </div>
