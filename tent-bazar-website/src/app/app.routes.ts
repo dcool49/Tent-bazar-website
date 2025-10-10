@@ -18,7 +18,7 @@ export const routes: Routes = [
     { path: 'admin-login', component: AdminLoginComponent },
     { path: 'product-search/:search', component: ProductListSearchComponent},
     { path: 'enquiry', component: EnquiryFormComponent },
-    { path: 'admin-home', component: AdminHomeComponent },
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: 'admin-home', loadChildren:():any=> import('../app/tent-admin/admin-crm/admin-crm.module').then(m=> m.AdminCrmModule) },
+    { path: '', redirectTo: 'home', pathMatch: 'full'},
     { path: '**', redirectTo: '' },
 ];

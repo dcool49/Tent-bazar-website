@@ -9,34 +9,16 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 justify-items-center">
 
             <!-- Reel 1 -->
-            <div
+            <div *ngFor="let reel of InstagramList;let i=index"
                 class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 w-full">
-                <blockquote class="instagram-media w-full"
-                    data-instgrm-permalink="https://www.instagram.com/reel/DOQyGT5CG1I/?utm_source=ig_embed&amp;utm_campaign=loading"
+                <blockquote *ngIf="reel.url" class="instagram-media w-full"
+                [attr.data-instgrm-permalink]="photoURL(reel.url)"
                     data-instgrm-version="14"
                     style="background:#FFF; border:0; border-radius:12px; margin:0; padding:0; max-width:100%;">
                 </blockquote>
             </div>
 
-            <!-- Reel 2 (example placeholder) -->
-            <div
-                class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 w-full">
-                <blockquote class="instagram-media w-full"
-                    data-instgrm-permalink="https://www.instagram.com/reel/XXXXXXXX/?utm_source=ig_embed&amp;utm_campaign=loading"
-                    data-instgrm-version="14"
-                    style="background:#FFF; border:0; border-radius:12px; margin:0; padding:0; max-width:100%;">
-                </blockquote>
-            </div>
-
-            <!-- Reel 3 -->
-            <div
-                class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 w-full">
-                <blockquote class="instagram-media w-full"
-                    data-instgrm-permalink="https://www.instagram.com/reel/YYYYYYY/?utm_source=ig_embed&amp;utm_campaign=loading"
-                    data-instgrm-version="14"
-                    style="background:#FFF; border:0; border-radius:12px; margin:0; padding:0; max-width:100%;">
-                </blockquote>
-            </div>
+       
 
         </div>
         <div class="redirect-section text-center mt-12">

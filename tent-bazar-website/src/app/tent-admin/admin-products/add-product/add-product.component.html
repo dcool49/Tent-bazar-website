@@ -1,0 +1,60 @@
+<div
+  id="addModal"
+  class=" flex items-center justify-center z-50"
+>
+  <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+    <h3 class="text-xl font-semibold mb-4">Add Product</h3>
+    <form class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Product Name</label>
+        <input
+          type="text"
+          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+          placeholder="Enter product name"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Category</label>
+        <input
+          type="text"
+          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+          placeholder="e.g., Electronics"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Price ($)</label>
+        <input
+          type="number"
+          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+          placeholder="Enter price"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Stock Status</label>
+        <select
+          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+        >
+          <option>In Stock</option>
+          <option>Low Stock</option>
+          <option>Out of Stock</option>
+        </select>
+      </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <button
+          type="button"
+          (click)="urlRout('Products')"
+          class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 text-sm"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

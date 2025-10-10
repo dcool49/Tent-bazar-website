@@ -34,8 +34,11 @@ export class AppComponent {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         // hide header only on admin-login route
+        console.log("url",event.url)
+        const url = event.url;
+        console.log("url",url.includes('admin'))
         this.hideSomePage = event.url !== '/admin-login';
-         this.hideSomePage = event.url !== '/admin-home';
+         this.hideSomePage = !url.includes('admin');
       });
   }
 }

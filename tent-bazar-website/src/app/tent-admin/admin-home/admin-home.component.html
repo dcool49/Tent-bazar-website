@@ -1,3 +1,4 @@
+
 <div class="flex h-screen">
   <!-- Left Sidebar Tabs -->
   <div class="w-64 bg-gray-900 text-white flex flex-col">
@@ -8,7 +9,7 @@
 
     <!-- Tab Menu -->
     <nav class="flex-1 mt-4 space-y-2">
-      <button *ngFor="let tab of tabs; let i = index" (click)="setTab(i)"
+      <button *ngFor="let tab of tabs; let i = index" (click)="setTab(i);urlRout(tab.label)"
         class="flex items-center gap-3 w-full px-4 py-2 text-left rounded-md transition" [ngClass]="
           activeTab === i
             ? 'bg-gray-800 text-green-400 font-semibold'
@@ -25,8 +26,8 @@
     <app-admin-top-nav></app-admin-top-nav>
     <!-- Tab Content -->
     <div class="p-6">
-
-      <ng-container [ngSwitch]="activeTab">
+      <router-outlet ></router-outlet>
+      <!-- <ng-container [ngSwitch]="activeTab">
         <div *ngSwitchCase="0">
           <app-admin-dashboard></app-admin-dashboard>
         </div>
@@ -51,7 +52,7 @@
         <div *ngSwitchCase="7">
           <app-admin-instagram-url></app-admin-instagram-url>
         </div>
-      </ng-container>
+      </ng-container> -->
 
     </div>
   </div>

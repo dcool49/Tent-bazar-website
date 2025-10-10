@@ -1,0 +1,22 @@
+<div id="youtubeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl shadow-lg w-96 p-6">
+      <h3 id="modalTitle" class="text-xl font-semibold mb-4">Add YouTube URL</h3>
+  
+      <form id="youtubeForm">
+        <!-- <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+          <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200" id="videoTitle" placeholder="Enter video title">
+        </div> -->
+  
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">YouTube URL</label>
+          <input [(ngModel)]="youtubeUrl" name="youtube" type="url" class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200" id="videoUrl" placeholder="https://www.youtube.com/...">
+        </div>
+  
+        <div class="flex justify-end space-x-2">
+          <button type="button" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 text-sm" (click)="onNoClick()">Cancel</button>
+          <button type="submit" (click)="saveClick()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>

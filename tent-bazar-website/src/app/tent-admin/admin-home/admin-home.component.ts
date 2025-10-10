@@ -9,27 +9,17 @@ import { AdminProductsComponent } from '../admin-products/admin-products.compone
 import { AdminCategoryComponent } from '../admin-category/admin-category.component';
 import { AdminYoutubeUrlComponent } from '../admin-youtube-url/admin-youtube-url.component';
 import { AdminInstagramUrlComponent } from '../admin-instagram-url/admin-instagram-url.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-home',
-  imports: [
-    CommonModule,
-    AdminTopNavComponent,
-    AdminDashboardComponent,
-    AdminOrderComponent,
-    AdminUsersComponent,
-    AdminEmployeeComponent,
-    AdminProductsComponent,
-    AdminCategoryComponent,
-    AdminYoutubeUrlComponent,
-    AdminInstagramUrlComponent
-  ],
   templateUrl: './admin-home.component.html',
-  styleUrl: './admin-home.component.scss'
+  styleUrl: './admin-home.component.scss',
+  standalone:false,
 })
 export class AdminHomeComponent {
 activeTab = 0;
-
+constructor(private route:Router){}
   tabs = [
     { label: 'Dashboard', icon: '📊' },
     { label: 'Orders', icon: '📦' },
@@ -43,5 +33,8 @@ activeTab = 0;
 
   setTab(i: number) {
     this.activeTab = i;
+  }
+  urlRout(path: any) {
+    this.route.navigate(['/admin-home/' + path])
   }
 }

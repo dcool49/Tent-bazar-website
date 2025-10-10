@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
-import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmModalComponent } from '../../data-model/delete-confirm-modal/delete-confirm-modal.component';
 import { ProductDetailsComponent } from '../../product-details/product-details.component';
-import { NgxPaginationModule } from 'ngx-pagination';
 @Component({
   selector: 'app-admin-products',
-  imports: [CommonModule, NgxPaginationModule],
+  standalone:false,
   templateUrl: './admin-products.component.html',
   styleUrl: './admin-products.component.scss',
 })
@@ -111,9 +109,9 @@ export class AdminProductsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed', result);
-      if (result) {
-        this.deleteProduct(this.selectedID);
-      }
     });
+  }
+  urlRout(path: any) {
+    this.route.navigate(['/admin-home/' + path])
   }
 }
