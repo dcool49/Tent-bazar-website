@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { NgFor, NgIf } from '@angular/common';
+import { NotFoundComponent } from '../landing-sections/not-found/not-found.component';
 
 @Component({
   selector: 'app-product-list-search',
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor,NotFoundComponent],
   templateUrl: '../sub-category/sub-category.component.html',
   styleUrl: '../sub-category/sub-category.component.scss',
 })
-export class ProductListSearchComponent implements OnInit {
-  productList: any;
+export class ProductListSearchComponent implements OnInit,OnDestroy {
+  productList: any = [];
   catName: any;
   localStorageData = JSON.parse(localStorage.getItem('addedProduct') as any);
   searchName = localStorage.getItem('searchName');
@@ -21,6 +22,9 @@ export class ProductListSearchComponent implements OnInit {
   ) {
     this.searchName = localStorage.getItem('searchName');
     this.catName = 'Search: ' + this.searchName;
+  }
+  ngOnDestroy(): void {
+    localStorage.setItem('searchName','');
   }
 
   ngOnInit(): void {
@@ -73,7 +77,6 @@ export class ProductListSearchComponent implements OnInit {
       }
       return prod;
     });
-    console.log('productList', this.productList);
   }
 
   addcart(product: any) {

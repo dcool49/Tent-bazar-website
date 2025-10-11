@@ -2,53 +2,71 @@
   <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
     <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">Enquiry Form</h2>
 
-    <form class="space-y-4">
+    <form [formGroup]="myForm" (ngSubmit)="submit()" class="space-y-4">
 
       <!-- Name -->
       <div>
         <label class="block text-gray-600 mb-1" for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter your name"
+        <input id="name" type="text" formControlName="name" name="name" placeholder="Enter your name"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+          <div class="error" *ngIf="myForm.get('name')?.invalid && myForm.get('name')?.touched">
+            Name is required.
+          </div>
       </div>
 
       <!-- Mobile Number -->
       <div>
         <label class="block text-gray-600 mb-1" for="mobile">Mobile Number</label>
-        <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number"
+        <input type="tel" id="mobile" formControlName="mobile" name="mobile" placeholder="Enter your mobile number"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+          <div class="error" *ngIf="myForm.get('mobile')?.invalid && myForm.get('mobile')?.touched">
+            Mobile is required.
+          </div>
       </div>
 
       <!-- Address Line 1 -->
       <div>
         <label class="block text-gray-600 mb-1" for="address">Address Line 1</label>
-        <input type="text" id="address" name="address" placeholder="Enter your address"
+        <input type="text" id="address" formControlName="addressLine" name="address" placeholder="Enter your address"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+          <div class="error" *ngIf="myForm.get('addressLine')?.invalid && myForm.get('addressLine')?.touched">
+            Address Line 1 is required.
+          </div>
       </div>
 
       <!-- City -->
       <div>
         <label class="block text-gray-600 mb-1" for="city">City</label>
-        <input type="text" id="city" name="city" placeholder="Enter your city"
+        <input type="text" id="city" formControlName="city" name="city" placeholder="Enter your city"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+          <div class="error" *ngIf="myForm.get('city')?.invalid && myForm.get('city')?.touched">
+            City is required.
+          </div>
       </div>
 
       <!-- State -->
       <div>
         <label class="block text-gray-600 mb-1" for="state">State</label>
-        <input type="text" id="state" name="state" placeholder="Enter your state"
+        <input type="text" id="state" formControlName="state" name="state" placeholder="Enter your state"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+          <div class="error" *ngIf="myForm.get('state')?.invalid && myForm.get('state')?.touched">
+            State is required.
+          </div>
       </div>
 
       <!-- Pincode -->
       <div>
         <label class="block text-gray-600 mb-1" for="pincode">Pincode</label>
-        <input type="text" id="pincode" name="pincode" placeholder="Enter your pincode"
+        <input type="number" id="pincode" formControlName="pinCode" name="pincode" placeholder="Enter your pincode"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+          <div class="error" *ngIf="myForm.get('pinCode')?.invalid && myForm.get('pinCode')?.touched">
+            Pincode is required.
+          </div>
       </div>
 
       <!-- Submit Button -->
       <div>
-        <button type="submit"
+        <button type="submit" (click)="submit()"
           class="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-orange-600 transition-colors">
           Submit
         </button>

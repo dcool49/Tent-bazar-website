@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { DeleteConfirmModalComponent } from '../../data-model/delete-confirm-modal/delete-confirm-modal.component';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AddInstagramComponent } from './add-instagram/add-instagram.component';
-import { DeleteConfirmModalComponent } from '../../data-model/delete-confirm-modal/delete-confirm-modal.component';
+import { AddBannerComponent } from './add-banner/add-banner.component';
 
 @Component({
-  selector: 'app-admin-instagram-url',
+  selector: 'app-admin-banner',
   standalone:false,
-  templateUrl: './admin-instagram-url.component.html',
-  styleUrl: './admin-instagram-url.component.scss'
+  templateUrl: './admin-banner.component.html',
+  styleUrl: './admin-banner.component.scss'
 })
-export class AdminInstagramUrlComponent implements OnInit {
-  InstagramList: any;
+export class AdminBannerComponent implements OnInit {
+  BannerList: any;
   selectedID: any;
   constructor(
     private route: Router,
@@ -20,27 +20,27 @@ export class AdminInstagramUrlComponent implements OnInit {
     public dialog: MatDialog
   ) {}
   ngOnInit(): void {
-    this.getInstagramList();
+    this.getBannerList();
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(AddInstagramComponent, {
+    const dialogRef = this.dialog.open(AddBannerComponent, {
       width: '500px',
       data: {},
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.getInstagramList();
+        this.getBannerList();
       }
     });
   }
 
-  getInstagramList() {
-    const url = 'urls/fetch?type=instagram';
+  getBannerList() {
+    const url = 'banner/fetch';
     this.dataService.getAPICall(url).subscribe(
       (res:any) => {
-        this.InstagramList = res.data;
+        this.BannerList = res.data;
       },
       (err) => {
         console.error(err);
@@ -49,11 +49,11 @@ export class AdminInstagramUrlComponent implements OnInit {
   }
 
 
-  deleteinstagramlist(id:any) {
-    const url = 'urls/delete?url='+id;
+  deleteBannerlist(id:any) {
+    const url = 'banner/delete?url='+id;
     this.dataService.deleteAPICall(url).subscribe(
       (res:any) => {
-       this.getInstagramList();
+       this.getBannerList();
       },
       (err) => {
         console.error(err);
@@ -74,7 +74,7 @@ export class AdminInstagramUrlComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.deleteinstagramlist(this.selectedID);
+        this.deleteBannerlist(this.selectedID);
       }
     });
   }

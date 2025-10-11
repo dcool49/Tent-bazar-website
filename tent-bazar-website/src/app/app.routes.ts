@@ -8,17 +8,29 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { ProductListSearchComponent } from './product-list-search/product-list-search.component';
 import { EnquiryFormComponent } from './enquiry-form/enquiry-form.component';
 import { AdminHomeComponent } from './tent-admin/admin-home/admin-home.component';
+import { ThankYouComponent } from './enquiry-form/thank-you/thank-you.component';
+import { OfferServiceComponent } from './landing-sections/offer-service/offer-service.component';
+import { MobileSectionComponent } from './landing-sections/mobile-section/mobile-section.component';
 
 export const routes: Routes = [
-    { path: 'home', component: HomeComponent },
-    { path: 'about-us', component: AboutUsComponent },
-    { path: 'sub-category', component: SubCategoryComponent },
-    { path: 'details', component: ProductDetailsComponent },
-    { path: 'cart', component: CartDetailsComponent },
-    { path: 'admin-login', component: AdminLoginComponent },
-    { path: 'product-search/:search', component: ProductListSearchComponent},
-    { path: 'enquiry', component: EnquiryFormComponent },
-    { path: 'admin-home', loadChildren:():any=> import('../app/tent-admin/admin-crm/admin-crm.module').then(m=> m.AdminCrmModule) },
-    { path: '', redirectTo: 'home', pathMatch: 'full'},
-    { path: '**', redirectTo: '' },
+  { path: 'home', component: HomeComponent },
+  { path: 'about-us', component: AboutUsComponent },
+  { path: 'sub-category', component: SubCategoryComponent },
+  { path: 'details', component: ProductDetailsComponent },
+  { path: 'cart', component: CartDetailsComponent },
+  { path: 'admin-login', component: AdminLoginComponent },
+  { path: 'product-search/:search', component: ProductListSearchComponent },
+  { path: 'enquiry', component: EnquiryFormComponent },
+  {path: 'catogery', component:OfferServiceComponent},
+  {path: 'mobile-app', component:MobileSectionComponent},
+  {
+    path: 'admin-home',
+    loadChildren: (): any =>
+      import('../app/tent-admin/admin-crm/admin-crm.module').then(
+        (m) => m.AdminCrmModule
+      ),
+  },
+  { path: 'thankyou', component: ThankYouComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: '' },
 ];

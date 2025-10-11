@@ -30,7 +30,6 @@ export class AdminYoutubeUrlComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
       if (result) {
         this.getYoutubelist();
       }
@@ -74,7 +73,6 @@ export class AdminYoutubeUrlComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
       if (result) {
         this.deleteYoutubelist(this.selectedID);
       }

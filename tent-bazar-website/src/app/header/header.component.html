@@ -60,11 +60,11 @@
         <a routerLink="/home" (click)="urlRout('home')" routerLinkActive="font-bold text-blue-600">Home</a>
         <a routerLink="/about-us" (click)="urlRout('about-us')" routerLinkActive="font-bold text-blue-600">About Us</a>
         <a href="https://play.google.com/store/apps/details?id=com.dapps.tentbazaar&hl=en_IN" target="_blank"
-          class="text-gray-900 hover:text-blue-600">Rate This App</a>
-        <a href="#" class="text-gray-900 hover:text-blue-600">Share on Social</a>
-        <a href="https://itemscatalogue.redcross.int/upload/products_data/files/HSHETENT07.pdf" target="_blank"
-          class="text-gray-900 hover:text-blue-600">Brochure</a>
-        <a href="#" class="text-gray-900 hover:text-blue-600">Certificates</a>
+          class="text-gray-900 hover:text-blue-600">Contact us</a>
+        <a (click)="urlRout('catogery')" class="text-gray-900 hover:text-blue-600">Catogery</a>
+        <a (click)="searchempty()" target="_blank"
+          class="text-gray-900 hover:text-blue-600">Products</a>
+        <a (click)="urlRout('mobile-app')" class="text-gray-900 hover:text-blue-600">mobile App</a>
       </div>
 
       <!-- Mobile Hamburger -->

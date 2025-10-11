@@ -11,7 +11,7 @@
             <!-- Reel 1 -->
             <div *ngFor="let reel of InstagramList;let i=index"
                 class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 w-full">
-                <blockquote *ngIf="reel.url" class="instagram-media w-full"
+                <blockquote class="instagram-media w-full"
                 [attr.data-instgrm-permalink]="photoURL(reel.url)"
                     data-instgrm-version="14"
                     style="background:#FFF; border:0; border-radius:12px; margin:0; padding:0; max-width:100%;">

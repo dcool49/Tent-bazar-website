@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -28,17 +28,20 @@ import { DataService } from './services/data.service';
 export class AppComponent {
   title = 'tent-bazar-website';
   hideSomePage = true;
+  loadingValue: any;
 
-  constructor(private router: Router,public dataService:DataService) {
+  constructor(private router: Router,public dataService:DataService,private changeDetectorRef: ChangeDetectorRef) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         // hide header only on admin-login route
-        console.log("url",event.url)
         const url = event.url;
-        console.log("url",url.includes('admin'))
         this.hideSomePage = event.url !== '/admin-login';
          this.hideSomePage = !url.includes('admin');
+         window.scrollTo(0, 0);
       });
+      this.dataService.isLoading$.subscribe((res:any)=>{
+        this.loadingValue = res;
+      })
   }
 }

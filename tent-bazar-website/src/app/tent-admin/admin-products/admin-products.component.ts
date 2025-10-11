@@ -96,7 +96,6 @@ export class AdminProductsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
       if (result) {
         this.deleteProduct(this.selectedID);
       }
@@ -108,7 +107,6 @@ export class AdminProductsComponent implements OnInit {
     const dialogRef = this.dialog.open(ProductDetailsComponent, {});
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
     });
   }
   urlRout(path: any) {

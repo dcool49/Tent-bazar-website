@@ -1,4 +1,4 @@
-<section class="relative hero-top-section">
+<section *ngIf="(productList.length > 1 )" class="relative hero-top-section">
     <div class="grid grid-cols-1">
         <div>
             <!-- Carousel -->
@@ -176,4 +176,6 @@
     </div>
   </div>
 </section>
+
+<app-not-found *ngIf="(productList.length < 1 )"></app-not-found>
 

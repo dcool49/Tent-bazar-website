@@ -1,0 +1,44 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+    <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold">Banner Posts </h2>
+      <button (click)="openDialog()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Add Banner URL
+      </button>
+    </div>
+  
+    <div class="overflow-x-auto bg-white rounded-xl shadow">
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="bg-gray-100 text-left">
+            <th class="p-3">#ID</th>
+            <th class="p-3">Title</th>
+            <th class="p-3">Banner URL</th>
+            <th class="p-3">Date Added</th>
+            <th class="p-3 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example row -->
+          <tr *ngFor="let res of BannerList;let i=index" class="border-b hover:bg-gray-50">
+            <td class="p-3">{{i+1}}</td>
+            <td class="p-3">{{res.bannerName}}</td>
+            <td class="p-3 text-blue-600">
+              <a [href]="res.bannerImage[0].img_name" target="_blank" class="underline">View</a>
+            </td>
+            <td class="p-3">{{res.createdAt | date}}</td>
+            <td class="p-3 text-center space-x-2">
+              <!-- <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm" onclick="openEditModal()">Edit</button> -->
+              <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm" (click)="openDeleteDialog(res)" >Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Add/Edit Modal -->
+  
+  

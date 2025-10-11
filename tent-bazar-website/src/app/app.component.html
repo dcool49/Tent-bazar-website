@@ -1,4 +1,4 @@
 <app-header *ngIf="hideSomePage"></app-header>
+<app-loader *ngIf="loadingValue"></app-loader>
 <router-outlet></router-outlet>
 <app-footer *ngIf="hideSomePage"></app-footer>
-<app-loader *ngIf="dataService.isLoading$ |async"></app-loader>

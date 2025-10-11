@@ -22,7 +22,6 @@ export class HeaderComponent implements DoCheck {
     }else{
       this.cartCount = 0;
     }
-    console.log("cartCount",this.cartCount);
   }
 
   urlRout(path: string) {
@@ -43,5 +42,8 @@ export class HeaderComponent implements DoCheck {
     // this.urlRout('product-search');
     this.route.navigate(['/product-search', this.searchName])
   }
-
+searchempty(){
+  this.searchName = '';
+  this.searchProd()
+}
 }

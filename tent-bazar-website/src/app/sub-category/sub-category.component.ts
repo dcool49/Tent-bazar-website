@@ -1,25 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { NgFor, NgIf } from '@angular/common';
+import { NotFoundComponent } from '../landing-sections/not-found/not-found.component';
 
 @Component({
   selector: 'app-sub-category',
-  imports: [NgFor,NgIf],
+  imports: [NgFor,NgIf,NotFoundComponent],
   templateUrl: './sub-category.component.html',
   styleUrl: './sub-category.component.scss'
 })
-export class SubCategoryComponent implements OnInit {
+export class SubCategoryComponent implements OnInit,OnDestroy {
   catId:any
-  productList: any;
+  productList: any = [];
   catName:any;
   localStorageData = JSON.parse(localStorage.getItem("addedProduct") as any);
 constructor(private route: Router,private dataService:DataService) { 
 this.catId = localStorage.getItem("catId"); 
 this.catName = localStorage.getItem("catName");
-console.log("this.catId",this.catId);
 
 }
+  ngOnDestroy(): void {
+  }
   ngOnInit(): void {
     this.getProductList();
   }
@@ -52,7 +54,6 @@ console.log("this.catId",this.catId);
       }
       return prod
     });
-    console.log("productList",this.productList);
   }
 
   addcart(product:any){

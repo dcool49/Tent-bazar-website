@@ -8,7 +8,6 @@ export const loaderInterceptor: HttpInterceptorFn = (req, next) => {
   dataService.showLoader();
   return next(req).pipe(tap(event => {
     if (event.type === HttpEventType.Response) {
-      console.log(req.url, 'returned a response with status', event.status);
       dataService.hideLoader();
     }
   }));

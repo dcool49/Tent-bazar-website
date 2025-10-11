@@ -10,12 +10,14 @@ import { AdminCategoryComponent } from '../admin-category/admin-category.compone
 import { AdminYoutubeUrlComponent } from '../admin-youtube-url/admin-youtube-url.component';
 import { AdminInstagramUrlComponent } from '../admin-instagram-url/admin-instagram-url.component';
 import { AddProductComponent } from '../admin-products/add-product/add-product.component';
+import { AdminBannerComponent } from '../admin-banner/admin-banner.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminHomeComponent,
     children: [
+      { path: '', component: AdminDashboardComponent },
       { path: 'Dashboard', component: AdminDashboardComponent },
       { path: 'Orders', component: AdminOrderComponent },
       { path: 'Users', component: AdminUsersComponent },
@@ -24,7 +26,8 @@ const routes: Routes = [
       { path: 'Category', component: AdminCategoryComponent },
       { path: 'YouTube', component: AdminYoutubeUrlComponent },
       { path: 'Instagram', component: AdminInstagramUrlComponent },
-      {path:'AddProduct', component:AddProductComponent}
+      { path: 'AddProduct', component: AddProductComponent },
+      { path: 'banner', component: AdminBannerComponent },
     ],
   },
 ];

@@ -29,6 +29,7 @@ constructor(private route:Router){}
     { label: 'Category', icon: '🗂️' },
     { label: 'YouTube', icon: '🎥' },
     { label: 'Instagram', icon: '📸' },
+    { label: 'banner', icon:'🖼️'}
   ];
 
   setTab(i: number) {

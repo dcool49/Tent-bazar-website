@@ -13,6 +13,7 @@ import { AdminUsersComponent } from '../admin-users/admin-users.component';
 import { AdminYoutubeUrlComponent } from '../admin-youtube-url/admin-youtube-url.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminTopNavComponent } from '../admin-top-nav/admin-top-nav.component';
+import { AdminBannerComponent } from '../admin-banner/admin-banner.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +26,9 @@ import { AdminTopNavComponent } from '../admin-top-nav/admin-top-nav.component';
     AdminProductsComponent,
     AdminUsersComponent,
     AdminYoutubeUrlComponent,
-    AdminTopNavComponent
+    AdminTopNavComponent,
+    AdminBannerComponent,
   ],
-  imports: [CommonModule, AdminCrmRoutingModule,NgxPaginationModule],
+  imports: [CommonModule, AdminCrmRoutingModule, NgxPaginationModule],
 })
 export class AdminCrmModule {}
