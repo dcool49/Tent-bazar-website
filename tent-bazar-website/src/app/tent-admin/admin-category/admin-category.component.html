@@ -1,7 +1,7 @@
 <div class="p-6 bg-gray-100 min-h-screen">
   <div class="flex items-center justify-between mb-6">
     <h2 class="text-2xl font-bold">Category List</h2>
-    <button onclick="openModal('addCategoryModal')" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2">
+    <button (click)="openDialog()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
       </svg>
@@ -14,20 +14,18 @@
       <thead>
         <tr class="bg-gray-100 text-left">
           <th class="p-3">#ID</th>
+          <th class="p-3">Image</th>
           <th class="p-3">Category Name</th>
-          <th class="p-3">Description</th>
           <th class="p-3">Status</th>
-          <th class="p-3">Created Date</th>
           <th class="p-3">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="border-b hover:bg-gray-50">
-          <td class="p-3">C001</td>
-          <td class="p-3">Electronics</td>
-          <td class="p-3">Devices and gadgets</td>
+        <tr *ngFor="let category of categoryList;let i=index" class="border-b hover:bg-gray-50">
+          <td class="p-3">{{i+1}}</td>
+          <td class="p-3"><img [src]="category.image[0].img_name"/></td>
+          <td class="p-3">{{category.categoryName}}</td>
           <td class="p-3"><span class="px-2 py-1 rounded-full text-white bg-green-600 text-sm">Active</span></td>
-          <td class="p-3">2025-02-10</td>
           <td class="p-3">
             <div class="flex gap-2">
               <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
@@ -36,7 +34,7 @@
           </td>
         </tr>
 
-        <tr class="border-b hover:bg-gray-50">
+        <!-- <tr class="border-b hover:bg-gray-50">
           <td class="p-3">C002</td>
           <td class="p-3">Fashion</td>
           <td class="p-3">Clothing and accessories</td>
@@ -48,8 +46,8 @@
               <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">Edit</button>
             </div>
           </td>
-        </tr>
-
+        </tr> -->
+<!-- 
         <tr class="hover:bg-gray-50">
           <td class="p-3">C003</td>
           <td class="p-3">Home Appliances</td>
@@ -62,7 +60,7 @@
               <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">Edit</button>
             </div>
           </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   </div>
@@ -134,34 +132,3 @@
   </div>
 </div>
 
-<div class="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
-  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
-    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Add New Category</h2>
-
-    <form class="space-y-4">
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Category Name</label>
-        <input type="text" placeholder="Enter category name" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Description</label>
-        <textarea placeholder="Enter description" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Status</label>
-        <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-          <option selected>Active</option>
-          <option>Pending</option>
-          <option>Inactive</option>
-        </select>
-      </div>
-
-      <div class="flex justify-between mt-6">
-        <button type="submit" class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Save Category</button>
-        <button type="button" class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">Cancel</button>
-      </div>
-    </form>
-  </div>
-</div>

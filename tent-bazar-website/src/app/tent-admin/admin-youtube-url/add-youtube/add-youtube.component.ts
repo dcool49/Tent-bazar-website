@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './add-youtube.component.scss'
 })
 export class AddYoutubeComponent {
-  youtubeUrl:any;
+  youtubeUrl:any = 'https://www.youtube.com/embed/';
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,private dataService: DataService) {}

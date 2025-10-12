@@ -26,7 +26,8 @@
             <td class="p-3">{{i+1}}</td>
             <td class="p-3">{{res.bannerName}}</td>
             <td class="p-3 text-blue-600">
-              <a [href]="res.bannerImage[0].img_name" target="_blank" class="underline">View</a>
+                <img [src]="res.bannerImage[0].img_name"/>
+              <!-- <a [href]="res.bannerImage[0].img_name" target="_blank" class="underline">View</a> -->
             </td>
             <td class="p-3">{{res.createdAt | date}}</td>
             <td class="p-3 text-center space-x-2">

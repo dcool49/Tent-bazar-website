@@ -4,6 +4,7 @@ import { DataService } from '../../services/data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmModalComponent } from '../../data-model/delete-confirm-modal/delete-confirm-modal.component';
 import { ProductDetailsComponent } from '../../product-details/product-details.component';
+import { AddProductComponent } from './add-product/add-product.component';
 @Component({
   selector: 'app-admin-products',
   standalone:false,
@@ -38,6 +39,14 @@ export class AdminProductsComponent implements OnInit {
     this.dataService.getAPICall(url).subscribe(
       (res: any) => {
         this.productList = res.data;
+        this.productList = this.productList.sort((a:any, b:any) =>  {
+          const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
+          const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
+    
+          // For ascending order: dateA.getTime() - dateB.getTime()
+          // For descending order: dateB.getTime() - dateA.getTime()
+          return  dateB.getTime() - dateA.getTime();
+        });
       },
       (err) => {
         console.error(err);
@@ -112,4 +121,19 @@ export class AdminProductsComponent implements OnInit {
   urlRout(path: any) {
     this.route.navigate(['/admin-home/' + path])
   }
+
+    openAddDialog(): void {
+      const dialogRef = this.dialog.open(AddProductComponent, {
+        
+        data: {
+          category: this.category
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.getProductList();
+        }
+      });
+    }
 }

@@ -4,7 +4,7 @@
   <div class="flex items-center justify-between mb-6">
     <h2 class="text-2xl font-bold">Product Management</h2>
     <button
-      (click)="urlRout('AddProduct')"
+      (click)="openAddDialog()"
       class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2"
     >
       <svg
@@ -31,10 +31,10 @@
       <thead>
         <tr class="bg-gray-100 text-left">
           <th class="p-3">#ID</th>
+          <th class="p-3">Image</th>
           <th class="p-3">Name</th>
           <th class="p-3">Category</th>
           <th class="p-3">Price</th>
-          <th class="p-3">Stock Status</th>
           <th class="p-3">Added Date</th>
           <th class="p-3 text-center">Actions</th>
         </tr>
@@ -49,14 +49,13 @@
           class="border-b hover:bg-gray-50"
         >
           <td class="p-3">{{ (i + 1 )+((p-1)*itemsPerPage)}}</td>
+          <td class="p-3">
+            <img [src]="prod.image[0].img_name"/>
+          </td>
           <td class="p-3">{{ prod.productName }}</td>
           <td class="p-3">{{ getcatName(prod.category_id) }}</td>
           <td class="p-3">Rs {{ prod.price }}</td>
-          <td class="p-3">
-            <span class="px-2 py-1 rounded-full text-white bg-green-600 text-sm"
-              >In Stock</span
-            >
-          </td>
+         
           <td class="p-3">{{ prod.createdAt | date }}</td>
           <td class="p-3 flex flex-wrap gap-2 justify-center">
             <button
