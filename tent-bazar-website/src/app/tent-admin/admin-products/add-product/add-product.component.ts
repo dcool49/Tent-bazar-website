@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-product',
-  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss',
 })
@@ -36,7 +36,7 @@ export class AddProductComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
   ngOnInit(): void {
-    this.category = this.data?.category
+    this.category = this.data?.category;
   }
 
   urlRout(path: any) {
@@ -55,22 +55,38 @@ export class AddProductComponent implements OnInit {
     if (!this.selectedFile) {
       return;
     }
+    if (!this.myForm.valid) {
+      return;
+    }
 
     const formData = new FormData();
-    formData.append('file', this.selectedFile, this.selectedFile.name); // 'file' is the key expected by the backend
-
-    this.dataService
-      .postAPICall('YOUR_BACKEND_UPLOAD_API_ENDPOINT', formData)
-      .subscribe(
-        (response) => {
-          console.log('File uploaded successfully:', response);
-          // Handle success (e.g., show a success message, clear selected file)
-        },
-        (error) => {
-          console.error('Error uploading file:', error);
-          // Handle error
-        }
-      );
+    if (this.selectedFile?.name) {
+      formData.append('files', this.selectedFile, this.selectedFile?.name); // 'file' is the key expected by the backend
+    }
+    formData.append('productName', this.myForm.get('productName')?.value);
+    formData.append('category_id', this.myForm.get('category_id')?.value);
+    formData.append('price', this.myForm.get('price')?.value);
+    formData.append('summery', this.myForm.get('summery')?.value);
+    formData.append(
+      'product_selling_price',
+      this.myForm.get('product_selling_price')?.value
+    );
+    formData.append(
+      'product_discount_price',
+      this.myForm.get('product_discount_price')?.value
+    );
+    const url = 'product/add';
+    this.dataService.postAPICall(url, formData).subscribe(
+      (response) => {
+        console.log('File uploaded successfully:', response);
+        // Handle success (e.g., show a success message, clear selected file)
+        this.dialogRef.close('response');
+      },
+      (error) => {
+        console.error('Error uploading file:', error);
+        // Handle error
+      }
+    );
   }
 
   onNoClick(): void {

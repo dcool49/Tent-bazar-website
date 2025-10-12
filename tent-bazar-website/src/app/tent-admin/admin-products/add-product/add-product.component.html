@@ -1,67 +1,86 @@
-<div
-  id="addModal"
-  class=" flex items-center justify-center z-50"
->
+<div id="addModal" class="flex items-center justify-center z-50">
   <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
     <h3 class="text-xl font-semibold mb-4">Add Product</h3>
-    <form class="space-y-4">
-
+    <form [formGroup]="myForm" (ngSubmit)="uploadFile()" class="space-y-4">
       <div>
         <label class="block text-sm font-medium mb-1">Image Uploade</label>
         <input
           class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-          type="file" (change)="onFileSelected($event)"
+          type="file"
+          (change)="onFileSelected($event)"
         />
       </div>
-
-      <div>
-        <label class="block text-sm font-medium mb-1">Product Name</label>
-        <input
-        formControlName="productName"
-        name="productName"
-          type="text"
-          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-          placeholder="Enter product name"
-        />
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1">Category</label>
-        <!-- <input
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium mb-1">Product Name</label>
+          <input
+            formControlName="productName"
+            name="productName"
+            type="text"
+            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+            placeholder="Enter product name"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Category</label>
+          <!-- <input
         
           type="text"
           class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
           placeholder="e.g., Electronics"
         /> -->
-        <select
-        class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-        formControlName="category_id"
-        name="category_id"
-      >
-        <option>In Stock</option>
-        <option>Low Stock</option>
-        <option>Out of Stock</option>
-      </select>
+          <select
+            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+            formControlName="category_id"
+            name="category_id"
+          >
+            <option *ngFor="let cat of category" [value]="cat._id">
+              {{ cat.categoryName }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Price (Rs)</label>
+          <input
+            formControlName="price"
+            name="price"
+            type="number"
+            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+            placeholder="Enter price"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Selling Price</label>
+          <input
+            formControlName="product_selling_price"
+            name="product_selling_price"
+            type="number"
+            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+            placeholder="Enter price"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Discount Price</label>
+          <input
+            formControlName="product_discount_price"
+            name="product_discount_price"
+            type="number"
+            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+            placeholder="Enter price"
+          />
+        </div>
       </div>
       <div>
-        <label class="block text-sm font-medium mb-1">Price (Rs)</label>
-        <input
-        formControlName="price"
-        name="price"
-          type="number"
+        <label class="block text-sm font-medium mb-1">Summery</label>
+        <textarea
+          formControlName="summery"
+          name="summery"
+          type="text"
           class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
           placeholder="Enter price"
-        />
+        ></textarea>
       </div>
-      <div>
-        <label class="block text-sm font-medium mb-1">Stock Status</label>
-        <select
-          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-        >
-          <option *ngFor="let cat of category" [value]="cat._id">{{cat.categoryName}}</option>
-          <option>Low Stock</option>
-          <option>Out of Stock</option>
-        </select>
-      </div>
+
       <div class="flex justify-end gap-2 pt-2">
         <button
           type="button"
@@ -71,7 +90,6 @@
           Cancel
         </button>
         <button
-        (click)="uploadFile()"
           type="submit"
           class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
         >
@@ -81,4 +99,3 @@
     </form>
   </div>
 </div>
-
