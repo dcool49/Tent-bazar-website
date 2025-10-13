@@ -1,0 +1,11 @@
+span.logo-text {
+    font-size: 21px;
+    font-weight: 500;
+    padding: 10px;
+}
+@media (max-width: 768px) {
+    span.logo-text {
+        font-size: 18px;
+        padding: 8px;
+    }
+}
