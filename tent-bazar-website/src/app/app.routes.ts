@@ -11,6 +11,7 @@ import { AdminHomeComponent } from './tent-admin/admin-home/admin-home.component
 import { ThankYouComponent } from './enquiry-form/thank-you/thank-you.component';
 import { OfferServiceComponent } from './landing-sections/offer-service/offer-service.component';
 import { MobileSectionComponent } from './landing-sections/mobile-section/mobile-section.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -23,6 +24,7 @@ export const routes: Routes = [
   { path: 'enquiry', component: EnquiryFormComponent },
   {path: 'catogery', component:OfferServiceComponent},
   {path: 'mobile-app', component:MobileSectionComponent},
+  {path: 'contact', component: ContactUsComponent},
   {
     path: 'admin-home',
     loadChildren: (): any =>

@@ -1,3 +1,9 @@
 .offer-service-section img {
-    object-fit: scale-down;
+    object-fit: cover;
+}
+.category-images > div {
+    background: #e0ecff;
+    border-radius: 30px 7px 30px 7px;
+    cursor: pointer;
+    border: 1px solid #e0ecff;
 }

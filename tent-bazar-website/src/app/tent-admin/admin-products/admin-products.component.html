@@ -1,10 +1,32 @@
 <!-- Product Management Section -->
 <div class="p-6 bg-gray-100 min-h-screen">
   <!-- Header -->
-  <div class="flex items-center justify-between mb-6">
-    <h2 class="text-2xl font-bold">Product Management</h2>
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+  <!-- Left: Title -->
+  <h2 class="text-2xl font-bold">Product Management</h2>
+
+  <!-- Right: Actions -->
+  <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
+    <!-- Search -->
+    <input
+      type="text"
+      placeholder="Search products..."
+      class="w-full sm:w-64 border rounded-lg p-2 focus:ring focus:ring-green-200"
+    />
+
+    <!-- Filter -->
+    <select
+      class="w-full sm:w-40 border rounded-lg p-2 focus:ring focus:ring-green-200"
+    >
+      <option value="">All Categories</option>
+      <option>Electronics</option>
+      <option>Clothing</option>
+      <option>Books</option>
+      <!-- Add more categories as needed -->
+    </select>
+
+    <!-- Add Product Button -->
     <button
-      (click)="openAddDialog()"
       class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2"
     >
       <svg
@@ -24,6 +46,8 @@
       Add Product
     </button>
   </div>
+</div>
+
 
   <!-- Product Table -->
   <div class="overflow-x-auto bg-white rounded-xl shadow">
