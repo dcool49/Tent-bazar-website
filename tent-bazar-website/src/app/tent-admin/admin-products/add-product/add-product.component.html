@@ -1,15 +1,31 @@
 <div id="addModal" class="flex items-center justify-center z-50">
-  <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+  <div class="bg-white shadow-lg w-full max-w-md p-6">
     <h3 class="text-xl font-semibold mb-4">Add Product</h3>
     <form [formGroup]="myForm" (ngSubmit)="uploadFile()" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium mb-1">Image Uploade</label>
-        <input
-          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-          type="file"
-          (change)="onFileSelected($event)"
-        />
-      </div>
+  <label class="block text-sm font-medium mb-1">Image Upload</label>
+  <input
+    class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+    type="file"
+    (change)="onFileSelected($event)"
+  />
+
+  <!-- Image Preview with Remove -->
+  <div *ngIf="previewUrl" class="mt-2 relative w-32 h-32">
+    <img
+      [src]="previewUrl"
+      class="w-32 h-32 object-cover rounded-lg border"
+    />
+    <button
+      type="button"
+      (click)="removeImage()"
+      class="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700"
+    >
+      &times;
+    </button>
+  </div>
+</div>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
           <label class="block text-sm font-medium mb-1">Product Name</label>
