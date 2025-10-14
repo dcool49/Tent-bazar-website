@@ -1,73 +1,87 @@
-<section class="py-12 bg-gray-50 hero-top-section min-h-screen flex items-center justify-center">
-  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-    <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">Enquiry Form</h2>
+<section class="py-36 bg-gradient-to-r from-orange-50 to-orange-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md">
 
-    <form [formGroup]="myForm" (ngSubmit)="submit()" class="space-y-4">
+    <!-- Progress bar -->
+    <div class="mb-8">
+      <div class="flex justify-between mb-2">
+        <span class="text-gray-500 font-semibold">Step {{ currentStep }} of 2</span>
+        <span class="text-gray-500 font-semibold">Enquiry Form</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div class="bg-orange-500 h-2 rounded-full transition-all duration-300"
+          [style.width]="currentStep === 1 ? '50%' : '100%'"></div>
+      </div>
+    </div>
 
-      <!-- Name -->
-      <div>
-        <label class="block text-gray-600 mb-1" for="name">Name</label>
-        <input id="name" type="text" formControlName="name" name="name" placeholder="Enter your name"
-          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-          <div class="error" *ngIf="myForm.get('name')?.invalid && myForm.get('name')?.touched">
+    <form [formGroup]="myForm" (ngSubmit)="nextStep()" class="space-y-6">
+
+      <!-- Step 1: Name + Mobile -->
+      <div *ngIf="currentStep === 1" class="space-y-5">
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium" for="name">Name</label>
+          <input id="name" type="text" formControlName="name" placeholder="Enter your name"
+            class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+          <div class="text-red-500 mt-1 text-sm" *ngIf="myForm.get('name')?.invalid && myForm.get('name')?.touched">
             Name is required.
           </div>
-      </div>
+        </div>
 
-      <!-- Mobile Number -->
-      <div>
-        <label class="block text-gray-600 mb-1" for="mobile">Mobile Number</label>
-        <input type="tel" id="mobile" formControlName="mobile" name="mobile" placeholder="Enter your mobile number"
-          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-          <div class="error" *ngIf="myForm.get('mobile')?.invalid && myForm.get('mobile')?.touched">
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium" for="mobile">Mobile Number</label>
+          <input type="tel" id="mobile" formControlName="mobile" placeholder="Enter your mobile number"
+            class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+          <div class="text-red-500 mt-1 text-sm" *ngIf="myForm.get('mobile')?.invalid && myForm.get('mobile')?.touched">
             Mobile is required.
           </div>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition-all">
+          Next
+        </button>
       </div>
 
-      <!-- Address Line 1 -->
-      <div>
-        <label class="block text-gray-600 mb-1" for="address">Address Line 1</label>
-        <input type="text" id="address" formControlName="addressLine" name="address" placeholder="Enter your address"
-          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-          <div class="error" *ngIf="myForm.get('addressLine')?.invalid && myForm.get('addressLine')?.touched">
-            Address Line 1 is required.
+      <!-- Step 2: Address -->
+      <div *ngIf="currentStep === 2" class="space-y-5">
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium" for="address">Address Line 1</label>
+          <input type="text" id="address" formControlName="addressLine" placeholder="Enter your address"
+            class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+          <div class="text-red-500 mt-1 text-sm"
+            *ngIf="myForm.get('addressLine')?.invalid && myForm.get('addressLine')?.touched">
+            Address is required.
           </div>
-      </div>
+        </div>
 
-      <!-- City -->
-      <div>
-        <label class="block text-gray-600 mb-1" for="city">City</label>
-        <input type="text" id="city" formControlName="city" name="city" placeholder="Enter your city"
-          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-          <div class="error" *ngIf="myForm.get('city')?.invalid && myForm.get('city')?.touched">
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium" for="city">City</label>
+          <input type="text" id="city" formControlName="city" placeholder="Enter your city"
+            class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+          <div class="text-red-500 mt-1 text-sm" *ngIf="myForm.get('city')?.invalid && myForm.get('city')?.touched">
             City is required.
           </div>
-      </div>
+        </div>
 
-      <!-- State -->
-      <div>
-        <label class="block text-gray-600 mb-1" for="state">State</label>
-        <input type="text" id="state" formControlName="state" name="state" placeholder="Enter your state"
-          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-          <div class="error" *ngIf="myForm.get('state')?.invalid && myForm.get('state')?.touched">
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium" for="state">State</label>
+          <input type="text" id="state" formControlName="state" placeholder="Enter your state"
+            class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+          <div class="text-red-500 mt-1 text-sm" *ngIf="myForm.get('state')?.invalid && myForm.get('state')?.touched">
             State is required.
           </div>
-      </div>
+        </div>
 
-      <!-- Pincode -->
-      <div>
-        <label class="block text-gray-600 mb-1" for="pincode">Pincode</label>
-        <input type="number" id="pincode" formControlName="pinCode" name="pincode" placeholder="Enter your pincode"
-          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-          <div class="error" *ngIf="myForm.get('pinCode')?.invalid && myForm.get('pinCode')?.touched">
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium" for="pincode">Pincode</label>
+          <input type="number" id="pincode" formControlName="pinCode" placeholder="Enter your pincode"
+            class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+          <div class="text-red-500 mt-1 text-sm" *ngIf="myForm.get('pinCode')?.invalid && myForm.get('pinCode')?.touched">
             Pincode is required.
           </div>
-      </div>
+        </div>
 
-      <!-- Submit Button -->
-      <div>
-        <button type="submit" (click)="submit()"
-          class="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-orange-600 transition-colors">
+        <button type="submit"
+          class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition-all">
           Submit
         </button>
       </div>

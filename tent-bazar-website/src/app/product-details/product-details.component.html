@@ -3,16 +3,28 @@
     
     <!-- Left: Product Image -->
     <div class="relative">
-      <img [src]="productDetals?.image?.[0].img_name" alt="Parda / Side Wall" class="rounded-lg shadow-md w-full object-cover">
-      
-      <!-- Product Code -->
-      <span class="absolute top-3 left-3 bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-md shadow-md">
-        {{productDetals?.productName}}
-      </span>
-    </div>
+  <img [src]="productDetals?.image?.[0].img_name" alt="Parda / Side Wall" class="rounded-lg shadow-md w-full object-cover">
+
+  <!-- Product Code -->
+  <span class="absolute top-3 left-3 bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-md shadow-md">
+    {{productDetals?.productName}}
+  </span>
+
+  <!-- Separator -->
+  <hr class="my-5 border-gray-200">
+
+  <!-- Product Thumbnails -->
+  <div class="flex justify-center gap-4 mb-4 overflow-x-auto pt-2">
+    <img src="assets/images/service/catering.jpg" alt="Thumbnail 1" class="w-20 h-20 object-cover rounded-lg border-2 cursor-pointer hover:border-orange-500 transition">
+    <img src="assets/images/service/catering.jpg" alt="Thumbnail 2" class="w-20 h-20 object-cover rounded-lg border-2 cursor-pointer hover:border-orange-500 transition">
+    <img src="assets/images/service/catering.jpg" alt="Thumbnail 3" class="w-20 h-20 object-cover rounded-lg border-2 cursor-pointer hover:border-orange-500 transition">
+    <img src="assets/images/service/catering.jpg" alt="Thumbnail 4" class="w-20 h-20 object-cover rounded-lg border-2 cursor-pointer hover:border-orange-500 transition">
+  </div>
+</div>
+
 
     <!-- Right: Product Info -->
-    <div class="flex flex-col justify-center">
+    <div class="flex flex-col justify-top">
       <h1 class="text-3xl font-bold text-gray-800 mb-4">{{productDetals?.productName}}</h1>
       <p class="text-gray-600 mb-6">
         {{productDetals?.summery}}
