@@ -11,6 +11,8 @@ export class DataService {
   private apiCount = 0;
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
+  userDetails: any;
+  selectedOrder: any;
   constructor(private http: HttpClient) {}
 
   getAPICall(url: any) {

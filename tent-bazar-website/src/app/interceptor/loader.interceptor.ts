@@ -9,6 +9,8 @@ export const loaderInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(tap(event => {
     if (event.type === HttpEventType.Response) {
       dataService.hideLoader();
+    }else{
+      dataService.hideLoader(); 
     }
   }));
 };

@@ -11,6 +11,7 @@ import { AdminYoutubeUrlComponent } from '../admin-youtube-url/admin-youtube-url
 import { AdminInstagramUrlComponent } from '../admin-instagram-url/admin-instagram-url.component';
 import { AddProductComponent } from '../admin-products/add-product/add-product.component';
 import { AdminBannerComponent } from '../admin-banner/admin-banner.component';
+import { AdminViewOrderComponent } from '../admin-order/admin-view-order/admin-view-order.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
       { path: 'Instagram', component: AdminInstagramUrlComponent },
       { path: 'AddProduct', component: AddProductComponent },
       { path: 'banner', component: AdminBannerComponent },
+      {path: 'view-order', component: AdminViewOrderComponent}
     ],
   },
 ];

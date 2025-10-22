@@ -20,6 +20,7 @@ export class EnquiryFormComponent implements OnInit {
     state: new FormControl('', [Validators.required]),
     pinCode: new FormControl('', [Validators.required]),
   });
+  localStorageProductData = JSON.parse(localStorage.getItem("addedProduct") as any);
   constructor(private route: Router, private dataService: DataService) { }
   ngOnInit(): void {
   }
@@ -31,18 +32,14 @@ export class EnquiryFormComponent implements OnInit {
     this.myForm.markAsDirty();
     this.myForm.markAllAsTouched();
     if (this.myForm.valid) {
-      this.dataService.showLoader()
-      setTimeout(() => {
-        this.dataService.hideLoader()
-        this.goto('thankyou');
-      }, 3000)
+      this.placeOrder();
     }
 
   }
   nextStep() {
   if (this.currentStep === 1) {
     if (this.myForm.get('name')?.valid && this.myForm.get('mobile')?.valid) {
-      this.currentStep = 2;
+      this.userVerification();
     } else {
       this.myForm.get('name')?.markAsTouched();
       this.myForm.get('mobile')?.markAsTouched();
@@ -55,4 +52,42 @@ export class EnquiryFormComponent implements OnInit {
     }
   }
 }
+
+userVerification(){
+  const url = 'user/validateUser';
+  const payload = {
+    mobile:this.myForm.get('mobile')?.value,
+    name:this.myForm.get('name')?.value
+  }
+  this.dataService.postAPICall(url,payload).subscribe((res:any)=>{
+    this.currentStep = 2;
+    this.dataService.userDetails = res.data;
+    localStorage.setItem('userId',this.dataService.userDetails['_id']);
+  },(err)=>{
+    console.error(err);
+  })
+}
+
+placeOrder(){
+  const url = 'order/add'
+  const productItem = this.localStorageProductData.map((res:any)=>{
+     return {"productId" : res._id,
+        "quantity" : res.quantity}
+  })
+  console.log("productItem",productItem);
+  const payload ={
+    productDetails: productItem,
+    "buyerId": this.dataService.userDetails['_id'],
+     "addressLine" : this.myForm.get('addressLine')?.value,
+     "city" : this.myForm.get('city')?.value,
+     "state" : this.myForm.get('state')?.value,
+    "pinCode" : this.myForm.get('pinCode')?.value,
+  }
+  this.dataService.postAPICall(url,payload).subscribe((res:any)=>{
+    this.goto('thankyou');
+  },(err)=>{
+    console.error(err);
+  })
+}
+
 }

@@ -124,7 +124,7 @@ export class AdminProductsComponent implements OnInit {
 
     openAddDialog(): void {
       const dialogRef = this.dialog.open(AddProductComponent, {
-        
+        width: '500px',
         data: {
           category: this.category
         },
