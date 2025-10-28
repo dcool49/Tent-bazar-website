@@ -14,6 +14,9 @@ import { AdminYoutubeUrlComponent } from '../admin-youtube-url/admin-youtube-url
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminTopNavComponent } from '../admin-top-nav/admin-top-nav.component';
 import { AdminBannerComponent } from '../admin-banner/admin-banner.component';
+import { AdminViewOrderComponent } from '../admin-order/admin-view-order/admin-view-order.component';
+import { AddCategoryComponent } from '../admin-category/add-category/add-category.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import { AdminBannerComponent } from '../admin-banner/admin-banner.component';
     AdminYoutubeUrlComponent,
     AdminTopNavComponent,
     AdminBannerComponent,
+    AdminViewOrderComponent,
+    AddCategoryComponent,
   ],
-  imports: [CommonModule, AdminCrmRoutingModule, NgxPaginationModule],
+  imports: [CommonModule, AdminCrmRoutingModule, NgxPaginationModule,FormsModule,ReactiveFormsModule],
 })
 export class AdminCrmModule {}

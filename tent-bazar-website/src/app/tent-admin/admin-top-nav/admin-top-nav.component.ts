@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin-top-nav',
@@ -8,8 +9,12 @@ import { Component } from '@angular/core';
 })
 export class AdminTopNavComponent {
 isSidebarOpen: boolean = false;
-
+constructor(private authService:AuthService){}
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
+}
+logout(){
+  
+this.authService.logout();
 }
 }

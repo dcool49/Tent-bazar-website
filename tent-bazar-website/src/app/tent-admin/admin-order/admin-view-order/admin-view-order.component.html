@@ -1,1 +1,180 @@
-<p>admin-view-order works!</p>
+<!-- <div class="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
+    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
+      <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">
+        Order Details
+      </h2>
+  
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-700">Order ID:</span>
+          <span class="text-gray-800">#1001</span>
+        </div>
+  
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-700">Customer:</span>
+          <span class="text-gray-800">John Doe</span>
+        </div>
+  
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-700">Product:</span>
+          <span class="text-gray-800">Laptop</span>
+        </div>
+  
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-700">Amount:</span>
+          <span class="text-gray-800">$1200</span>
+        </div>
+  
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-700">Order Date:</span>
+          <span class="text-gray-800">2025-09-25</span>
+        </div>
+  
+        <div class="flex justify-between items-center">
+          <span class="font-medium text-gray-700">Status:</span>
+          <span class="px-3 py-1 bg-green-600 text-white rounded-full text-sm">
+            Completed
+          </span>
+        </div>
+      </div>
+  
+      <div class="flex justify-center mt-8 space-x-3">
+        <button
+          class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        >
+          Edit Order
+        </button>
+        <button
+          class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
+        >
+          Back
+        </button>
+      </div>
+    </div>
+  </div> -->
+
+<div class=" flex justify-center items-center">
+  <div class="">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">
+      Edit Order #{{ dataService.selectedOrder.orderId }}
+    </h2>
+
+    <form class="space-y-4">
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">Order ID:</span>
+        <span class="text-gray-800">#{{ dataService.selectedOrder.orderId }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">Customer:</span>
+        <span class="text-gray-800">John Doe</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">Product:</span>
+        <span class="text-gray-800">Laptop</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">Amount:</span>
+        <span class="text-gray-800">$1200</span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">Order Date:</span>
+        <span class="text-gray-800">2025-09-25</span>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Status</label>
+        <select
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        >
+          <option selected>Completed</option>
+          <option>Pending</option>
+          <option>Cancelled</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Assign</label>
+        <select
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        >
+          <option selected>mohan</option>
+          <option>Ram</option>
+          <option>avinash</option>
+        </select>
+      </div>
+
+      <div class="overflow-x-auto bg-white rounded-xl shadow">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-gray-100 text-left">
+              <th class="p-3">#ID</th>
+              <th class="p-3">Image</th>
+              <th class="p-3">Name</th>
+              <th class="p-3">Category</th>
+              <th class="p-3">Price</th>
+              <th class="p-3">Added Date</th>
+              <th class="p-3 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let prod of dataService.selectedOrder?.productDetails;
+                let i = index
+              "
+              class="border-b hover:bg-gray-50"
+            >
+              <td class="p-3">{{ (i + 1 )}}</td>
+              <td class="p-3">
+                <img [src]="prod.productId.image[0].img_name"/>
+              </td>
+              <td class="p-3">{{ prod.productId.productName }}</td>
+              <td class="p-3">{{ getcatName(prod.productId.category_id) }}</td>
+              <td class="p-3">Rs {{ prod.productId.price }}</td>
+             
+              <td class="p-3">{{ prod.productId.createdAt | date }}</td>
+              <td class="p-3 flex flex-wrap gap-2 justify-center">
+                <button
+                  (click)="openViewDialog(prod)"
+                  class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+                >
+                  View
+                </button>
+                <button
+                  onclick="openModal('editModal')"
+                  class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm"
+                >
+                  Edit
+                </button>
+                <button
+                  (click)="openDialog(prod)"
+                  class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex justify-between mt-6">
+        <button
+          type="submit"
+          class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+        >
+          Update Order
+        </button>
+        <button
+          type="button"
+          class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -26,7 +26,9 @@ export class AdminCategoryComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(AddCategoryComponent, {
       width: '500px',
-      data: {},
+      data: {
+        edit:false,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -50,7 +52,7 @@ export class AdminCategoryComponent implements OnInit {
 
 
   deletecategorylist(id:any) {
-    const url = 'urls/delete?url='+id;
+    const url = 'category/delete?_id='+id;
     this.dataService.deleteAPICall(url).subscribe(
       (res:any) => {
        this.getcategoryList();
@@ -66,9 +68,9 @@ export class AdminCategoryComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmModalComponent, {
       width: '500px',
       data: {
-        heading: 'Delete Product',
+        heading: 'Delete Category',
         msg: 'Are you sure you want to delete',
-        name: prod.productName,
+        name: prod.categoryName,
       },
     });
 
@@ -79,4 +81,20 @@ export class AdminCategoryComponent implements OnInit {
     });
   }
 
+  openDialogEdit(value:any): void {
+    const dialogRef = this.dialog.open(AddCategoryComponent, {
+      width: '500px',
+      data: {
+        edit:true,
+        catData: value
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getcategoryList();
+      }
+    });
+  }
+  
 }

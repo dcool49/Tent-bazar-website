@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';   // 👈 add this
 import { AdminTopNavComponent } from '../admin-top-nav/admin-top-nav.component';
 import { AdminDashboardComponent } from '../admin-dashboard/admin-dashboard.component';
@@ -10,6 +10,7 @@ import { AdminCategoryComponent } from '../admin-category/admin-category.compone
 import { AdminYoutubeUrlComponent } from '../admin-youtube-url/admin-youtube-url.component';
 import { AdminInstagramUrlComponent } from '../admin-instagram-url/admin-instagram-url.component';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin-home',
@@ -17,9 +18,9 @@ import { Router } from '@angular/router';
   styleUrl: './admin-home.component.scss',
   standalone:false,
 })
-export class AdminHomeComponent {
+export class AdminHomeComponent implements OnInit ,OnDestroy {
 activeTab = 0;
-constructor(private route:Router){}
+constructor(private route:Router, private authService:AuthService){}
   tabs = [
     { label: 'Dashboard', icon: '📊' },
     { label: 'Orders', icon: '📦' },
@@ -38,4 +39,28 @@ constructor(private route:Router){}
   urlRout(path: any) {
     this.route.navigate(['/admin-home/' + path])
   }
+
+  remainingTime: number = 12 * 60 * 60; // 24 hours in seconds
+  intervalId: any;
+
+  ngOnInit(): void {
+    this.startTimer();
+  }
+
+  startTimer(): void {
+    this.intervalId = setInterval(() => {
+      this.remainingTime--;
+      if (this.remainingTime <= 0) {
+        this.authService.logout();
+        clearInterval(this.intervalId);
+        console.log('Timer finished!');
+        this.route.navigate(['/admin-login'])
+      }
+    }, 1000); // Update every 1 second
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId); // Clear interval on component destruction
+  }
+
 }

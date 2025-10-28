@@ -12,6 +12,7 @@ import { ThankYouComponent } from './enquiry-form/thank-you/thank-you.component'
 import { OfferServiceComponent } from './landing-sections/offer-service/offer-service.component';
 import { MobileSectionComponent } from './landing-sections/mobile-section/mobile-section.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -27,6 +28,7 @@ export const routes: Routes = [
   {path: 'contact', component: ContactUsComponent},
   {
     path: 'admin-home',
+    canActivate: [authGuard],
     loadChildren: (): any =>
       import('../app/tent-admin/admin-crm/admin-crm.module').then(
         (m) => m.AdminCrmModule

@@ -1,32 +1,93 @@
 <div class="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
-    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
-      <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Add New Category</h2>
-  
-      <form class="space-y-4">
-        <div>
-          <label class="block text-gray-700 font-medium mb-1">Category Name</label>
-          <input type="text" placeholder="Enter category name" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
+    <h2
+      *ngIf="!data.edit"
+      class="text-2xl font-bold mb-6 text-center text-gray-800"
+    >
+      Add New Category
+    </h2>
+    <h2
+      *ngIf="data.edit"
+      class="text-2xl font-bold mb-6 text-center text-gray-800"
+    >
+      Edit Category
+    </h2>
+    <form [formGroup]="myForm" (ngSubmit)="uploadFile()" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Image Upload</label>
+        <input
+          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
+          type="file"
+          (change)="onFileSelected($event)"
+        />
+
+        <!-- Image Preview with Remove -->
+        <div *ngIf="previewUrl">
+          <div class="mt-2 relative w-32 h-32">
+            <img
+              [src]="previewUrl"
+              class="w-32 h-32 object-cover rounded-lg border"
+            />
+            <button
+              type="button"
+              (click)="removeImage()"
+              class="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700"
+            >
+              &times;
+            </button>
+          </div>
         </div>
-  
-        <div>
-          <label class="block text-gray-700 font-medium mb-1">Description</label>
-          <textarea placeholder="Enter description" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
-        </div>
-  
-        <div>
-          <label class="block text-gray-700 font-medium mb-1">Status</label>
-          <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            <option selected>Active</option>
-            <option>Pending</option>
-            <option>Inactive</option>
-          </select>
-        </div>
-  
-        <div class="flex justify-between mt-6">
-          <button type="submit" class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Save Category</button>
-          <button type="button" class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">Cancel</button>
-        </div>
-      </form>
-    </div>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1"
+          >Category Name</label
+        >
+        <input
+          type="text"
+          name="categoryName"
+          formControlName="categoryName"
+          placeholder="Enter category name"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Rank</label>
+        <input
+          type="number"
+          name="rank"
+          formControlName="rank"
+          placeholder="Enter rank"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Status</label>
+        <select
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        >
+          <option selected>Active</option>
+          <option>Pending</option>
+          <option>Inactive</option>
+        </select>
+      </div>
+
+      <div class="flex justify-between mt-6">
+        <button
+          type="submit"
+          class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+        >
+          Save Category
+        </button>
+        <button
+          (click)="onNoClick()"
+          type="button"
+          class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
   </div>
-  
+</div>
