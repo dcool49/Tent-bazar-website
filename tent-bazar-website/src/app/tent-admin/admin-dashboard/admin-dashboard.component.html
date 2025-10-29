@@ -1,19 +1,11 @@
 <!-- dashboard.component.html -->
 <div class="flex h-screen bg-gray-100">
-
-
-
   <!-- Main Content -->
   <div class="flex-1 flex flex-col overflow-hidden">
-
     <!-- Sidebar + Main Layout -->
     <div class="flex h-screen">
-
-
-
       <!-- Main content -->
       <main class="flex-1 p-6 overflow-y-auto">
-
         <!-- Top Navbar -->
         <div class="flex justify-between items-center mb-6">
           <h1 class="text-2xl font-bold text-gray-700">Dashboard Overview</h1>
@@ -22,31 +14,54 @@
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-6">
-
-          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+          <div
+            class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+          >
             <p class="text-gray-500">Orders</p>
             <h2 class="text-2xl font-bold text-green-600">1,245</h2>
           </div>
 
-          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+          <div
+            class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+          >
             <p class="text-gray-500">Users</p>
             <h2 class="text-2xl font-bold text-blue-600">785</h2>
           </div>
 
-          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+          <div
+            class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+          >
             <p class="text-gray-500">Employees</p>
             <h2 class="text-2xl font-bold text-purple-600">48</h2>
           </div>
 
-          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+          <div
+            class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+          >
             <p class="text-gray-500">Products</p>
             <h2 class="text-2xl font-bold text-orange-600">320</h2>
           </div>
 
-          <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition">
+          <div
+            class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+          >
             <p class="text-gray-500">Categories</p>
             <h2 class="text-2xl font-bold text-pink-600">12</h2>
           </div>
+        </div>
+
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-700">Pie chart Aanalysis</h2>
+          <!-- <button class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">Logout</button> -->
+        </div>
+        <div style="display: block;">
+          <canvas 
+            baseChart
+            [type]="'pie'"
+            [data]="pieChartData"
+            [options]="pieChartOptions"
+            [legend]="true">
+          </canvas>
         </div>
 
         <!-- Recent Orders Table -->
@@ -71,14 +86,13 @@
                   <td class="p-3">$1200</td>
                   <td class="p-3 text-green-600">Completed</td>
                 </tr>
-                
               </tbody>
             </table>
           </div>
         </div>
-
       </main>
     </div>
-
   </div>
 </div>
+
+

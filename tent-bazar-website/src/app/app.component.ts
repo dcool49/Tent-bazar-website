@@ -5,12 +5,10 @@ import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { CommonModule } from '@angular/common'; // ✅ add this
+import { CommonModule } from '@angular/common'; 
 import { MatDialogModule } from '@angular/material/dialog';
-//import { DataModelComponent } from './data-model/data-model.component';
 import { LoaderComponent } from './loader/loader.component';
 import { DataService } from './services/data.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',

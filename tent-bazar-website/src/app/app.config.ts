@@ -7,6 +7,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { loaderInterceptor } from './interceptor/loader.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +21,6 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-top-right', // Global default position
       preventDuplicates: true, // Prevent duplicate toasts
     }),
+    provideCharts(withDefaultRegisterables())
   ],
 };

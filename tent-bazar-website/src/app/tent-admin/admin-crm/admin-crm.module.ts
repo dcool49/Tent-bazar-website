@@ -17,6 +17,7 @@ import { AdminBannerComponent } from '../admin-banner/admin-banner.component';
 import { AdminViewOrderComponent } from '../admin-order/admin-view-order/admin-view-order.component';
 import { AddCategoryComponent } from '../admin-category/add-category/add-category.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AdminViewOrderComponent,
     AddCategoryComponent,
   ],
-  imports: [CommonModule, AdminCrmRoutingModule, NgxPaginationModule,FormsModule,ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AdminCrmRoutingModule,
+    NgxPaginationModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BaseChartDirective
+  ],
+  providers: [provideCharts(withDefaultRegisterables())],
 })
 export class AdminCrmModule {}
