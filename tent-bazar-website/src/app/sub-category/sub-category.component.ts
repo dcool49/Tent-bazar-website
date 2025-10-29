@@ -6,7 +6,7 @@ import { NotFoundComponent } from '../landing-sections/not-found/not-found.compo
 
 @Component({
   selector: 'app-sub-category',
-  imports: [NgFor,NgIf,NotFoundComponent],
+  imports: [NgFor,NgIf],
   templateUrl: './sub-category.component.html',
   styleUrl: './sub-category.component.scss'
 })

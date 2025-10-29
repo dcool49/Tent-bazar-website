@@ -37,31 +37,35 @@ export class AddProductComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.category = this.data?.category;
+    if(this.data.edit){
+      this.myForm.patchValue(this.data.value);
+      this.previewUrl = this.data.value.image.map((image:any)=> image.img_name)
+    }
   }
 
   urlRout(path: any) {
     this.route.navigate(['/admin-home/' + path]);
   }
-  previewUrl: string | ArrayBuffer | null = null;
-  selectedFile: File | null = null;
+  previewUrl: any = [];
+  selectedFile: File[] | null = [];
 
   onFileSelected(event: any) {
   const file = event.target.files[0];
   if (file) {
-    this.selectedFile = file;
+    this.selectedFile?.push(file);
 
     const reader = new FileReader();
     reader.onload = () => {
-      this.previewUrl = reader.result;
+      this.previewUrl.push(reader.result);
     };
     reader.readAsDataURL(file);
   }
 }
 
 // Remove selected image
-removeImage() {
-  this.selectedFile = null;
-  this.previewUrl = null;
+removeImage(index:number) {
+  this.selectedFile?.splice(index,1);
+  this.previewUrl?.splice(index,1);
   // Optionally reset the form control
   this.myForm.get('image')?.reset();
 }
@@ -73,11 +77,17 @@ removeImage() {
     if (!this.myForm.valid) {
       return;
     }
+    if(this.data.edit){
+      return;
+    }
 
     const formData = new FormData();
-    if (this.selectedFile?.name) {
-      formData.append('files', this.selectedFile, this.selectedFile?.name); // 'file' is the key expected by the backend
-    }
+    this.selectedFile.forEach((file)=>{
+      formData.append('files', file, file?.name);
+    })
+    // if (this.selectedFile?.name) {
+    //   formData.append('files', this.selectedFile, this.selectedFile?.name); // 'file' is the key expected by the backend
+    // }
     formData.append('productName', this.myForm.get('productName')?.value);
     formData.append('category_id', this.myForm.get('category_id')?.value);
     formData.append('price', this.myForm.get('price')?.value);

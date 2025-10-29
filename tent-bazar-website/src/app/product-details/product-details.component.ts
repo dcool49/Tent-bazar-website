@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 @Component({
   selector: 'app-product-details',
-  imports: [NgIf],
+  imports: [CommonModule],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
@@ -14,6 +14,7 @@ export class ProductDetailsComponent implements OnInit {
   quantity: number = 1;
   localStorageData = JSON.parse(localStorage.getItem("addedProduct") as any);
   cartAdded = false;
+selectedImage: any;
   constructor(private route: Router, private dataService: DataService) {
     this.productId = localStorage.getItem('productId');
     const index = this.localStorageData.findIndex((prod: any) => prod._id === this.productId)
@@ -30,7 +31,8 @@ export class ProductDetailsComponent implements OnInit {
   getProductDetails() {
     const url = 'product/fetchbyid?_id=' + this.productId;
     this.dataService.getAPICall(url).subscribe((res: any) => {
-      this.productDetals = res?.data?.[0]
+      this.productDetals = res?.data?.[0];
+      this.selectedImage = this.productDetals?.image?.[0].img_name;
     }, (err) => {
       console.error(err);
     })

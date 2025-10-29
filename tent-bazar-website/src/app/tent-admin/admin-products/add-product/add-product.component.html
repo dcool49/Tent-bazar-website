@@ -1,6 +1,7 @@
-<div id="addModal" class="flex items-center justify-center z-50">
-  <div class="bg-white shadow-lg w-full max-w-md p-6">
-    <h3 class="text-xl font-semibold mb-4">Add Product</h3>
+<div class="flex items-center justify-center z-50">
+  <div id="addModal"  class="bg-white shadow-lg w-full max-w-md p-6">
+    <h3 *ngIf="!data.edit" class="text-xl font-semibold mb-4">Add Product</h3>
+    <h3 *ngIf="data.edit" class="text-xl font-semibold mb-4">Edit Product</h3>
     <form [formGroup]="myForm" (ngSubmit)="uploadFile()" class="space-y-4">
       <div>
         <label class="block text-sm font-medium mb-1">Image Upload</label>
@@ -11,14 +12,14 @@
         />
 
         <!-- Image Preview with Remove -->
-        <div *ngIf="previewUrl" class="mt-2 relative w-32 h-32">
+        <div *ngFor="let imgPreview of previewUrl;let i=index"  class="mt-2 relative w-32 h-32">
           <img
-            [src]="previewUrl"
+            [src]="imgPreview"
             class="w-32 h-32 object-cover rounded-lg border"
           />
           <button
             type="button"
-            (click)="removeImage()"
+            (click)="removeImage(i)"
             class="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700"
           >
             &times;

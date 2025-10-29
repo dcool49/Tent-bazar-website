@@ -7,7 +7,7 @@ import { ProductDetailsComponent } from '../../product-details/product-details.c
 import { AddProductComponent } from './add-product/add-product.component';
 @Component({
   selector: 'app-admin-products',
-  standalone:false,
+  standalone: false,
   templateUrl: './admin-products.component.html',
   styleUrl: './admin-products.component.scss',
 })
@@ -18,6 +18,7 @@ export class AdminProductsComponent implements OnInit {
   selectedID: any;
   p: number = 1; // Current page
   itemsPerPage: number = 10; // Items per page
+  value: any = '';
 
   // Optional: Function to handle page changes
   pageChanged(event: any) {
@@ -39,13 +40,15 @@ export class AdminProductsComponent implements OnInit {
     this.dataService.getAPICall(url).subscribe(
       (res: any) => {
         this.productList = res.data;
-        this.productList = this.productList.sort((a:any, b:any) =>  {
-          const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
-          const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
-    
+        this.productList = this.productList.sort((a: any, b: any) => {
+          const dateA =
+            a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
+          const dateB =
+            b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
+
           // For ascending order: dateA.getTime() - dateB.getTime()
           // For descending order: dateB.getTime() - dateA.getTime()
-          return  dateB.getTime() - dateA.getTime();
+          return dateB.getTime() - dateA.getTime();
         });
       },
       (err) => {
@@ -115,25 +118,64 @@ export class AdminProductsComponent implements OnInit {
     localStorage.setItem('productId', prod._id);
     const dialogRef = this.dialog.open(ProductDetailsComponent, {});
 
-    dialogRef.afterClosed().subscribe((result) => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   urlRout(path: any) {
-    this.route.navigate(['/admin-home/' + path])
+    this.route.navigate(['/admin-home/' + path]);
   }
 
-    openAddDialog(): void {
-      const dialogRef = this.dialog.open(AddProductComponent, {
-        width: '500px',
-        data: {
-          category: this.category
-        },
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.getProductList();
-        }
-      });
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(AddProductComponent, {
+      data: {
+        category: this.category,
+        edit: false,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getProductList();
+      }
+    });
+  }
+
+  filterByCat() {
+    if (!this.value) {
+      this.getProductList();
+      return;
     }
+    const url = 'product/fetch?category_id=' + this.value;
+    this.dataService.getAPICall(url).subscribe(
+      (res: any) => {
+        this.productList = res.data;
+        this.productList = this.productList.sort((a: any, b: any) => {
+          const dateA =
+            a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
+          const dateB =
+            b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
+          return dateB.getTime() - dateA.getTime();
+        });
+      },
+      (err) => {
+        console.error(err);
+        this.productList = [];
+      }
+    );
+  }
+
+  openEditDialog(prod: any) {
+    const dialogRef = this.dialog.open(AddProductComponent, {
+      data: {
+        category: this.category,
+        edit: true,
+        value: prod,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getProductList();
+      }
+    });
+  }
 }

@@ -1,54 +1,59 @@
 <!-- Product Management Section -->
 <div class="p-6 bg-gray-100 min-h-screen">
   <!-- Header -->
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-  <!-- Left: Title -->
-  <h2 class="text-2xl font-bold">Product Management</h2>
+  <div
+    class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4"
+  >
+    <!-- Left: Title -->
+    <h2 class="text-2xl font-bold">Product Management</h2>
 
-  <!-- Right: Actions -->
-  <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
-    <!-- Search -->
-    <input
-      type="text"
-      placeholder="Search products..."
-      class="w-full sm:w-64 border rounded-lg p-2 focus:ring focus:ring-green-200"
-    />
-
-    <!-- Filter -->
-    <select
-      class="w-full sm:w-40 border rounded-lg p-2 focus:ring focus:ring-green-200"
+    <!-- Right: Actions -->
+    <div
+      class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto"
     >
-      <option value="">All Categories</option>
-      <option>Electronics</option>
-      <option>Clothing</option>
-      <option>Books</option>
-      <!-- Add more categories as needed -->
-    </select>
+      <!-- Search -->
+      <input
+        type="text"
+        placeholder="Search products..."
+        class="w-full sm:w-64 border rounded-lg p-2 focus:ring focus:ring-green-200"
+      />
 
-    <!-- Add Product Button -->
-    <button
-      class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2"
-      (click)="openAddDialog()"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-4 w-4"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
+      <!-- Filter -->
+      <select
+        class="w-full sm:w-40 border rounded-lg p-2 focus:ring focus:ring-green-200"
+        [(ngModel)]="value"
+        (change)="filterByCat()"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 4v16m8-8H4"
-        />
-      </svg>
-      Add Product
-    </button>
-  </div>
-</div>
+        <option selected value="">All Categories</option>
+        <option *ngFor="let cat of category" [value]="cat._id">
+          {{ cat.categoryName }}
+        </option>
+        <!-- Add more categories as needed -->
+      </select>
 
+      <!-- Add Product Button -->
+      <button
+        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2"
+        (click)="openAddDialog()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+        Add Product
+      </button>
+    </div>
+  </div>
 
   <!-- Product Table -->
   <div class="overflow-x-auto bg-white rounded-xl shadow">
@@ -73,14 +78,14 @@
           "
           class="border-b hover:bg-gray-50"
         >
-          <td class="p-3">{{ (i + 1 )+((p-1)*itemsPerPage)}}</td>
+          <td class="p-3">{{ i + 1 + (p - 1) * itemsPerPage }}</td>
           <td class="p-3">
-            <img [src]="prod.image[0].img_name"/>
+            <img [src]="prod.image[0].img_name" />
           </td>
           <td class="p-3">{{ prod.productName }}</td>
           <td class="p-3">{{ getcatName(prod.category_id) }}</td>
           <td class="p-3">Rs {{ prod.price }}</td>
-         
+
           <td class="p-3">{{ prod.createdAt | date }}</td>
           <td class="p-3 flex flex-wrap gap-2 justify-center">
             <button
@@ -90,7 +95,7 @@
               View
             </button>
             <button
-              onclick="openModal('editModal')"
+              (click)="openEditDialog(prod)"
               class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm"
             >
               Edit
@@ -210,7 +215,6 @@
 <!-- ======================== -->
 <!-- DELETE CONFIRMATION MODAL -->
 <!-- ======================== -->
-
 
 <!-- ======================== -->
 <!-- JS for Modal Handling -->

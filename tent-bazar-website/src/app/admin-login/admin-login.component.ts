@@ -21,9 +21,9 @@ export class AdminLoginComponent {
       alert("password or mobile number is required");
       return;
     }
-    const url = 'user/login';
+    const url = 'user/v2/login';
     const payload = {
-      mobileNumber:this.phoneNumber,
+      mobile:this.phoneNumber,
       password:this.password
     }
     this.dataServive.postAPICall(url,payload).subscribe((res:any)=>{

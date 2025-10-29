@@ -6,7 +6,7 @@ import { NotFoundComponent } from '../landing-sections/not-found/not-found.compo
 
 @Component({
   selector: 'app-product-list-search',
-  imports: [NgIf, NgFor,NotFoundComponent],
+  imports: [NgIf, NgFor],
   templateUrl: '../sub-category/sub-category.component.html',
   styleUrl: '../sub-category/sub-category.component.scss',
 })
