@@ -18,6 +18,8 @@ import { AdminViewOrderComponent } from '../admin-order/admin-view-order/admin-v
 import { AddCategoryComponent } from '../admin-category/add-category/add-category.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { AddEmployeeComponent } from '../admin-employee/add-employee/add-employee.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
     AdminBannerComponent,
     AdminViewOrderComponent,
     AddCategoryComponent,
+    AddEmployeeComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +44,8 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
-    BaseChartDirective
+    BaseChartDirective,
+    MatDialogModule
   ],
   providers: [provideCharts(withDefaultRegisterables())],
 })

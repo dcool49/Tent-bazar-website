@@ -23,10 +23,10 @@ export class AdminBannerComponent implements OnInit {
     this.getBannerList();
   }
 
-  openDialog(): void {
+  openDialog(edit:boolean,data:any): void {
     const dialogRef = this.dialog.open(AddBannerComponent, {
       width: '500px',
-      data: {},
+      data: {edit:edit,value:data},
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -50,7 +50,7 @@ export class AdminBannerComponent implements OnInit {
 
 
   deleteBannerlist(id:any) {
-    const url = 'banner/delete?url='+id;
+    const url = 'banner/delete?_id='+id;
     this.dataService.deleteAPICall(url).subscribe(
       (res:any) => {
        this.getBannerList();

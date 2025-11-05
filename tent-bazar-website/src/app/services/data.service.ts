@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DataService {
+
   baseUrl = 'http://ec2-13-233-41-105.ap-south-1.compute.amazonaws.com:4500/api/';
 
   private apiCount = 0;
@@ -28,6 +29,9 @@ export class DataService {
     return this.http.put(this.baseUrl+url,payload);
   }
 
+  patchApiCall(url: string, payload: any) {
+    return this.http.patch(this.baseUrl+url,payload);
+  }
 
   showLoader() {
     if (this.apiCount === 0) {

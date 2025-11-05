@@ -1,7 +1,7 @@
 <div class="p-6 bg-gray-100 min-h-screen">
   <div class="flex items-center justify-between mb-6">
     <h2 class="text-2xl font-bold mb-6">Employee List</h2>
-    <button onclick="openModal('addModal')" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2">
+    <button (click)="openDialog(false,null)" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
       </svg>
@@ -15,77 +15,24 @@
         <tr class="bg-gray-100 text-left">
           <th class="p-3">#ID</th>
           <th class="p-3">Name</th>
-          <th class="p-3">Department</th>
-          <th class="p-3">Position</th>
-          <th class="p-3">Status</th>
-          <th class="p-3">Joining Date</th>
+          <th class="p-3">mobile</th>
+          <th class="p-3">role</th>
           <th class="p-3">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="border-b hover:bg-gray-50">
-          <td class="p-3">E001</td>
-          <td class="p-3">John Doe</td>
-          <td class="p-3">Finance</td>
-          <td class="p-3">Accountant</td>
-          <td class="p-3">
-            <span class="px-2 py-1 rounded-full text-white bg-green-600 text-sm">Active</span>
-          </td>
-          <td class="p-3">2022-05-15</td>
+        <tr *ngFor="let rel of List;let i=index" class="border-b hover:bg-gray-50">
+          <td  class="p-3">{{i+1}}</td>
+          <td class="p-3">{{rel.name}}</td>
+          <td class="p-3">{{rel.mobile}}</td>
+          <td class="p-3">{{rel.role}}</td>
           <td class="p-3 space-x-2">
             <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
-            <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">Edit</button>
-            <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Remove</button>
+            <button (click)="openDialog(true,rel)" class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">Edit</button>
+            <button (click)="openDeleteDialog(rel)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Remove</button>
           </td>
         </tr>
 
-        <tr class="border-b hover:bg-gray-50">
-          <td class="p-3">E002</td>
-          <td class="p-3">Jane Smith</td>
-          <td class="p-3">HR</td>
-          <td class="p-3">HR Manager</td>
-          <td class="p-3">
-            <span class="px-2 py-1 rounded-full text-white bg-yellow-600 text-sm">On Leave</span>
-          </td>
-          <td class="p-3">2023-01-10</td>
-          <td class="p-3 space-x-2">
-            <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
-            <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">Edit</button>
-            <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Remove</button>
-          </td>
-        </tr>
-
-        <tr class="border-b hover:bg-gray-50">
-          <td class="p-3">E003</td>
-          <td class="p-3">Robert Lee</td>
-          <td class="p-3">IT</td>
-          <td class="p-3">Developer</td>
-          <td class="p-3">
-            <span class="px-2 py-1 rounded-full text-white bg-red-600 text-sm">Inactive</span>
-          </td>
-          <td class="p-3">2021-11-05</td>
-          <td class="p-3 space-x-2">
-            <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
-            <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">Edit</button>
-            <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Remove</button>
-          </td>
-        </tr>
-
-        <tr class="hover:bg-gray-50">
-          <td class="p-3">E004</td>
-          <td class="p-3">Emily Davis</td>
-          <td class="p-3">Marketing</td>
-          <td class="p-3">Content Writer</td>
-          <td class="p-3">
-            <span class="px-2 py-1 rounded-full text-white bg-green-600 text-sm">Active</span>
-          </td>
-          <td class="p-3">2022-08-20</td>
-          <td class="p-3 space-x-2">
-            <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">View</button>
-            <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">Edit</button>
-            <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Remove</button>
-          </td>
-        </tr>
       </tbody>
     </table>
   </div>
@@ -138,75 +85,4 @@
   </div>
 </div>
 
-<div class="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
-  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
-    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Edit Employee E001</h2>
 
-    <form class="space-y-4">
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Full Name</label>
-        <input
-          type="text"
-          value="John Doe"
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Department</label>
-        <select
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        >
-          <option selected>Finance</option>
-          <option>HR</option>
-          <option>IT</option>
-          <option>Marketing</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Position</label>
-        <input
-          type="text"
-          value="Accountant"
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Status</label>
-        <select
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        >
-          <option selected>Active</option>
-          <option>On Leave</option>
-          <option>Inactive</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Joining Date</label>
-        <input
-          type="date"
-          value="2022-05-15"
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-      </div>
-
-      <div class="flex justify-between mt-6">
-        <button
-          type="submit"
-          class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-        >
-          Update Employee
-        </button>
-        <button
-          type="button"
-          class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
