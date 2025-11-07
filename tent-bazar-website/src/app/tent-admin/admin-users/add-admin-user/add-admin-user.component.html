@@ -1,0 +1,130 @@
+<div class="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
+    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
+      <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Add User</h2>
+      <mat-dialog-content class="mat-typography">
+      <form [formGroup]="myForm" (ngSubmit)="saveClick()"  class="space-y-4">
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Full Name</label>
+          <input
+          formControlName="name"
+            name="name"
+            type="text"
+            value="John Doe"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+  
+        <!-- <div>
+          <label class="block text-gray-700 font-medium mb-1">Role</label>
+          <select formControlName="role"
+          name="role"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option selected>select role</option>
+            <option value="employee">Employee</option>
+            <option value="admin" >Admin</option>
+          </select>
+        </div> -->
+  
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Mobile Number</label>
+          <input
+          formControlName="mobile"
+            name="mobile"
+            type="number"
+            value="Accountant"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+  
+        <!-- <div>
+          <label class="block text-gray-700 font-medium mb-1">Status</label>
+          <select
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option selected>Active</option>
+            <option>On Leave</option>
+            <option>Inactive</option>
+          </select>
+        </div> -->
+  
+        <div >
+          <label class="block text-gray-700 font-medium mb-1">password</label>
+          <div class="flex justify-between mt-6">
+          <input
+          formControlName="password"
+            name="password"
+            type="text"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+          <button type="button" class=" px-5 py-2 bg-orange-600 text-white rounded-lg" (click)="generateRandomPassword()">Auto</button>
+        </div>
+    </div>
+
+    <div>
+        <label class="block text-gray-700 font-medium mb-1">Company Name</label>
+        <input
+        formControlName="companyName"
+          name="companyName"
+          type="text"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+      </div>
+      <h4>Address</h4>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">address Line</label>
+        <input
+        formControlName="addressLine"
+          name="addressLine"
+          type="text"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">City</label>
+        <input
+        formControlName="city"
+          name="city"
+          type="text"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">State</label>
+        <input
+        formControlName="state"
+          name="state"
+          type="text"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">PinCode</label>
+        <input
+        formControlName="pinCode"
+          name="pinCode"
+          type="number"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+      </div>
+
+  <br><br>
+        <div class="flex justify-between mt-6">
+          <button
+            type="submit"
+            class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+          >
+            submit
+          </button>
+          <button
+          (click)="onNoClick()"
+            type="button"
+            class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </mat-dialog-content>
+    </div>
+  </div>

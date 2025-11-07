@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AddEmployeeComponent } from '../admin-employee/add-employee/add-employee.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AddAdminUserComponent } from '../admin-users/add-admin-user/add-admin-user.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     AdminViewOrderComponent,
     AddCategoryComponent,
     AddEmployeeComponent,
+    AddAdminUserComponent
   ],
   imports: [
     CommonModule,

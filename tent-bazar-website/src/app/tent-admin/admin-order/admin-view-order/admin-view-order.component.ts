@@ -15,13 +15,24 @@ export class AdminViewOrderComponent implements OnInit {
   orderData:any;
   category: any;
   selectedID: any;
-  constructor(public dataService: DataService,public dialog: MatDialog,private route: Router,){}
+  employeeList: any;
+  employeeId:any;
+  statusList =['TO-DO','In-progress','Done','Cancle','Hold'];
+  selectedStatus:any;
+  constructor(public dataService: DataService,public dialog: MatDialog,private route: Router,){
+    if(this.dataService.selectedOrder){
+      this.employeeId = this.dataService.selectedOrder?.empId?._id;
+      this.selectedStatus = this.dataService.selectedOrder.status;
+      this.getCatList();
+    }
+  }
   ngOnInit(): void {
     console.log("order",this.dataService.selectedOrder)
     if(!this.dataService.selectedOrder){
       window.history.back();
     }else{
-      this.getCatList();
+      this.getorder();
+      this.getemployeeList();
     }
 
   }
@@ -52,7 +63,7 @@ export class AdminViewOrderComponent implements OnInit {
   }
 
 
-    openDialog(prod: any): void {
+    openDialog(prod: any,index:number): void {
       this.selectedID = prod._id;
       const dialogRef = this.dialog.open(DeleteConfirmModalComponent, {
         width: '500px',
@@ -65,11 +76,12 @@ export class AdminViewOrderComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          this.deleteProduct(this.selectedID);
+          this.deleteProduct(this.selectedID,index);
         }
       });
     }
-  deleteProduct(selectedID: any) {
+  deleteProduct(selectedID: any,i:number) {
+    this.orderData.productDetails.splice(i, 1);
   }
   
     openViewDialog(prod: any): void {
@@ -82,6 +94,49 @@ export class AdminViewOrderComponent implements OnInit {
     urlRout(path: any) {
       this.route.navigate(['/admin-home/' + path])
     }
+ 
+    getorder() {
+      const url = 'order/fetch?_id='+this.dataService.selectedOrder._id;
+      this.dataService.getAPICall(url).subscribe(
+        (res: any) => {
+          this.orderData = res.data[0];
+          console.log("order",res.data)
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
+    }
 
+orderUpdate(){
+  const payload={
+    _id:this.orderData._id,
+    empId:this.employeeId,
+    productDetails: this.orderData.productDetails,
+    status:this.selectedStatus
+  }
+  console.log("payload",payload);
+  const url = 'order/update';
+  this.dataService.patchApiCall(url,payload).subscribe(
+    (res: any) => {
+     this.urlRout('Orders')
+    },
+    (err) => {
+      console.error(err);
+    }
+  )
+}
+
+getemployeeList(){
+  const url = 'user/v2/fetch?role=employee';
+  this.dataService.getAPICall(url).subscribe(
+    (res:any) => {
+      this.employeeList = res.data;
+    },
+    (err) => {
+      console.error(err);
+    }
+  );
+}
 
 }

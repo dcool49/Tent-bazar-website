@@ -35,6 +35,6 @@ export const routes: Routes = [
       ),
   },
   { path: 'thankyou', component: ThankYouComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', redirectTo: '' },
 ];

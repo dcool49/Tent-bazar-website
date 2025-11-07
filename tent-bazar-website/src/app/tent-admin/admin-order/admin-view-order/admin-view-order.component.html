@@ -66,15 +66,27 @@
       </div>
 
       <div class="flex justify-between">
-        <span class="font-medium text-gray-700">Customer:</span>
-        <span class="text-gray-800">John Doe</span>
+        <span class="font-medium text-gray-700">Customer Name:</span>
+        <span class="text-gray-800">{{orderData?.buyerId?.name}}</span>
       </div>
 
       <div class="flex justify-between">
-        <span class="font-medium text-gray-700">Product:</span>
-        <span class="text-gray-800">Laptop</span>
+        <span class="font-medium text-gray-700">mobile number:</span>
+        <span class="text-gray-800">{{orderData?.buyerId?.mobile}}</span>
       </div>
 
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">Address:</span>
+        <span class="text-gray-800">{{orderData?.addressLine}}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">City:</span>
+        <span class="text-gray-800">{{orderData?.city}}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="font-medium text-gray-700">State:</span>
+        <span class="text-gray-800">{{orderData?.state}}</span>
+      </div>
       <div class="flex justify-between">
         <span class="font-medium text-gray-700">Amount:</span>
         <span class="text-gray-800">$1200</span>
@@ -86,23 +98,20 @@
       </div>
       <div>
         <label class="block text-gray-700 font-medium mb-1">Status</label>
-        <select
+        <select [(ngModel)]="selectedStatus" name="status"
           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         >
-          <option selected>Completed</option>
-          <option>Pending</option>
-          <option>Cancelled</option>
+          <option *ngFor="let sts of statusList" [value]="sts">{{sts}}</option>
         </select>
       </div>
 
       <div>
         <label class="block text-gray-700 font-medium mb-1">Assign</label>
-        <select
+        <select [(ngModel)]="employeeId" name="employeeId"
           class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         >
-          <option selected>mohan</option>
-          <option>Ram</option>
-          <option>avinash</option>
+          <option selected>Select employee</option>
+          <option *ngFor="let emp of employeeList" [value]="emp._id">{{emp.name}}</option>
         </select>
       </div>
 
@@ -122,7 +131,7 @@
           <tbody>
             <tr
               *ngFor="
-                let prod of dataService.selectedOrder?.productDetails;
+                let prod of orderData?.productDetails;
                 let i = index
               "
               class="border-b hover:bg-gray-50"
@@ -150,7 +159,7 @@
                   Edit
                 </button>
                 <button
-                  (click)="openDialog(prod)"
+                  (click)="openDialog(prod,i)"
                   class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
                 >
                   Delete
@@ -165,6 +174,7 @@
         <button
           type="submit"
           class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+          (click)="orderUpdate()"
         >
           Update Order
         </button>

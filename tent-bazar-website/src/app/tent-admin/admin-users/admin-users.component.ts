@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AdminEmployeeComponent } from '../admin-employee/admin-employee.component';
+import { AddAdminUserComponent } from './add-admin-user/add-admin-user.component';
 
 @Component({
   selector: 'app-admin-users',
@@ -10,6 +11,7 @@ import { AdminEmployeeComponent } from '../admin-employee/admin-employee.compone
 export class AdminUsersComponent extends AdminEmployeeComponent {
   override role = 'user';
   override getListUrl = 'user/fetch?role=user';
+  override addComponent = AddAdminUserComponent as any;
   p: number = 1; // Current page
   itemsPerPage: number = 10; // Items per page
   value: any = '';

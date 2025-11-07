@@ -29,7 +29,8 @@ const routes: Routes = [
       { path: 'Instagram', component: AdminInstagramUrlComponent },
       { path: 'AddProduct', component: AddProductComponent },
       { path: 'banner', component: AdminBannerComponent },
-      {path: 'view-order', component: AdminViewOrderComponent}
+      {path: 'view-order', component: AdminViewOrderComponent},
+      { path: '**', redirectTo: '' },
     ],
   },
 ];
