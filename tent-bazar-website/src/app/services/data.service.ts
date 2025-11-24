@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DataService {
 
-  baseUrl = 'http://ec2-13-233-41-105.ap-south-1.compute.amazonaws.com:4500/api/';
+  baseUrl = 'https://tentbazaar.in/api/';
 
   private apiCount = 0;
   private isLoadingSubject = new BehaviorSubject<boolean>(false);

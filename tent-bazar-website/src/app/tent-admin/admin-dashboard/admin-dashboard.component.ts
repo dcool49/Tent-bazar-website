@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
+import { DataService } from '../../services/data.service';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -7,13 +10,35 @@ import { ChartData, ChartOptions, ChartType } from 'chart.js';
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss',
 })
-export class AdminDashboardComponent {
+export class AdminDashboardComponent implements OnInit {
+  data: any;
+
+  constructor(
+    private route: Router,
+    private dataService: DataService,
+    public dialog: MatDialog
+  ) {}
+  ngOnInit(): void {
+    this.getDashbordData();
+  }
+
+  getDashbordData() {
+    const url = 'dashboard/fetch';
+    this.dataService.getAPICall(url).subscribe(
+      (res: any) => {
+        this.data = res.data;
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+  }
   // Define the chart data using the explicit 'pie' generic
   public pieChartData: ChartData<'pie'> = {
     labels: ['Download Sales', 'In-Store Sales', 'Mail Sales'],
     datasets: [
       {
-        data:[10,20,30], // Replace with your actual data
+        data: [10, 20, 30], // Replace with your actual data
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
         hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
       },
@@ -36,7 +61,7 @@ export class AdminDashboardComponent {
           label: ({ dataIndex, raw }) => {
             const label = this.pieChartData.labels?.[dataIndex] || '';
             const value = raw as number;
-            
+
             const dataValues = this.pieChartData.datasets?.[0].data;
             if (!dataValues) {
               return `${label}: ${value}`;
@@ -46,7 +71,7 @@ export class AdminDashboardComponent {
               (sum: number, current: number) => sum + current,
               0
             );
-            
+
             const percentage = ((value / total) * 100).toFixed(2) + '%';
             return `${label}: ${value} (${percentage})`;
           },
@@ -54,5 +79,4 @@ export class AdminDashboardComponent {
       },
     },
   };
-
 }
