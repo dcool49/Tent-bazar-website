@@ -13,7 +13,7 @@ p {
     line-height: 1.8em;
 }
 .hero-top-section {
-    margin-top: 102px;
+    margin-top: 15px;
 }
 .bg-orange-gradient {
     background: var(--orange-gr-bg);
@@ -27,8 +27,12 @@ p {
 /* Mobile (smaller than md breakpoint = <768px) */
 @media (max-width: 767px) {
   .hero-top-section {
-    margin-top: 62px; /* height of just the white header */
+    margin-top: 15px; /* height of just the white header */
   }
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-color: #ffffff;
+}

@@ -7,7 +7,7 @@
         <!-- Carousel wrapper -->
        <div class="relative overflow-hidden h-[50vh] md:h-[31rem]">
           <!-- First Item (active) -->
-          <div *ngFor="let rel of bannerData" class="duration-700 ease-in-out" data-carousel-item>
+          <div *ngFor="let rel of bannerData" class="duration-700 ease-in-out h-full" data-carousel-item>
             <img [src]="rel?.bannerImage?.[0]?.img_name" class="w-full h-full object-cover" alt="...">
           </div>
           <!-- Second Item -->

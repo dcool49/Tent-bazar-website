@@ -47,6 +47,7 @@ export class AppComponent {
       });
     this.dataService.isLoading$.subscribe((res: any) => {
       this.loadingValue = res;
+      this.changeDetectorRef.detectChanges();
     });
   }
 }

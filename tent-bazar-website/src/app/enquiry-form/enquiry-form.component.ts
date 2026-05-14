@@ -84,10 +84,19 @@ placeOrder(){
     "pinCode" : this.myForm.get('pinCode')?.value,
   }
   this.dataService.postAPICall(url,payload).subscribe((res:any)=>{
+    this.clearCart();
+    if (res?.data?._id) {
+      localStorage.setItem('orderId', res.data.orderId);
+    }
     this.goto('thankyou');
   },(err)=>{
     console.error(err);
   })
+}
+
+clearCart() {
+  localStorage.removeItem('addedProduct');
+  this.localStorageProductData = [];
 }
 
 }

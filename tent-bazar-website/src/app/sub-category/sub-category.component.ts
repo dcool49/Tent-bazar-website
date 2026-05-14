@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { NgFor, NgIf } from '@angular/common';
 import { NotFoundComponent } from '../landing-sections/not-found/not-found.component';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sub-category',
@@ -15,14 +17,29 @@ export class SubCategoryComponent implements OnInit,OnDestroy {
   productList: any = [];
   catName:any;
   localStorageData = JSON.parse(localStorage.getItem("addedProduct") as any);
-constructor(private route: Router,private dataService:DataService) { 
-this.catId = localStorage.getItem("catId"); 
-this.catName = localStorage.getItem("catName");
+  private routerSub!: Subscription;
 
-}
+constructor(private route: Router,private dataService:DataService) {}
+
   ngOnDestroy(): void {
+    this.routerSub?.unsubscribe();
   }
+
   ngOnInit(): void {
+    this.loadAndFetch();
+    this.routerSub = this.route.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      const newCatId = localStorage.getItem("catId");
+      if (newCatId !== this.catId) {
+        this.loadAndFetch();
+      }
+    });
+  }
+
+  loadAndFetch(): void {
+    this.catId = localStorage.getItem("catId");
+    this.catName = localStorage.getItem("catName");
     this.getProductList();
   }
   urlRout(path: any,productId: any) {

@@ -8,10 +8,14 @@ import { Router } from '@angular/router';
   styleUrl: './thank-you.component.scss'
 })
 export class ThankYouComponent {
-constructor(private route: Router){}
+  orderId: string | null = null;
 
-gotoHome(){
-  this.route.navigate(['/','home'])
-}
+  constructor(private route: Router){
+    this.orderId = localStorage.getItem('orderId');
+    localStorage.removeItem('orderId');
+  }
 
+  gotoHome(){
+    this.route.navigate(['/','home'])
+  }
 }

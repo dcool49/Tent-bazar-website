@@ -1,0 +1,91 @@
+<!-- No search term: show search input -->
+<section *ngIf="!searchName" class="min-h-[60vh] flex flex-col items-center justify-center bg-white px-6">
+  <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Search for a Product</h2>
+  <form (ngSubmit)="submitSearch()" class="flex items-center w-full max-w-lg">
+    <input
+      type="text"
+      [(ngModel)]="inputSearch"
+      name="inputSearch"
+      placeholder="e.g. tent, canopy, banner..."
+      class="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg text-sm focus:outline-none focus:border-orange-500"
+    />
+    <button
+      type="submit"
+      class="bg-orange-500 text-white px-5 py-3 rounded-r-lg hover:bg-orange-600 transition flex items-center gap-2">
+      <i class="bi bi-search"></i>
+      <span>Search</span>
+    </button>
+  </form>
+</section>
+
+<!-- Hero banner when results exist -->
+<section *ngIf="searchName && productList && productList.length > 0" class="relative hero-top-section">
+  <div class="relative overflow-hidden h-[40vh] md:h-[22rem]">
+    <img src="../assets/images/service/a1.jpg" alt="Hero Background"
+      class="absolute inset-0 w-full h-full object-[scale-down]">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center text-white px-6">
+        <h1 class="text-3xl md:text-5xl font-bold mb-4">{{catName}}</h1>
+        <p class="text-base md:text-lg max-w-2xl mx-auto text-gray-200">
+          <a (click)="urlRout('home','')">Home</a> / {{catName}}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Product grid -->
+<section *ngIf="searchName && productList && productList.length > 0" class="py-12 bg-white">
+  <div class="max-w-7xl mx-auto text-center px-6">
+    <h2 class="text-3xl md:text-4xl font-bold mb-12">
+      Results for <span class="text-orange-500 underline">{{searchName}}</span>
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div *ngFor="let product of productList" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col">
+        <div (click)="urlRout('details', product._id)" class="relative">
+          <img [src]="product?.image?.[0].img_name" alt="Product" class="w-full h-56 object-[scale-down]">
+          <span class="absolute top-2 left-2 bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-md shadow-md">{{product?.productName}}</span>
+        </div>
+        <div class="p-4 text-center">
+          <h5 class="font-bold text-lg text-orange-500 mb-4">{{product?.summery}}</h5>
+          <div class="flex justify-center gap-3">
+            <button (click)="addcart(product)" *ngIf="!product?.cartAdded"
+              class="flex items-center gap-2 px-3 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 2.25h1.386c.51 0 .955.343 1.087.835l.383 1.437m0 0l1.35 5.062m-.75-2.812h12.12c.63 0 1.17.444 1.27 1.067l1.2 7.2a1.125 1.125 0 01-1.113 1.308H6.18a1.125 1.125 0 01-1.113-1.308l1.2-7.2a1.125 1.125 0 011.113-1.067zm0 0L5.106 4.522A1.125 1.125 0 004.02 3.75H2.25M6.75 20.25a.75.75 0 100-1.5.75.75 0 000 1.5zm10.5 0a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+              </svg>
+              <span>Add to Cart</span>
+            </button>
+            <button (click)="removecart(product)" *ngIf="product?.cartAdded"
+              class="flex items-center gap-2 px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-orange-600 transition">
+              <span>Remove From Cart</span>
+            </button>
+            <button (click)="urlRout('details', product._id)"
+              class="px-3 py-2 border border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition">View</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- No results found -->
+<section *ngIf="searchName && productList && productList.length === 0" class="min-h-[60vh] flex flex-col items-center justify-center bg-white px-6">
+  <p class="text-gray-500 text-lg mb-6">No products found for "<strong>{{searchName}}</strong>".</p>
+  <form (ngSubmit)="submitSearch()" class="flex items-center w-full max-w-lg">
+    <input
+      type="text"
+      [(ngModel)]="inputSearch"
+      name="inputSearch"
+      placeholder="Try another search..."
+      class="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg text-sm focus:outline-none focus:border-orange-500"
+    />
+    <button
+      type="submit"
+      class="bg-orange-500 text-white px-5 py-3 rounded-r-lg hover:bg-orange-600 transition flex items-center gap-2">
+      <i class="bi bi-search"></i>
+      <span>Search</span>
+    </button>
+  </form>
+</section>

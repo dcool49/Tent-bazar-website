@@ -2,39 +2,40 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { NgFor, NgIf } from '@angular/common';
-import { NotFoundComponent } from '../landing-sections/not-found/not-found.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-list-search',
-  imports: [NgIf, NgFor],
-  templateUrl: '../sub-category/sub-category.component.html',
+  imports: [NgIf, NgFor, FormsModule],
+  templateUrl: './product-list-search.component.html',
   styleUrl: '../sub-category/sub-category.component.scss',
 })
-export class ProductListSearchComponent implements OnInit,OnDestroy {
+export class ProductListSearchComponent implements OnInit, OnDestroy {
   productList: any = [];
   catName: any;
-  localStorageData = JSON.parse(localStorage.getItem('addedProduct') as any);
-  searchName = localStorage.getItem('searchName');
+  searchName: string | null = null;
+  inputSearch: string = '';
+
   constructor(
     private route: Router,
     private dataService: DataService,
     private activatedRoute: ActivatedRoute
-  ) {
-    this.searchName = localStorage.getItem('searchName');
-    this.catName = 'Search: ' + this.searchName;
+  ) {}
+
+  submitSearch() {
+    if (!this.inputSearch.trim()) return;
+    this.route.navigate(['/product-search', this.inputSearch.trim()]);
   }
-  ngOnDestroy(): void {
-    localStorage.setItem('searchName','');
-  }
+  ngOnDestroy(): void {}
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
-      this.searchName = params.get('search');
+      const param = params.get('search');
+      this.searchName = param && param.trim() ? param.trim() : null;
       this.catName = 'Search: ' + this.searchName;
+      this.productList = [];
       if (this.searchName) {
         this.getProductList();
-      } else {
-        this.productList = null;
       }
     });
   }

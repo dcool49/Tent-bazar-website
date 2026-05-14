@@ -1,47 +1,55 @@
-<div class="p-6 bg-gray-100 min-h-screen">
-  <div class="flex items-center justify-between mb-6">
-    <h2 class="text-2xl font-bold mb-6">User List</h2>
-    <button (click)="openDialog(false,null)" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-      Add User
-    </button>
+<div class="p-4 md:p-6 bg-gray-100 min-h-screen">
+  <div class="flex flex-col gap-3 mb-6 sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-2xl font-bold">User List</h2>
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="p = 1"
+        placeholder="Search by name, mobile, city, email..."
+        class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-full sm:w-72 focus:ring-2 focus:ring-green-500 focus:outline-none"
+      />
+      <button (click)="openDialog(false,null)" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center justify-center gap-2 whitespace-nowrap">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Add User
+      </button>
+    </div>
   </div>
-  
 
   <div class="overflow-x-auto bg-white rounded-xl shadow">
-    <table class="w-full border-collapse">
+    <table class="w-full border-collapse min-w-[600px]">
       <thead>
         <tr class="bg-gray-100 text-left">
-          <th class="p-3">#ID</th>
+          <th class="p-3">#</th>
           <th class="p-3">Name</th>
           <th class="p-3">Mobile</th>
-          <th class="p-3">City</th>
-          <th class="p-3">Email</th>
-          <th class="p-3">Joined Date</th>
+          <th class="p-3 hidden md:table-cell">City</th>
+          <th class="p-3 hidden lg:table-cell">Email</th>
+          <th class="p-3 hidden md:table-cell">Joined Date</th>
           <th class="p-3">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr  *ngFor="
-        let user of List
-          | paginate : { itemsPerPage: itemsPerPage, currentPage: p };
-        let i = index
-      " class="border-b hover:bg-gray-50">
-          <td class="p-3">{{ i + 1 + (p - 1) * itemsPerPage }}</td>
-          <td class="p-3">{{user.name}}</td>
-          <td class="p-3">{{user.mobile}}</td>
-          <td class="p-3">{{user.city}}</td>
-          <td class="p-3">{{user.email}}
+        <tr *ngFor="
+          let user of filteredList
+            | paginate : { itemsPerPage: itemsPerPage, currentPage: p };
+          let i = index
+        " class="border-b hover:bg-gray-50">
+          <td class="p-3 text-sm">{{ i + 1 + (p - 1) * itemsPerPage }}</td>
+          <td class="p-3">
+            <div class="font-medium text-sm">{{user.name}}</div>
+            <div class="text-xs text-gray-500 md:hidden">{{user.mobile}}</div>
           </td>
-          <td class="p-3">{{user.createdAt | date}}</td>
+          <td class="p-3 text-sm hidden sm:table-cell">{{user.mobile}}</td>
+          <td class="p-3 text-sm hidden md:table-cell">{{user.city}}</td>
+          <td class="p-3 text-sm hidden lg:table-cell">{{user.email}}</td>
+          <td class="p-3 text-sm hidden md:table-cell">{{user.createdAt | date}}</td>
           <td class="p-3">
             <div class="flex gap-2">
-              <button (click)="openDeleteDialog(user)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Remove</button>
-              <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">
-                Edit
-              </button>
+              <button (click)="openDeleteDialog(user)" class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs sm:text-sm sm:px-3">Remove</button>
+              <button (click)="openDialog(true, user)" class="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-xs sm:text-sm sm:px-3">Edit</button>
             </div>
           </td>
         </tr>
@@ -56,122 +64,5 @@
     <pagination-controls
       (pageChange)="pageChanged($event)"
     ></pagination-controls>
-  </div>
-</div>
-<div class="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
-  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
-    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">User Details</h2>
-
-    <div class="space-y-3">
-      <div class="flex justify-between">
-        <span class="font-medium text-gray-700">User ID:</span>
-        <span class="text-gray-800">#001</span>
-      </div>
-
-      <div class="flex justify-between">
-        <span class="font-medium text-gray-700">Full Name:</span>
-        <span class="text-gray-800">John Doe</span>
-      </div>
-
-      <div class="flex justify-between">
-        <span class="font-medium text-gray-700">Email:</span>
-        <span class="text-gray-800">johncom</span>
-      </div>
-
-      <div class="flex justify-between">
-        <span class="font-medium text-gray-700">Role:</span>
-        <span class="text-gray-800">Admin</span>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <span class="font-medium text-gray-700">Status:</span>
-        <span class="px-3 py-1 bg-green-600 text-white rounded-full text-sm">Active</span>
-      </div>
-
-      <div class="flex justify-between">
-        <span class="font-medium text-gray-700">Joined Date:</span>
-        <span class="text-gray-800">2025-01-15</span>
-      </div>
-    </div>
-
-    <div class="flex justify-center mt-8 space-x-3">
-      <button class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-        Edit User
-      </button>
-      <button class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">
-        Back
-      </button>
-    </div>
-  </div>
-</div>
-<div class="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
-  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg">
-    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Edit User #001</h2>
-
-    <form class="space-y-4">
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Full Name</label>
-        <input
-          type="text"
-          value="John Doe"
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Email</label>
-        <input
-          type="email"
-          value="johncom"
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Role</label>
-        <select
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        >
-          <option selected>Admin</option>
-          <option>User</option>
-          <option>Moderator</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Status</label>
-        <select
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        >
-          <option selected>Active</option>
-          <option>Pending</option>
-          <option>Inactive</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1">Joined Date</label>
-        <input
-          type="date"
-          value="2025-01-15"
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-      </div>
-
-      <div class="flex justify-between mt-6">
-        <button
-          type="submit"
-          class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-        >
-          Update User
-        </button>
-        <button
-          type="button"
-          class="px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
   </div>
 </div>

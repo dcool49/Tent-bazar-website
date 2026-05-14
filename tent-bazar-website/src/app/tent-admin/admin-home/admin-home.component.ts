@@ -20,7 +20,12 @@ import { AuthService } from '../../services/auth.service';
 })
 export class AdminHomeComponent implements OnInit ,OnDestroy {
 activeTab = 0;
+isSidebarOpen = false;
 constructor(private route:Router, private authService:AuthService){}
+
+toggleSidebar() {
+  this.isSidebarOpen = !this.isSidebarOpen;
+}
   tabs = [
     { label: 'Dashboard', icon: '📊' },
     { label: 'Orders', icon: '📦' },

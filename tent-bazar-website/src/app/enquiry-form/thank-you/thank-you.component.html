@@ -10,10 +10,18 @@
 
     <!-- Thank You Text -->
     <h1 class="text-3xl font-bold text-gray-800 mb-4">Thank You!</h1>
-    <p class="text-gray-600 text-lg mb-6">
+    <p class="text-gray-600 text-lg mb-2">
       Your order has been successfully completed.<br>
       Our executive will reach out to you shortly.
     </p>
+
+    <!-- Order ID -->
+    @if (orderId) {
+      <div class="bg-orange-50 border border-orange-200 rounded-xl px-5 py-3 mb-6 block">
+        <p class="text-sm text-gray-500 mb-1">Order ID</p>
+        <p class="text-orange-600 font-semibold text-base tracking-wide">{{ orderId }}</p>
+      </div>
+    }
 
     <!-- Optional Button -->
     <a href="/" (click)="gotoHome()" class="inline-block bg-orange-500 text-white font-semibold py-3 px-8 rounded-full hover:bg-orange-600 transition-all shadow-md">
