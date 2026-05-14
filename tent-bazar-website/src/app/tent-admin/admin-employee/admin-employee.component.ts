@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { ViewEmployeeComponent } from './view-employee/view-employee.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmModalComponent } from '../../data-model/delete-confirm-modal/delete-confirm-modal.component';
 
@@ -58,6 +59,13 @@ export class AdminEmployeeComponent implements OnInit {
         );
       }
     
+      viewEmployee(emp: any): void {
+        this.dialog.open(ViewEmployeeComponent, {
+          width: '500px',
+          data: emp,
+        });
+      }
+
       openDeleteDialog(user: any): void {
         this.selectedID = user._id;
         const dialogRef = this.dialog.open(DeleteConfirmModalComponent, {

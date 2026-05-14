@@ -29,7 +29,8 @@ export class AdminLoginComponent {
     this.dataServive.postAPICall(url,payload).subscribe((res:any)=>{
       console.log("success",res);
       if(res.status){
-        localStorage.setItem('role',res.data[0].role);
+        localStorage.setItem('role', res.data[0].role);
+        localStorage.setItem('adminUser', JSON.stringify(res.data[0]));
         this.authService.login();
         this.route.navigate(['/admin-home'])
       }

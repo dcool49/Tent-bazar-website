@@ -1,21 +1,35 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin-top-nav',
-  standalone:false,
+  standalone: false,
   templateUrl: './admin-top-nav.component.html',
   styleUrl: './admin-top-nav.component.scss'
 })
-export class AdminTopNavComponent {
+export class AdminTopNavComponent implements OnInit {
   @Output() sidebarToggle = new EventEmitter<void>();
-  constructor(private authService:AuthService){}
+
+  adminName = '';
+  adminRole = '';
+  adminInitial = 'A';
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    const stored = JSON.parse(localStorage.getItem('adminUser') || 'null');
+    if (stored) {
+      this.adminName    = stored.name || '';
+      this.adminRole    = stored.role || '';
+      this.adminInitial = stored.name ? stored.name.charAt(0).toUpperCase() : 'A';
+    }
+  }
 
   toggleSidebar() {
     this.sidebarToggle.emit();
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
   }
 }

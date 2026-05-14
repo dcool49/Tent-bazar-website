@@ -12,9 +12,9 @@ export class ProductDetailsComponent implements OnInit {
   productId: any;
   productDetals: any;
   quantity: number = 1;
-  localStorageData = JSON.parse(localStorage.getItem("addedProduct") as any);
+  localStorageData: any[] = JSON.parse(localStorage.getItem("addedProduct") as any) ?? [];
   cartAdded = false;
-selectedImage: any;
+  selectedImage: any;
   constructor(private route: Router, private dataService: DataService) {
     this.productId = localStorage.getItem('productId');
     const index = this.localStorageData.findIndex((prod: any) => prod._id === this.productId)

@@ -11,16 +11,36 @@
   </div>
 
   <div class="flex items-center space-x-4 relative">
-     <!-- Profile Image with Dropdown -->
+     <!-- Profile Avatar with Dropdown -->
     <div class="relative group">
-      <img src="/assets/images/logo.svg" alt="Profile" class="h-8 w-8 rounded-full cursor-pointer" />
+      <button class="flex items-center justify-center w-9 h-9 bg-gray-900 text-white rounded-full font-bold text-sm shadow hover:bg-gray-700 transition">
+        {{ adminInitial }}
+      </button>
 
       <!-- Dropdown menu -->
       <div
-        class="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-10">
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
-        <a (click)="logout()" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+        class="absolute right-0 mt-2 w-44 bg-white border border-gray-100 rounded-xl shadow-xl opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-50">
+        <div class="px-4 py-3 border-b border-gray-100">
+          <p class="text-sm font-semibold text-gray-800 truncate">{{ adminName }}</p>
+          <p class="text-xs text-gray-400 capitalize">{{ adminRole }}</p>
+        </div>
+        <a routerLink="/admin-home/Profile"
+          class="flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 text-sm text-gray-700 transition">
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          Profile
+        </a>
+        <div class="border-t border-gray-100"></div>
+        <a (click)="logout()"
+          class="flex items-center gap-2 px-4 py-2.5 hover:bg-red-50 text-sm text-red-600 cursor-pointer transition rounded-b-xl">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Logout
+        </a>
       </div>
     </div>
     <!-- <input type="text" placeholder="Search..." class="border rounded px-3 py-1" /> -->

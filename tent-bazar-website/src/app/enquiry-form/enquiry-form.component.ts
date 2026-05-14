@@ -23,6 +23,17 @@ export class EnquiryFormComponent implements OnInit {
   localStorageProductData = JSON.parse(localStorage.getItem("addedProduct") as any);
   constructor(private route: Router, private dataService: DataService) { }
   ngOnInit(): void {
+    const savedData = JSON.parse(localStorage.getItem('enquiryUserData') || 'null');
+    if (savedData) {
+      this.myForm.patchValue({
+        name: savedData.name || '',
+        mobile: savedData.mobile || '',
+        addressLine: savedData.addressLine || '',
+        city: savedData.city || '',
+        state: savedData.state || '',
+        pinCode: savedData.pinCode || '',
+      });
+    }
   }
   goto(path: any) {
     this.route.navigate(['/', path]);
@@ -62,7 +73,14 @@ userVerification(){
   this.dataService.postAPICall(url,payload).subscribe((res:any)=>{
     this.currentStep = 2;
     this.dataService.userDetails = res.data;
-    localStorage.setItem('userId',this.dataService.userDetails['_id']);
+    const savedData = JSON.parse(localStorage.getItem('enquiryUserData') || '{}');
+    localStorage.setItem('enquiryUserData', JSON.stringify({
+      ...savedData,
+      userId: res.data._id,
+      name: this.myForm.get('name')?.value,
+      mobile: this.myForm.get('mobile')?.value,
+    }));
+    localStorage.setItem('userId', this.dataService.userDetails['_id']);
   },(err)=>{
     console.error(err);
   })
@@ -88,6 +106,14 @@ placeOrder(){
     if (res?.data?._id) {
       localStorage.setItem('orderId', res.data.orderId);
     }
+    const savedData = JSON.parse(localStorage.getItem('enquiryUserData') || '{}');
+    localStorage.setItem('enquiryUserData', JSON.stringify({
+      ...savedData,
+      addressLine: this.myForm.get('addressLine')?.value,
+      city: this.myForm.get('city')?.value,
+      state: this.myForm.get('state')?.value,
+      pinCode: this.myForm.get('pinCode')?.value,
+    }));
     this.goto('thankyou');
   },(err)=>{
     console.error(err);

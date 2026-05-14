@@ -19,8 +19,10 @@ import { AddCategoryComponent } from '../admin-category/add-category/add-categor
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AddEmployeeComponent } from '../admin-employee/add-employee/add-employee.component';
+import { ViewEmployeeComponent } from '../admin-employee/view-employee/view-employee.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddAdminUserComponent } from '../admin-users/add-admin-user/add-admin-user.component';
+import { AdminProfileComponent } from '../admin-profile/admin-profile.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { AddAdminUserComponent } from '../admin-users/add-admin-user/add-admin-u
     AdminViewOrderComponent,
     AddCategoryComponent,
     AddEmployeeComponent,
-    AddAdminUserComponent
+    ViewEmployeeComponent,
+    AddAdminUserComponent,
+    AdminProfileComponent
   ],
   imports: [
     CommonModule,

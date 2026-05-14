@@ -12,23 +12,34 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./header.component.scss']  // ⬅️ fix: use styleUrls (plural)
 })
 export class HeaderComponent implements DoCheck {
-  cartCount:number=0;
-  searchName:any = localStorage.getItem("searchName");
+  cartCount: number = 0;
+  searchName: any = localStorage.getItem("searchName");
+  isUserLoggedIn = false;
+  userInitial = '';
+  isMenuOpen = false;
+
   constructor(private route: Router) {}
+
   ngDoCheck(): void {
     const localStorageData = JSON.parse(localStorage.getItem("addedProduct") as any);
-    if(localStorageData){
-      this.cartCount = localStorageData.length;
-    }else{
-      this.cartCount = 0;
-    }
+    this.cartCount = localStorageData ? localStorageData.length : 0;
+
+    const userData = JSON.parse(localStorage.getItem('enquiryUserData') || 'null');
+    this.isUserLoggedIn = !!(userData?.userId);
+    this.userInitial = userData?.name ? userData.name.charAt(0).toUpperCase() : 'U';
+  }
+
+  logoutUser() {
+    localStorage.removeItem('enquiryUserData');
+    localStorage.removeItem('userId');
+    this.isUserLoggedIn = false;
+    this.closeMenu();
+    this.route.navigate(['/home']);
   }
 
   urlRout(path: string) {
     this.route.navigate(['/' + path]);
   }
-
-  isMenuOpen = false;
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

@@ -1,118 +1,102 @@
-<div class="flex items-center justify-center z-50">
-  <div id="addModal"  class="bg-white shadow-lg w-full max-w-md p-6">
-    <h3 *ngIf="!data.edit" class="text-xl font-semibold mb-4">Add Product</h3>
-    <h3 *ngIf="data.edit" class="text-xl font-semibold mb-4">Edit Product</h3>
-    <form [formGroup]="myForm" (ngSubmit)="uploadFile()" class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium mb-1">Image Upload</label>
-        <input
-          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-          type="file"
-          (change)="onFileSelected($event)"
-        />
+<div class="p-6">
+  <div class="flex items-center justify-between mb-5">
+    <h2 class="text-xl font-bold text-gray-800">{{ data.edit ? 'Edit Product' : 'Add Product' }}</h2>
+    <button type="button" (click)="onNoClick()" class="text-gray-400 hover:text-gray-600 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
 
-        <!-- Image Preview with Remove -->
-        <div *ngFor="let imgPreview of previewUrl;let i=index"  class="mt-2 relative w-32 h-32">
-          <img
-            [src]="imgPreview"
-            class="w-32 h-32 object-cover rounded-lg border"
-          />
+  <form [formGroup]="myForm" (ngSubmit)="uploadFile()" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Image Upload</label>
+      <input
+        class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        type="file"
+        (change)="onFileSelected($event)"
+      />
+      <div class="flex flex-wrap gap-2 mt-2">
+        <div *ngFor="let imgPreview of previewUrl; let i = index" class="relative w-20 h-20">
+          <img [src]="imgPreview" class="w-20 h-20 object-cover rounded-lg border" />
           <button
             type="button"
             (click)="removeImage(i)"
-            class="absolute top-0 right-0 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700"
-          >
-            &times;
-          </button>
+            class="absolute top-0 right-0 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-700 text-xs"
+          >&times;</button>
         </div>
       </div>
+    </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-          <label class="block text-sm font-medium mb-1">Product Name</label>
-          <input
-            formControlName="productName"
-            name="productName"
-            type="text"
-            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-            placeholder="Enter product name"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Category</label>
-          <!-- <input
-        
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+        <input
+          formControlName="productName"
           type="text"
-          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-          placeholder="e.g., Electronics"
-        /> -->
-          <select
-            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-            formControlName="category_id"
-            name="category_id"
-          >
-            <option *ngFor="let cat of category" [value]="cat._id">
-              {{ cat.categoryName }}
-            </option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Price (Rs)</label>
-          <input
-            formControlName="price"
-            name="price"
-            type="number"
-            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-            placeholder="Enter price"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Selling Price</label>
-          <input
-            formControlName="product_selling_price"
-            name="product_selling_price"
-            type="number"
-            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-            placeholder="Enter price"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Discount Price</label>
-          <input
-            formControlName="product_discount_price"
-            name="product_discount_price"
-            type="number"
-            class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-            placeholder="Enter price"
-          />
-        </div>
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Enter product name"
+        />
       </div>
       <div>
-        <label class="block text-sm font-medium mb-1">Summery</label>
-        <textarea
-          formControlName="summery"
-          name="summery"
-          type="text"
-          class="w-full border rounded-lg p-2 focus:ring focus:ring-green-200"
-          placeholder="Enter price"
-        ></textarea>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+        <select
+          formControlName="category_id"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        >
+          <option value="">Select category</option>
+          <option *ngFor="let cat of category" [value]="cat._id">{{ cat.categoryName }}</option>
+        </select>
       </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Price (Rs)</label>
+        <input
+          formControlName="price"
+          type="number"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="0"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Selling Price</label>
+        <input
+          formControlName="product_selling_price"
+          type="number"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="0"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Discount Price</label>
+        <input
+          formControlName="product_discount_price"
+          type="number"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="0"
+        />
+      </div>
+    </div>
 
-      <div class="flex justify-end gap-2 pt-2">
-        <button
-          type="button"
-          (click)="onNoClick()"
-          class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 text-sm"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
-        >
-          Save
-        </button>
-      </div>
-    </form>
-  </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Summary</label>
+      <textarea
+        formControlName="summery"
+        rows="3"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        placeholder="Enter product summary"
+      ></textarea>
+    </div>
+
+    <div class="flex justify-end gap-3 pt-2">
+      <button
+        type="button"
+        (click)="onNoClick()"
+        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition text-sm"
+      >Cancel</button>
+      <button
+        type="submit"
+        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm"
+      >{{ data.edit ? 'Update' : 'Save' }}</button>
+    </div>
+  </form>
 </div>

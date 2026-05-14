@@ -1,31 +1,20 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { AboutUsComponent } from './about-us/about-us.component';
-import { SubCategoryComponent } from './sub-category/sub-category.component';
-import { ProductDetailsComponent } from './product-details/product-details.component';
-import { CartDetailsComponent } from './cart-details/cart-details.component';
-import { AdminLoginComponent } from './admin-login/admin-login.component';
-import { ProductListSearchComponent } from './product-list-search/product-list-search.component';
-import { EnquiryFormComponent } from './enquiry-form/enquiry-form.component';
-import { AdminHomeComponent } from './tent-admin/admin-home/admin-home.component';
-import { ThankYouComponent } from './enquiry-form/thank-you/thank-you.component';
-import { OfferServiceComponent } from './landing-sections/offer-service/offer-service.component';
-import { MobileSectionComponent } from './landing-sections/mobile-section/mobile-section.component';
-import { ContactUsComponent } from './contact-us/contact-us.component';
 import { authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'about-us', component: AboutUsComponent },
-  { path: 'sub-category', component: SubCategoryComponent },
-  { path: 'details', component: ProductDetailsComponent },
-  { path: 'cart', component: CartDetailsComponent },
-  { path: 'admin-login', component: AdminLoginComponent },
-  { path: 'product-search/:search', component: ProductListSearchComponent },
-  { path: 'enquiry', component: EnquiryFormComponent },
-  {path: 'catogery', component:OfferServiceComponent},
-  {path: 'mobile-app', component:MobileSectionComponent},
-  {path: 'contact', component: ContactUsComponent},
+  { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
+  { path: 'my-orders', loadComponent: () => import('./user-orders/user-orders.component').then(m => m.UserOrdersComponent) },
+  { path: 'my-profile', loadComponent: () => import('./user-profile/user-profile.component').then(m => m.UserProfileComponent) },
+  { path: 'about-us', loadComponent: () => import('./about-us/about-us.component').then(m => m.AboutUsComponent) },
+  { path: 'sub-category', loadComponent: () => import('./sub-category/sub-category.component').then(m => m.SubCategoryComponent) },
+  { path: 'details', loadComponent: () => import('./product-details/product-details.component').then(m => m.ProductDetailsComponent) },
+  { path: 'cart', loadComponent: () => import('./cart-details/cart-details.component').then(m => m.CartDetailsComponent) },
+  { path: 'admin-login', loadComponent: () => import('./admin-login/admin-login.component').then(m => m.AdminLoginComponent) },
+  { path: 'product-search/:search', loadComponent: () => import('./product-list-search/product-list-search.component').then(m => m.ProductListSearchComponent) },
+  { path: 'enquiry', loadComponent: () => import('./enquiry-form/enquiry-form.component').then(m => m.EnquiryFormComponent) },
+  { path: 'catogery', loadComponent: () => import('./landing-sections/offer-service/offer-service.component').then(m => m.OfferServiceComponent) },
+  { path: 'mobile-app', loadComponent: () => import('./landing-sections/mobile-section/mobile-section.component').then(m => m.MobileSectionComponent) },
+  { path: 'contact', loadComponent: () => import('./contact-us/contact-us.component').then(m => m.ContactUsComponent) },
   {
     path: 'admin-home',
     canActivate: [authGuard],
@@ -34,7 +23,7 @@ export const routes: Routes = [
         (m) => m.AdminCrmModule
       ),
   },
-  { path: 'thankyou', component: ThankYouComponent },
-  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'thankyou', loadComponent: () => import('./enquiry-form/thank-you/thank-you.component').then(m => m.ThankYouComponent) },
+  { path: '', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent), pathMatch: 'full' },
   { path: '**', redirectTo: '' },
 ];
