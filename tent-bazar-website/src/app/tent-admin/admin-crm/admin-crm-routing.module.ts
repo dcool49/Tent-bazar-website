@@ -13,6 +13,7 @@ import { AddProductComponent } from '../admin-products/add-product/add-product.c
 import { AdminBannerComponent } from '../admin-banner/admin-banner.component';
 import { AdminViewOrderComponent } from '../admin-order/admin-view-order/admin-view-order.component';
 import { AdminProfileComponent } from '../admin-profile/admin-profile.component';
+import { roleGuard } from '../../guard/role.guard';
 
 const routes: Routes = [
   {
@@ -23,15 +24,15 @@ const routes: Routes = [
       { path: 'Dashboard', component: AdminDashboardComponent },
       { path: 'Orders', component: AdminOrderComponent },
       { path: 'Users', component: AdminUsersComponent },
-      { path: 'Employees', component: AdminEmployeeComponent },
       { path: 'Products', component: AdminProductsComponent },
       { path: 'Category', component: AdminCategoryComponent },
-      { path: 'YouTube', component: AdminYoutubeUrlComponent },
-      { path: 'Instagram', component: AdminInstagramUrlComponent },
-      { path: 'AddProduct', component: AddProductComponent },
-      { path: 'banner', component: AdminBannerComponent },
       { path: 'view-order', component: AdminViewOrderComponent },
-      { path: 'Profile', component: AdminProfileComponent },
+      { path: 'Employees', component: AdminEmployeeComponent, canActivate: [roleGuard] },
+      { path: 'YouTube', component: AdminYoutubeUrlComponent, canActivate: [roleGuard] },
+      { path: 'Instagram', component: AdminInstagramUrlComponent, canActivate: [roleGuard] },
+      { path: 'AddProduct', component: AddProductComponent, canActivate: [roleGuard] },
+      { path: 'banner', component: AdminBannerComponent, canActivate: [roleGuard] },
+      { path: 'Profile', component: AdminProfileComponent, canActivate: [roleGuard] },
       { path: '**', redirectTo: '' },
     ],
   },

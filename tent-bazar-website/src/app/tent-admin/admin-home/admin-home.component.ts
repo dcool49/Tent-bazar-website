@@ -21,22 +21,28 @@ import { AuthService } from '../../services/auth.service';
 export class AdminHomeComponent implements OnInit ,OnDestroy {
 activeTab = 0;
 isSidebarOpen = false;
+isAdmin = localStorage.getItem('role') === 'admin';
 constructor(private route:Router, private authService:AuthService){}
 
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }
-  tabs = [
-    { label: 'Dashboard', icon: '📊' },
-    { label: 'Orders', icon: '📦' },
-    { label: 'Users', icon: '👤' },
-    { label: 'Employees', icon: '👨‍💼' },
-    { label: 'Products', icon: '🛒' },
-    { label: 'Category', icon: '🗂️' },
-    { label: 'YouTube', icon: '🎥' },
-    { label: 'Instagram', icon: '📸' },
-    { label: 'banner', icon:'🖼️'}
+
+  allTabs = [
+    { label: 'Dashboard', icon: '📊', adminOnly: false },
+    { label: 'Orders', icon: '📦', adminOnly: false },
+    { label: 'Users', icon: '👤', adminOnly: false },
+    { label: 'Products', icon: '🛒', adminOnly: false },
+    { label: 'Category', icon: '🗂️', adminOnly: false },
+    { label: 'Employees', icon: '👨‍💼', adminOnly: true },
+    { label: 'YouTube', icon: '🎥', adminOnly: true },
+    { label: 'Instagram', icon: '📸', adminOnly: true },
+    { label: 'banner', icon: '🖼️', adminOnly: true },
   ];
+
+  get tabs() {
+    return this.allTabs.filter(tab => !tab.adminOnly || this.isAdmin);
+  }
 
   setTab(i: number) {
     this.activeTab = i;

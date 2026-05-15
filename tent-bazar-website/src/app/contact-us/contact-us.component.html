@@ -66,34 +66,38 @@
       <div>
         <h3 class="text-2xl font-semibold text-gray-800 mb-4">Send us a Message</h3>
 
-        <form class="space-y-4">
+        <form class="space-y-4" #contactForm="ngForm" (ngSubmit)="onSubmit()">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-            <input type="text" placeholder="Enter your name"
+            <input type="text" name="name" placeholder="Enter your name" required
+              [(ngModel)]="formData.name"
               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff6600]" />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-            <input type="email" placeholder="Enter your email"
+            <input type="email" name="email" placeholder="Enter your email"
+              [(ngModel)]="formData.email"
               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff6600]" />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-            <input type="text" placeholder="Subject"
+            <input type="text" name="subject" placeholder="Subject" required
+              [(ngModel)]="formData.subject"
               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff6600]" />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-            <textarea rows="4" placeholder="Write your message..."
+            <textarea rows="4" name="message" placeholder="Write your message..." required
+              [(ngModel)]="formData.message"
               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff6600]"></textarea>
           </div>
 
-          <button type="submit"
-            class="w-full bg-[#ff6600] hover:bg-[#e65c00] text-white font-semibold py-2 px-4 rounded-md transition duration-200">
-            Send Message
+          <button type="submit" [disabled]="contactForm.invalid"
+            class="w-full bg-[#ff6600] hover:bg-[#e65c00] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2 px-4 rounded-md transition duration-200">
+            Send on WhatsApp
           </button>
         </form>
       </div>
