@@ -19,9 +19,15 @@ export class AdminViewOrderComponent implements OnInit {
   employeeId:any;
   statusList =['TO-DO','In-progress','Done','Cancle','Hold'];
   selectedStatus:any;
+  isAdmin = localStorage.getItem('role') === 'admin';
+  showAddProduct = false;
+  productSearch = '';
+  productSearchResults: any[] = [];
+  searchingProducts = false;
+
   constructor(public dataService: DataService,public dialog: MatDialog,private route: Router,){
     if(this.dataService.selectedOrder){
-      this.employeeId = this.dataService.selectedOrder?.empId?._id;
+      this.employeeId = this.dataService.selectedOrder?.empId?._id || '';
       this.selectedStatus = this.dataService.selectedOrder.status;
       this.getCatList();
     }
@@ -64,13 +70,13 @@ export class AdminViewOrderComponent implements OnInit {
 
 
     openDialog(prod: any,index:number): void {
-      this.selectedID = prod._id;
+      this.selectedID = prod.productId._id;
       const dialogRef = this.dialog.open(DeleteConfirmModalComponent, {
         width: '500px',
         data: {
           heading: 'Delete Product',
           msg: 'Are you sure you want to delete',
-          name: prod.productName,
+          name: prod.productId.productName,
         },
       });
   
@@ -85,9 +91,13 @@ export class AdminViewOrderComponent implements OnInit {
   }
   
     openViewDialog(prod: any): void {
-      localStorage.setItem('productId', prod._id);
-      const dialogRef = this.dialog.open(ProductDetailsComponent, {});
-  
+      localStorage.setItem('productId', prod.productId._id);
+      const dialogRef = this.dialog.open(ProductDetailsComponent, {
+        width: '90vw',
+        maxWidth: '900px',
+        data: { adminView: true },
+      });
+
       dialogRef.afterClosed().subscribe((result) => {
       });
     }
@@ -96,16 +106,17 @@ export class AdminViewOrderComponent implements OnInit {
     }
  
     getorder() {
-      const url = 'order/fetch?_id='+this.dataService.selectedOrder._id;
-      this.dataService.getAPICall(url).subscribe(
-        (res: any) => {
+      const url = 'order/fetch';
+      const payload = { _id: this.dataService.selectedOrder._id };
+      this.dataService.postAPICall(url, payload).subscribe({
+        next: (res: any) => {
           this.orderData = res.data[0];
           console.log("order",res.data)
         },
-        (err) => {
+        error: (err) => {
           console.error(err);
         }
-      );
+      });
     }
 
 orderUpdate(){
@@ -125,6 +136,62 @@ orderUpdate(){
       console.error(err);
     }
   )
+}
+
+downloadPdf() {
+  window.print();
+}
+
+toggleAddProduct() {
+  this.showAddProduct = !this.showAddProduct;
+  if (!this.showAddProduct) {
+    this.productSearch = '';
+    this.productSearchResults = [];
+  }
+}
+
+private debounceTimer: any;
+onProductSearch() {
+  clearTimeout(this.debounceTimer);
+  if (!this.productSearch.trim()) {
+    this.productSearchResults = [];
+    return;
+  }
+  this.debounceTimer = setTimeout(() => {
+    this.searchingProducts = true;
+    const url = 'product/fetch?search=' + encodeURIComponent(this.productSearch.trim());
+    this.dataService.getAPICall(url).subscribe({
+      next: (res: any) => {
+        this.productSearchResults = res.data || [];
+        this.searchingProducts = false;
+      },
+      error: () => {
+        this.searchingProducts = false;
+      }
+    });
+  }, 350);
+}
+
+addProductToOrder(prod: any) {
+  const alreadyAdded = this.orderData.productDetails?.some(
+    (p: any) => p.productId?._id === prod._id
+  );
+  if (!alreadyAdded) {
+    this.orderData.productDetails.push({ productId: prod, quantity: 1 });
+  }
+  this.showAddProduct = false;
+  this.productSearch = '';
+  this.productSearchResults = [];
+}
+
+increaseQty(prod: any) {
+  prod.quantity = (prod.quantity || 1) + 1;
+}
+
+decreaseQty(prod: any) {
+  if ((prod.quantity || 1) > 1) {
+    prod.quantity = prod.quantity - 1;
+  }
 }
 
 getemployeeList(){

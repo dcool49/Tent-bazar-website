@@ -29,15 +29,15 @@ toggleSidebar() {
 }
 
   allTabs = [
-    { label: 'Dashboard', icon: '📊', adminOnly: false },
-    { label: 'Orders', icon: '📦', adminOnly: false },
-    { label: 'Users', icon: '👤', adminOnly: false },
-    { label: 'Products', icon: '🛒', adminOnly: false },
-    { label: 'Category', icon: '🗂️', adminOnly: false },
-    { label: 'Employees', icon: '👨‍💼', adminOnly: true },
-    { label: 'YouTube', icon: '🎥', adminOnly: true },
-    { label: 'Instagram', icon: '📸', adminOnly: true },
-    { label: 'banner', icon: '🖼️', adminOnly: true },
+    { label: 'Dashboard', icon: 'bi bi-speedometer2', adminOnly: false },
+    { label: 'Orders', icon: 'bi bi-box-seam', adminOnly: false },
+    { label: 'Users', icon: 'bi bi-people', adminOnly: false },
+    { label: 'Products', icon: 'bi bi-bag', adminOnly: false },
+    { label: 'Category', icon: 'bi bi-grid', adminOnly: false },
+    { label: 'Employees', icon: 'bi bi-person-badge', adminOnly: true },
+    { label: 'YouTube', icon: 'bi bi-youtube', adminOnly: true },
+    { label: 'Instagram', icon: 'bi bi-instagram', adminOnly: true },
+    { label: 'banner', icon: 'bi bi-image', adminOnly: true },
   ];
 
   get tabs() {

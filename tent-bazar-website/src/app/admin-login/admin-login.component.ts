@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-login',
@@ -15,10 +16,10 @@ export class AdminLoginComponent {
   phoneNumber:any;
   password:any;
   passType = 'password';
-  constructor(private dataServive:DataService, private route:Router,private authService:AuthService){}
+  constructor(private dataServive:DataService, private route:Router, private authService:AuthService, private toastr:ToastrService){}
   login(){
     if(!this.phoneNumber || !this.password){
-      alert("password or mobile number is required");
+      this.toastr.warning('Phone number and password are required', 'Missing Fields');
       return;
     }
     const url = 'user/v2/login';
@@ -26,16 +27,26 @@ export class AdminLoginComponent {
       mobile:this.phoneNumber,
       password:this.password
     }
-    this.dataServive.postAPICall(url,payload).subscribe((res:any)=>{
-      console.log("success",res);
-      if(res.status){
-        localStorage.setItem('role', res.data[0].role);
-        localStorage.setItem('adminUser', JSON.stringify(res.data[0]));
-        this.authService.login();
-        this.route.navigate(['/admin-home'])
+    this.dataServive.postAPICall(url,payload).subscribe({
+      next: (res:any)=>{
+        if(res.status){
+          localStorage.setItem('role', res.data[0].role);
+          localStorage.setItem('adminUser', JSON.stringify(res.data[0]));
+          const token = res.token || res.data[0]?.token;
+          if (token) {
+            localStorage.setItem('token', token);
+          }
+          this.authService.login();
+          this.toastr.success('Welcome back!', 'Login Successful');
+          this.route.navigate(['/admin-home'])
+        } else {
+          this.toastr.error('Invalid credentials. Please try again.', 'Login Failed');
+        }
+      },
+      error: (err)=>{
+        const msg = err?.error?.message || 'Something went wrong. Please try again.';
+        this.toastr.error(msg, 'Login Failed');
       }
-    },(err)=>{
-      console.log(err)
     })
   }
 }

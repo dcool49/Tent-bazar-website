@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-product-details',
   imports: [CommonModule],
@@ -15,7 +16,13 @@ export class ProductDetailsComponent implements OnInit {
   localStorageData: any[] = JSON.parse(localStorage.getItem("addedProduct") as any) ?? [];
   cartAdded = false;
   selectedImage: any;
-  constructor(private route: Router, private dataService: DataService) {
+  adminView = false;
+  constructor(
+    private route: Router,
+    private dataService: DataService,
+    @Optional() @Inject(MAT_DIALOG_DATA) dialogData: any,
+  ) {
+    this.adminView = !!dialogData?.adminView;
     this.productId = localStorage.getItem('productId');
     const index = this.localStorageData.findIndex((prod: any) => prod._id === this.productId)
     if (index != -1) {

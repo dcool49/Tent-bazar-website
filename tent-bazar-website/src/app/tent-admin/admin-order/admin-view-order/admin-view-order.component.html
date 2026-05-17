@@ -1,102 +1,310 @@
-<div class="p-6">
-  <h2 class="text-xl font-bold mb-5 text-gray-800">
-    Order #{{ dataService.selectedOrder.orderId }}
-  </h2>
+<div class="min-h-screen bg-gray-50 p-6">
 
-  <form class="space-y-4">
-    <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-      <span class="font-medium text-gray-600">Order ID</span>
-      <span class="text-gray-800">#{{ dataService.selectedOrder.orderId }}</span>
-
-      <span class="font-medium text-gray-600">Customer Name</span>
-      <span class="text-gray-800">{{orderData?.buyerId?.name}}</span>
-
-      <span class="font-medium text-gray-600">Mobile</span>
-      <span class="text-gray-800">{{orderData?.buyerId?.mobile}}</span>
-
-      <span class="font-medium text-gray-600">Address</span>
-      <span class="text-gray-800">{{orderData?.addressLine}}</span>
-
-      <span class="font-medium text-gray-600">City</span>
-      <span class="text-gray-800">{{orderData?.city}}</span>
-
-      <span class="font-medium text-gray-600">State</span>
-      <span class="text-gray-800">{{orderData?.state}}</span>
+  <!-- Print-only header -->
+  <div class="print-only mb-6 border-b border-gray-300 pb-4">
+    <h1 class="text-2xl font-bold text-gray-800">
+      Order <span class="text-indigo-600">#{{ dataService.selectedOrder?.orderId }}</span>
+    </h1>
+    <div class="flex items-center gap-6 mt-2 text-sm text-gray-500">
+      <span><strong>Date:</strong> {{ orderData?.createdAt | date:'dd MMM yyyy, hh:mm a' }}</span>
+      <span><strong>Status:</strong> {{ selectedStatus }}</span>
     </div>
+  </div>
 
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-      <select
-        [(ngModel)]="selectedStatus"
-        name="status"
-        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+  <!-- Page Header -->
+  <div class="flex flex-wrap items-center gap-3 mb-6 no-print">
+    <button
+      (click)="urlRout('Orders')"
+      class="p-2 rounded-xl bg-white border border-gray-200 hover:bg-gray-100 transition shadow-sm flex-shrink-0"
+    >
+      <i class="bi bi-arrow-left text-gray-600 text-base"></i>
+    </button>
+    <div class="flex-1 min-w-0">
+      <h1 class="text-xl font-bold text-gray-800 truncate">
+        Order <span class="text-indigo-600">#{{ dataService.selectedOrder?.orderId }}</span>
+      </h1>
+      <p class="text-sm text-gray-500 mt-0.5">View and manage order details</p>
+    </div>
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <span
+        class="text-xs font-semibold px-3 py-1.5 rounded-full"
+        [ngClass]="{
+          'bg-gray-100 text-gray-600':      selectedStatus === 'TO-DO',
+          'bg-yellow-50 text-yellow-600':   selectedStatus === 'In-progress',
+          'bg-emerald-50 text-emerald-600': selectedStatus === 'Done',
+          'bg-red-50 text-red-500':         selectedStatus === 'Cancle',
+          'bg-orange-50 text-orange-500':   selectedStatus === 'Hold'
+        }"
+      >{{ selectedStatus }}</span>
+      <button
+        (click)="downloadPdf()"
+        class="flex items-center gap-1.5 px-3 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition text-sm font-medium shadow-sm"
       >
-        <option *ngFor="let sts of statusList" [value]="sts">{{sts}}</option>
-      </select>
+        <i class="bi bi-file-earmark-pdf text-base"></i>
+        <span class="hidden sm:inline">Download PDF</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Customer Details + Order Management -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 print-single-col">
+
+    <!-- Customer Details -->
+    <div class="bg-white rounded-2xl shadow-sm p-6">
+      <div class="flex items-center gap-2 mb-5">
+        <div class="bg-blue-100 p-2 rounded-xl">
+          <i class="bi bi-person text-blue-600 text-base"></i>
+        </div>
+        <h2 class="text-base font-semibold text-gray-800">Customer Details</h2>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+          <i class="bi bi-person-circle text-gray-400 text-lg mt-0.5"></i>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wide">Customer Name</p>
+            <p class="text-sm font-medium text-gray-800 mt-0.5">{{ orderData?.buyerId?.name || '—' }}</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+          <i class="bi bi-telephone text-gray-400 text-lg mt-0.5"></i>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wide">Mobile</p>
+            <p class="text-sm font-medium text-gray-800 mt-0.5">{{ orderData?.buyerId?.mobile || '—' }}</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+          <i class="bi bi-geo-alt text-gray-400 text-lg mt-0.5"></i>
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wide">Delivery Address</p>
+            <p class="text-sm font-medium text-gray-800 mt-0.5">
+              {{ orderData?.addressLine || '—' }}
+            </p>
+            <p class="text-xs text-gray-500 mt-0.5" *ngIf="orderData?.city || orderData?.state">
+              {{ orderData?.city }}<span *ngIf="orderData?.city && orderData?.state">, </span>{{ orderData?.state }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Assign Employee</label>
-      <select
-        [(ngModel)]="employeeId"
-        name="employeeId"
-        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+    <!-- Order Management (screen only) -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 no-print">
+      <div class="flex items-center gap-2 mb-5">
+        <div class="bg-indigo-100 p-2 rounded-xl">
+          <i class="bi bi-gear text-indigo-600 text-base"></i>
+        </div>
+        <h2 class="text-base font-semibold text-gray-800">Order Management</h2>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+            Order Status
+          </label>
+          <select
+            [(ngModel)]="selectedStatus"
+            name="status"
+            class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 bg-gray-50 focus:ring-2 focus:ring-indigo-400 focus:outline-none focus:bg-white transition"
+          >
+            <option *ngFor="let sts of statusList" [value]="sts">{{ sts }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+            Assigned Employee
+          </label>
+          <select
+            [(ngModel)]="employeeId"
+            name="employeeId"
+            [disabled]="!isAdmin"
+            class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 bg-gray-50 focus:ring-2 focus:ring-indigo-400 focus:outline-none focus:bg-white transition"
+            [class.opacity-60]="!isAdmin"
+            [class.cursor-not-allowed]="!isAdmin"
+          >
+            <option value="">Unassigned</option>
+            <option *ngFor="let emp of employeeList" [value]="emp._id">{{ emp.name }}</option>
+          </select>
+          <p *ngIf="!isAdmin" class="mt-1.5 text-xs text-gray-400">
+            <i class="bi bi-lock mr-1"></i>Only admins can assign employees.
+          </p>
+        </div>
+
+        <div class="pt-1">
+          <div class="flex items-center gap-2 p-3 bg-gray-50 rounded-xl">
+            <i class="bi bi-calendar3 text-gray-400"></i>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Order Date</p>
+              <p class="text-sm font-medium text-gray-800 mt-0.5">
+                {{ orderData?.createdAt | date:'dd MMM yyyy, hh:mm a' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Products Table -->
+  <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+    <div class="flex items-center justify-between mb-5">
+      <div class="flex items-center gap-2">
+        <div class="bg-orange-100 p-2 rounded-xl">
+          <i class="bi bi-box-seam text-orange-500 text-base"></i>
+        </div>
+        <h2 class="text-base font-semibold text-gray-800">
+          Products
+          <span class="ml-1.5 text-xs font-semibold bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
+            {{ orderData?.productDetails?.length || 0 }}
+          </span>
+        </h2>
+      </div>
+      <button
+        (click)="toggleAddProduct()"
+        class="no-print flex items-center gap-1.5 px-3 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition text-sm font-medium shadow-sm"
       >
-        <option value="">Select employee</option>
-        <option *ngFor="let emp of employeeList" [value]="emp._id">{{emp.name}}</option>
-      </select>
+        <i class="bi bi-plus-lg text-base"></i>
+        <span>Add Product</span>
+      </button>
     </div>
 
-    <div class="overflow-x-auto rounded-lg border border-gray-200">
-      <table class="w-full border-collapse text-sm">
+    <!-- Add Product Search Panel -->
+    <div *ngIf="showAddProduct" class="no-print mb-5 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+      <p class="text-xs font-semibold text-indigo-700 uppercase tracking-wide mb-3">Search & Add Product</p>
+      <div class="relative">
+        <input
+          type="text"
+          [(ngModel)]="productSearch"
+          (input)="onProductSearch()"
+          placeholder="Type product name to search..."
+          class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 bg-white focus:ring-2 focus:ring-indigo-400 focus:outline-none pr-10"
+        />
+        <i class="bi bi-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none"></i>
+      </div>
+
+      <!-- Search Results -->
+      <div *ngIf="productSearchResults.length > 0" class="mt-3 max-h-64 overflow-y-auto rounded-xl border border-gray-100 bg-white shadow-sm divide-y divide-gray-50">
+        <div
+          *ngFor="let prod of productSearchResults"
+          class="flex items-center gap-3 px-4 py-3 hover:bg-indigo-50 transition cursor-pointer"
+          (click)="addProductToOrder(prod)"
+        >
+          <img
+            [src]="prod.image?.[0]?.img_name"
+            class="w-10 h-10 object-cover rounded-lg border border-gray-100 flex-shrink-0"
+            onerror="this.src='assets/placeholder.png'"
+          />
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-gray-800 truncate">{{ prod.productName }}</p>
+            <p class="text-xs text-gray-400 mt-0.5">₹ {{ prod.price }}</p>
+          </div>
+          <button class="flex-shrink-0 px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium hover:bg-indigo-700 transition">
+            <i class="bi bi-plus-lg mr-1"></i>Add
+          </button>
+        </div>
+      </div>
+
+      <p *ngIf="productSearch && productSearchResults.length === 0 && !searchingProducts" class="mt-3 text-sm text-gray-400 text-center py-3">
+        No products found for "{{ productSearch }}"
+      </p>
+      <p *ngIf="searchingProducts" class="mt-3 text-sm text-gray-400 text-center py-3">
+        <i class="bi bi-arrow-repeat animate-spin mr-1"></i>Searching...
+      </p>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
         <thead>
-          <tr class="bg-gray-50 text-left">
-            <th class="p-3 text-gray-600 font-medium">#</th>
-            <th class="p-3 text-gray-600 font-medium">Image</th>
-            <th class="p-3 text-gray-600 font-medium">Name</th>
-            <th class="p-3 text-gray-600 font-medium">Category</th>
-            <th class="p-3 text-gray-600 font-medium">Price</th>
-            <th class="p-3 text-gray-600 font-medium">Date</th>
-            <th class="p-3 text-gray-600 font-medium text-center">Actions</th>
+          <tr class="border-b border-gray-100">
+            <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">#</th>
+            <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">Product</th>
+            <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">Category</th>
+            <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">Price</th>
+            <th class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">Quantity</th>
+            <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">Added On</th>
+            <th class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 no-print">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let prod of orderData?.productDetails; let i = index" class="border-t hover:bg-gray-50">
-            <td class="p-3">{{ i + 1 }}</td>
-            <td class="p-3">
-              <img [src]="prod.productId.image[0].img_name" class="w-10 h-10 object-cover rounded" />
+          <tr
+            *ngFor="let prod of orderData?.productDetails; let i = index"
+            class="border-b border-gray-50 hover:bg-gray-50 transition"
+          >
+            <td class="py-4 pr-4 text-gray-400 font-medium">{{ i + 1 }}</td>
+            <td class="py-4 pr-4">
+              <div class="flex items-center gap-3">
+                <img
+                  [src]="prod.productId?.image?.[0]?.img_name"
+                  class="w-12 h-12 object-cover rounded-xl border border-gray-100 flex-shrink-0"
+                  onerror="this.src='assets/placeholder.png'"
+                />
+                <span class="font-medium text-gray-800">{{ prod.productId?.productName }}</span>
+              </div>
             </td>
-            <td class="p-3">{{ prod.productId.productName }}</td>
-            <td class="p-3">{{ getcatName(prod.productId.category_id) }}</td>
-            <td class="p-3">Rs {{ prod.productId.price }}</td>
-            <td class="p-3">{{ prod.productId.createdAt | date }}</td>
-            <td class="p-3">
-              <div class="flex gap-2 justify-center">
+            <td class="py-4 pr-4 text-gray-500">{{ getcatName(prod.productId?.category_id) }}</td>
+            <td class="py-4 pr-4 font-semibold text-gray-800">₹ {{ prod.productId?.price }}</td>
+            <td class="py-4 pr-4">
+              <div class="flex items-center justify-center gap-1">
+                <button
+                  (click)="decreaseQty(prod)"
+                  class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 transition font-bold text-base leading-none"
+                >−</button>
+                <span class="w-8 text-center text-sm font-semibold text-gray-800">{{ prod.quantity || 1 }}</span>
+                <button
+                  (click)="increaseQty(prod)"
+                  class="w-7 h-7 flex items-center justify-center rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-700 transition font-bold text-base leading-none"
+                >+</button>
+              </div>
+            </td>
+            <td class="py-4 pr-4 text-gray-500">{{ prod.productId?.createdAt | date:'dd MMM yyyy' }}</td>
+            <td class="py-4 text-center no-print">
+              <div class="flex items-center justify-center gap-2">
                 <button
                   (click)="openViewDialog(prod)"
-                  class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
-                >View</button>
+                  class="px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition text-xs font-medium"
+                >
+                  <i class="bi bi-eye mr-1"></i>View
+                </button>
                 <button
                   (click)="openDialog(prod, i)"
-                  class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
-                >Delete</button>
+                  class="px-3 py-1.5 bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition text-xs font-medium"
+                >
+                  <i class="bi bi-trash mr-1"></i>Remove
+                </button>
               </div>
+            </td>
+          </tr>
+          <tr *ngIf="!orderData?.productDetails?.length">
+            <td colspan="7" class="py-10 text-center text-gray-400 text-sm">
+              <i class="bi bi-box-seam text-3xl block mb-2 text-gray-300"></i>
+              No products found.
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+  </div>
 
-    <div class="flex justify-end gap-3 pt-2">
-      <button
-        type="button"
-        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition text-sm"
-      >Cancel</button>
-      <button
-        type="button"
-        (click)="orderUpdate()"
-        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm"
-      >Update Order</button>
-    </div>
-  </form>
+  <!-- Action Buttons -->
+  <div class="flex justify-end gap-3 no-print">
+    <button
+      type="button"
+      (click)="urlRout('Orders')"
+      class="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition text-sm font-medium shadow-sm"
+    >
+      <i class="bi bi-x-lg mr-1.5"></i>Cancel
+    </button>
+    <button
+      type="button"
+      (click)="orderUpdate()"
+      class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition text-sm font-medium shadow-sm"
+    >
+      <i class="bi bi-check-lg mr-1.5"></i>Update Order
+    </button>
+  </div>
+
 </div>

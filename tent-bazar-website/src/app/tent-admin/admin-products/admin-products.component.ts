@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmModalComponent } from '../../data-model/delete-confirm-modal/delete-confirm-modal.component';
 import { ProductDetailsComponent } from '../../product-details/product-details.component';
 import { AddProductComponent } from './add-product/add-product.component';
+
 @Component({
   selector: 'app-admin-products',
   standalone: false,
@@ -16,14 +17,14 @@ export class AdminProductsComponent implements OnInit {
   searchName = '';
   category: any;
   selectedID: any;
-  p: number = 1; // Current page
-  itemsPerPage: number = 10; // Items per page
+  p: number = 1;
+  itemsPerPage: number = 10;
   value: any = '';
 
-  // Optional: Function to handle page changes
   pageChanged(event: any) {
     this.p = event;
   }
+
   constructor(
     private route: Router,
     private dataService: DataService,
@@ -31,111 +32,88 @@ export class AdminProductsComponent implements OnInit {
   ) {
     this.getCatList();
   }
+
   ngOnInit(): void {
     this.getProductList();
   }
 
   getProductList() {
     const url = 'product/fetch?search=' + this.searchName;
-    this.dataService.getAPICall(url).subscribe(
-      (res: any) => {
-        this.productList = res.data;
-        this.productList = this.productList.sort((a: any, b: any) => {
-          const dateA =
-            a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
-          const dateB =
-            b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
-
-          // For ascending order: dateA.getTime() - dateB.getTime()
-          // For descending order: dateB.getTime() - dateA.getTime()
-          return dateB.getTime() - dateA.getTime();
-        });
+    this.dataService.getAPICall(url).subscribe({
+      next: (res: any) => {
+        this.productList = res.data.sort((a: any, b: any) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       },
-      (err) => {
+      error: (err) => {
         console.error(err);
         this.productList = [];
-      }
-    );
+      },
+    });
   }
 
   getCatList() {
     const url = 'category/fetch';
-    this.dataService.getAPICall(url).subscribe(
-      (res: any) => {
-        this.category = res.data;
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+    this.dataService.getAPICall(url).subscribe({
+      next: (res: any) => { this.category = res.data; },
+      error: (err) => { console.error(err); },
+    });
   }
 
   getcatName(id: any): String {
     if (this.category.length > 1) {
       const index = this.category.findIndex((val: any) => id === val._id);
-      if (index !== -1) {
-        return this.category[index]?.categoryName;
-      } else {
-        return '-';
-      }
-    } else {
-      return '-';
+      return index !== -1 ? this.category[index]?.categoryName : '-';
     }
+    return '-';
   }
 
   deleteProduct(id: any) {
     const url = 'product/delete?_id=' + id;
-    this.dataService.deleteAPICall(url).subscribe(
-      (res: any) => {
-        console.info(res);
-        this.getProductList();
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+    this.dataService.deleteAPICall(url).subscribe({
+      next: () => { this.getProductList(); },
+      error: (err) => { console.error(err); },
+    });
   }
 
   openDialog(prod: any): void {
     this.selectedID = prod._id;
     const dialogRef = this.dialog.open(DeleteConfirmModalComponent, {
-      width: '500px',
+      width: '420px',
       data: {
         heading: 'Delete Product',
         msg: 'Are you sure you want to delete',
         name: prod.productName,
       },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.deleteProduct(this.selectedID);
-      }
+    dialogRef.afterClosed().subscribe({
+      next: (result) => {
+        if (result) this.deleteProduct(this.selectedID);
+      },
     });
   }
 
   openViewDialog(prod: any): void {
     localStorage.setItem('productId', prod._id);
-    const dialogRef = this.dialog.open(ProductDetailsComponent, {});
-
-    dialogRef.afterClosed().subscribe((result) => {});
+    this.dialog.open(ProductDetailsComponent, {
+      width: '90vw',
+      maxWidth: '900px',
+    });
   }
+
   urlRout(path: any) {
     this.route.navigate(['/admin-home/' + path]);
   }
 
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddProductComponent, {
-      data: {
-        category: this.category,
-        edit: false,
-      },
+      width: '640px',
+      data: { category: this.category, edit: false },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getProductList();
-      }
+    dialogRef.afterClosed().subscribe({
+      next: (result) => {
+        if (result) this.getProductList();
+      },
     });
   }
 
@@ -145,37 +123,28 @@ export class AdminProductsComponent implements OnInit {
       return;
     }
     const url = 'product/fetch?category_id=' + this.value;
-    this.dataService.getAPICall(url).subscribe(
-      (res: any) => {
-        this.productList = res.data;
-        this.productList = this.productList.sort((a: any, b: any) => {
-          const dateA =
-            a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
-          const dateB =
-            b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
-          return dateB.getTime() - dateA.getTime();
-        });
+    this.dataService.getAPICall(url).subscribe({
+      next: (res: any) => {
+        this.productList = res.data.sort((a: any, b: any) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       },
-      (err) => {
+      error: (err) => {
         console.error(err);
         this.productList = [];
-      }
-    );
+      },
+    });
   }
 
   openEditDialog(prod: any) {
     const dialogRef = this.dialog.open(AddProductComponent, {
-      data: {
-        category: this.category,
-        edit: true,
-        value: prod,
-      },
+      width: '640px',
+      data: { category: this.category, edit: true, value: prod },
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getProductList();
-      }
+    dialogRef.afterClosed().subscribe({
+      next: (result) => {
+        if (result) this.getProductList();
+      },
     });
   }
 }

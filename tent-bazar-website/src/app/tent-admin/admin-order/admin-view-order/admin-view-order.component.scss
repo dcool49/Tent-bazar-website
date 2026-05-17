@@ -1,3 +1,43 @@
-img{
-    height: 100px;
+.print-only {
+  display: none;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Customer Details takes full width since Order Management is hidden */
+  .print-single-col {
+    display: block !important;
+  }
+
+  /* Remove screen-only background and shadows */
+  body,
+  .min-h-screen {
+    background: #fff !important;
+  }
+
+  .bg-gray-50 {
+    background: #fff !important;
+  }
+
+  .shadow-sm {
+    box-shadow: none !important;
+  }
+
+  /* Ensure table rows don't break across pages */
+  tr {
+    page-break-inside: avoid;
+  }
+
+  /* Show product images in print */
+  img {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }

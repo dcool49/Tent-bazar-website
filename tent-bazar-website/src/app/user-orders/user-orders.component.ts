@@ -28,7 +28,7 @@ export class UserOrdersComponent implements OnInit {
   }
 
   fetchOrders() {
-    this.dataService.getAPICall('order/fetch').subscribe(
+    this.dataService.postAPICall('order/fetch',{'buyerId':this.userId}).subscribe(
       (res: any) => {
         const all = res.data || [];
         this.orders = all.filter(

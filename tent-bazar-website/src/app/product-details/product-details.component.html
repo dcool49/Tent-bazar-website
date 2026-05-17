@@ -1,4 +1,4 @@
-<section class="py-12 bg-gray-50 hero-top-section">
+<section class="py-12 bg-gray-50 hero-top-section" [class.overflow-y-auto]="adminView" [style.max-height]="adminView ? '88vh' : null">
   <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
     
     <!-- Left: Product Image -->
@@ -37,7 +37,7 @@
       </div>
 
       <!-- Quantity Selector -->
-      <div class="flex items-center mb-6">
+      <div *ngIf="!adminView" class="flex items-center mb-6">
         <span class="mr-4 font-medium">Quantity:</span>
         <div class="flex items-center border rounded-lg overflow-hidden">
           <button (click)="quantity = quantity-1" [disabled]="quantity <= 1" class="px-3 py-2 bg-gray-100 hover:bg-gray-200">-</button>
@@ -47,7 +47,7 @@
       </div>
 
       <!-- Buttons -->
-      <div class="flex gap-4">
+      <div *ngIf="!adminView" class="flex gap-4">
         <!-- Add to Cart -->
         <button *ngIf="!cartAdded" (click)="addcart()" class="flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

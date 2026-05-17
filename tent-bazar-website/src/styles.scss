@@ -36,3 +36,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-mdc-dialog-container {
   --mdc-dialog-container-color: #ffffff;
 }
+.mat-mdc-dialog-surface {
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 16px !important;
+}
+.cdk-overlay-pane {
+  max-height: 92vh !important;
+}
