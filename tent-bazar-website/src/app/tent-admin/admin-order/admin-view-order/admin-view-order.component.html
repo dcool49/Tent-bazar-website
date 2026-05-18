@@ -14,7 +14,7 @@
   <!-- Page Header -->
   <div class="flex flex-wrap items-center gap-3 mb-6 no-print">
     <button
-      (click)="urlRout('Orders')"
+      (click)="goBack()"
       class="p-2 rounded-xl bg-white border border-gray-200 hover:bg-gray-100 transition shadow-sm flex-shrink-0"
     >
       <i class="bi bi-arrow-left text-gray-600 text-base"></i>
@@ -293,7 +293,7 @@
   <div class="flex justify-end gap-3 no-print">
     <button
       type="button"
-      (click)="urlRout('Orders')"
+      (click)="goBack()"
       class="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition text-sm font-medium shadow-sm"
     >
       <i class="bi bi-x-lg mr-1.5"></i>Cancel

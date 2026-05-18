@@ -101,7 +101,6 @@ export class AddCategoryComponent implements OnInit {
     const url = 'category/add';
     this.dataService.postAPICall(url, formData).subscribe(
       (response) => {
-        console.log('File uploaded successfully:', response);
         // Handle success (e.g., show a success message, clear selected file)
         this.dialogRef.close('response');
       },
@@ -121,7 +120,6 @@ export class AddCategoryComponent implements OnInit {
 
     this.dataService.putAPICall(url, payload).subscribe(
       (response) => {
-        console.log('File uploaded successfully:', response);
         // Handle success (e.g., show a success message, clear selected file)
         this.dialogRef.close('response');
       },

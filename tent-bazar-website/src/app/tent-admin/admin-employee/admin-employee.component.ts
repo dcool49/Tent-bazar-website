@@ -4,6 +4,7 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { ViewEmployeeComponent } from './view-employee/view-employee.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmModalComponent } from '../../data-model/delete-confirm-modal/delete-confirm-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-employee',
@@ -17,7 +18,7 @@ export class AdminEmployeeComponent implements OnInit {
   addComponent = AddEmployeeComponent;
   selectedID: any;
   getListUrl = 'user/v2/fetch?passwordToShow=true'
-  constructor(private dataService:DataService,public dialog: MatDialog){}
+  constructor(private dataService:DataService, public dialog: MatDialog, protected router: Router){}
   ngOnInit(): void {
     this.getList();
   }
@@ -59,6 +60,10 @@ export class AdminEmployeeComponent implements OnInit {
         );
       }
     
+      viewReport(empId: string): void {
+        this.router.navigate(['/admin-home/employee-report', empId]);
+      }
+
       viewEmployee(emp: any): void {
         this.dialog.open(ViewEmployeeComponent, {
           width: '500px',

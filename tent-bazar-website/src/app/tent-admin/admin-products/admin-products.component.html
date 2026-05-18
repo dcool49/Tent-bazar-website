@@ -80,7 +80,7 @@
         >
           <td class="p-3">{{ i + 1 + (p - 1) * itemsPerPage }}</td>
           <td class="p-3">
-            <img [src]="prod.image[0].img_name" />
+            <img [src]="prod.image?.[0]?.img_name" />
           </td>
           <td class="p-3">{{ prod.productName }}</td>
           <td class="p-3">{{ getcatName(prod.category_id) }}</td>

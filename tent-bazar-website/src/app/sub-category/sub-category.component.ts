@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { DataService } from '../services/data.service';
+import { SeoService } from '../services/seo.service';
 import { NgFor, NgIf } from '@angular/common';
 import { NotFoundComponent } from '../landing-sections/not-found/not-found.component';
 import { Subscription } from 'rxjs';
@@ -19,7 +20,7 @@ export class SubCategoryComponent implements OnInit,OnDestroy {
   localStorageData = JSON.parse(localStorage.getItem("addedProduct") as any);
   private routerSub!: Subscription;
 
-constructor(private route: Router,private dataService:DataService) {}
+constructor(private route: Router, private dataService: DataService, private seoService: SeoService) {}
 
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
@@ -40,6 +41,12 @@ constructor(private route: Router,private dataService:DataService) {}
   loadAndFetch(): void {
     this.catId = localStorage.getItem("catId");
     this.catName = localStorage.getItem("catName");
+    this.seoService.setPage({
+      title: this.catName || 'Products',
+      description: `Browse our collection of ${this.catName || 'event'} products at Aditya Agency & Tent Bazar.`,
+      path: '/sub-category',
+      keywords: `${this.catName}, tent, event supplies, tent bazar`
+    });
     this.getProductList();
   }
   urlRout(path: any,productId: any) {

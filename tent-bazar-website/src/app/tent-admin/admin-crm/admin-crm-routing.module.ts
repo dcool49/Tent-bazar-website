@@ -13,6 +13,8 @@ import { AddProductComponent } from '../admin-products/add-product/add-product.c
 import { AdminBannerComponent } from '../admin-banner/admin-banner.component';
 import { AdminViewOrderComponent } from '../admin-order/admin-view-order/admin-view-order.component';
 import { AdminProfileComponent } from '../admin-profile/admin-profile.component';
+import { AdminUserReportComponent } from '../admin-users/admin-user-report/admin-user-report.component';
+import { AdminEmployeeReportComponent } from '../admin-employee/admin-employee-report/admin-employee-report.component';
 import { roleGuard } from '../../guard/role.guard';
 
 const routes: Routes = [
@@ -33,6 +35,8 @@ const routes: Routes = [
       { path: 'AddProduct', component: AddProductComponent, canActivate: [roleGuard] },
       { path: 'banner', component: AdminBannerComponent, canActivate: [roleGuard] },
       { path: 'Profile', component: AdminProfileComponent, canActivate: [roleGuard] },
+      { path: 'user-report/:userId', component: AdminUserReportComponent },
+      { path: 'employee-report/:empId', component: AdminEmployeeReportComponent, canActivate: [roleGuard] },
       { path: '**', redirectTo: '' },
     ],
   },

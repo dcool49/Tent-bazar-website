@@ -40,6 +40,11 @@ export class UserOrdersComponent implements OnInit {
     );
   }
 
+  viewOrder(order: any) {
+    this.dataService.selectedOrder = order;
+    this.router.navigate(['/order-detail']);
+  }
+
   goBack() {
     this.router.navigate(['/home']);
   }

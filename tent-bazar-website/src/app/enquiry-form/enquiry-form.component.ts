@@ -92,7 +92,6 @@ placeOrder(){
      return {"productId" : res._id,
         "quantity" : res.quantity}
   })
-  console.log("productItem",productItem);
   const payload ={
     productDetails: productItem,
     "buyerId": this.dataService.userDetails['_id'],

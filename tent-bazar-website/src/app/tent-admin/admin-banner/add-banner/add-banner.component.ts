@@ -102,7 +102,6 @@ export class AddBannerComponent implements OnInit {
       const url = 'banner/add';
       this.dataService.postAPICall(url, formData).subscribe(
         (response) => {
-          console.log('File uploaded successfully:', response);
           // Handle success (e.g., show a success message, clear selected file)
           this.dialogRef.close('response');
         },
@@ -122,7 +121,6 @@ export class AddBannerComponent implements OnInit {
   
       this.dataService.patchApiCall(url, payload).subscribe(
         (response) => {
-          console.log('File uploaded successfully:', response);
           // Handle success (e.g., show a success message, clear selected file)
           this.dialogRef.close('response');
         },

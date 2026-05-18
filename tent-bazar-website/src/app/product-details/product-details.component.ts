@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
+import { SeoService } from '../services/seo.service';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
@@ -20,6 +21,7 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private route: Router,
     private dataService: DataService,
+    private seoService: SeoService,
     @Optional() @Inject(MAT_DIALOG_DATA) dialogData: any,
   ) {
     this.adminView = !!dialogData?.adminView;
@@ -37,12 +39,37 @@ export class ProductDetailsComponent implements OnInit {
   }
   getProductDetails() {
     const url = 'product/fetchbyid?_id=' + this.productId;
-    this.dataService.getAPICall(url).subscribe((res: any) => {
-      this.productDetals = res?.data?.[0];
-      this.selectedImage = this.productDetals?.image?.[0].img_name;
-    }, (err) => {
-      console.error(err);
-    })
+    this.dataService.getAPICall(url).subscribe({
+      next: (res: any) => {
+        this.productDetals = res?.data?.[0];
+        this.selectedImage = this.productDetals?.image?.[0].img_name;
+        if (this.productDetals && !this.adminView) {
+          this.seoService.setPage({
+            title: this.productDetals.productName,
+            description: this.productDetals.summery
+              || `Buy ${this.productDetals.productName} from Aditya Agency & Tent Bazar. Delivery in 3–5 business days.`,
+            path: '/details',
+            image: this.productDetals.image?.[0]?.img_name,
+            keywords: `${this.productDetals.productName}, tent, event supplies, tent bazar`,
+            jsonLd: {
+              '@context': 'https://schema.org',
+              '@type': 'Product',
+              name: this.productDetals.productName,
+              description: this.productDetals.summery,
+              image: this.productDetals.image?.map((img: any) => img.img_name),
+              offers: {
+                '@type': 'Offer',
+                priceCurrency: 'INR',
+                price: this.productDetals.price,
+                availability: 'https://schema.org/InStock',
+                seller: { '@type': 'Organization', name: 'Aditya Agency & Tent Bazar' }
+              }
+            }
+          });
+        }
+      },
+      error: (err) => console.error(err)
+    });
   }
   addcart() {
     let localStorageData = JSON.parse(localStorage.getItem("addedProduct") as any);

@@ -16,7 +16,9 @@
   <form [formGroup]="myForm" (ngSubmit)="uploadFile()" class="space-y-4">
 
     <div>
-      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Images</label>
+      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+        Images
+      </label>
       <label class="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
         <i class="bi bi-cloud-upload text-2xl text-gray-300 mb-1"></i>
         <span class="text-xs text-gray-400">Click to upload images</span>
@@ -35,40 +37,64 @@
 
     <div class="grid grid-cols-2 gap-4">
       <div>
-        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Product Name</label>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+          Product Name <span class="text-red-500">*</span>
+        </label>
         <input formControlName="productName" type="text" placeholder="Enter product name"
+          [ngClass]="{ 'border-red-500 focus:ring-red-400': submitted && myForm.get('productName')?.invalid }"
           class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-gray-50 focus:ring-2 focus:ring-green-400 focus:outline-none focus:bg-white transition" />
+        <p *ngIf="submitted && myForm.get('productName')?.invalid" class="text-red-500 text-xs mt-1">Product name is required.</p>
       </div>
       <div>
-        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Category</label>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+          Category <span class="text-red-500">*</span>
+        </label>
         <select formControlName="category_id"
+          [ngClass]="{ 'border-red-500 focus:ring-red-400': submitted && myForm.get('category_id')?.invalid }"
           class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-gray-50 focus:ring-2 focus:ring-green-400 focus:outline-none focus:bg-white transition">
           <option value="">Select category</option>
           <option *ngFor="let cat of category" [value]="cat._id">{{ cat.categoryName }}</option>
         </select>
+        <p *ngIf="submitted && myForm.get('category_id')?.invalid" class="text-red-500 text-xs mt-1">Category is required.</p>
       </div>
       <div>
-        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Price (₹)</label>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+          Price (₹) <span class="text-red-500">*</span>
+        </label>
         <input formControlName="price" type="number" placeholder="0"
+          [ngClass]="{ 'border-red-500 focus:ring-red-400': submitted && myForm.get('price')?.invalid }"
           class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-gray-50 focus:ring-2 focus:ring-green-400 focus:outline-none focus:bg-white transition" />
+        <p *ngIf="submitted && myForm.get('price')?.invalid" class="text-red-500 text-xs mt-1">Price is required.</p>
       </div>
       <div>
-        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Selling Price (₹)</label>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+          Selling Price (₹) <span class="text-red-500">*</span>
+        </label>
         <input formControlName="product_selling_price" type="number" placeholder="0"
+          [ngClass]="{ 'border-red-500 focus:ring-red-400': submitted && myForm.get('product_selling_price')?.invalid }"
           class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-gray-50 focus:ring-2 focus:ring-green-400 focus:outline-none focus:bg-white transition" />
+        <p *ngIf="submitted && myForm.get('product_selling_price')?.invalid" class="text-red-500 text-xs mt-1">Selling price is required.</p>
       </div>
       <div class="col-span-2">
-        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Discount Price (₹)</label>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+          Discount Price (₹) <span class="text-red-500">*</span>
+        </label>
         <input formControlName="product_discount_price" type="number" placeholder="0"
+          [ngClass]="{ 'border-red-500 focus:ring-red-400': submitted && myForm.get('product_discount_price')?.invalid }"
           class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-gray-50 focus:ring-2 focus:ring-green-400 focus:outline-none focus:bg-white transition" />
+        <p *ngIf="submitted && myForm.get('product_discount_price')?.invalid" class="text-red-500 text-xs mt-1">Discount price is required.</p>
       </div>
     </div>
 
     <div>
-      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Summary</label>
+      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+        Summary <span class="text-red-500">*</span>
+      </label>
       <textarea formControlName="summery" rows="3" placeholder="Enter product summary"
+        [ngClass]="{ 'border-red-500 focus:ring-red-400': submitted && myForm.get('summery')?.invalid }"
         class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-gray-50 focus:ring-2 focus:ring-green-400 focus:outline-none focus:bg-white transition resize-none">
       </textarea>
+      <p *ngIf="submitted && myForm.get('summery')?.invalid" class="text-red-500 text-xs mt-1">Summary is required.</p>
     </div>
 
   </form>

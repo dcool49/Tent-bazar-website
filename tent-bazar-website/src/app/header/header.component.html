@@ -114,14 +114,12 @@
 
     <!-- Mobile Menu -->
     <div *ngIf="isMenuOpen" class="md:hidden flex flex-col space-y-3 mt-4 bg-gray-50 p-4 rounded-lg shadow">
-      <a routerLink="/home" (click)="closeMenu()" class="text-gray-900 hover:text-blue-600">Home</a>
-      <a routerLink="/about-us" (click)="closeMenu()" class="text-gray-900 hover:text-blue-600">About Us</a>
-      <a href="https://play.google.com/store/apps/details?id=com.dapps.tentbazaar&hl=en_IN" target="_blank"
-        class="text-gray-900 hover:text-blue-600">Rate This App</a>
-      <a href="#" class="text-gray-900 hover:text-blue-600">Share on Social</a>
-      <a href="https://itemscatalogue.redcross.int/upload/products_data/files/HSHETENT07.pdf" target="_blank"
-        class="text-gray-900 hover:text-blue-600">Brochure</a>
-      <a href="#" class="text-gray-900 hover:text-blue-600">Certificates</a>
+      <a routerLink="/home" (click)="closeMenu()" routerLinkActive="font-bold text-blue-600" class="text-gray-900 hover:text-blue-600">Home</a>
+      <a routerLink="/about-us" (click)="closeMenu()" routerLinkActive="font-bold text-blue-600" class="text-gray-900 hover:text-blue-600">About Us</a>
+      <a routerLink="/contact" (click)="closeMenu()" routerLinkActive="font-bold text-blue-600" class="text-gray-900 hover:text-blue-600">Contact Us</a>
+      <a (click)="urlRout('catogery'); closeMenu()" class="text-gray-900 hover:text-blue-600 cursor-pointer">Catogery</a>
+      <a (click)="searchempty(); closeMenu()" class="text-gray-900 hover:text-blue-600 cursor-pointer">Products</a>
+      <a (click)="urlRout('mobile-app'); closeMenu()" class="text-gray-900 hover:text-blue-600 cursor-pointer">Mobile App</a>
 
       <!-- User logged-in links for mobile -->
       <ng-container *ngIf="isUserLoggedIn">

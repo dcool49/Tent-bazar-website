@@ -9,6 +9,12 @@
         placeholder="Search by name, mobile, city, email..."
         class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-full sm:w-72 focus:ring-2 focus:ring-green-500 focus:outline-none"
       />
+      <button (click)="exportToCSV()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm flex items-center justify-center gap-2 whitespace-nowrap">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 8l-3-3m3 3l3-3" />
+        </svg>
+        Export CSV
+      </button>
       <button (click)="openDialog(false,null)" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center justify-center gap-2 whitespace-nowrap">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -47,7 +53,8 @@
           <td class="p-3 text-sm hidden lg:table-cell">{{user.email}}</td>
           <td class="p-3 text-sm hidden md:table-cell">{{user.createdAt | date}}</td>
           <td class="p-3">
-            <div class="flex gap-2">
+            <div class="flex gap-2 flex-wrap">
+              <button (click)="viewUserReport(user)" class="px-2 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs sm:text-sm sm:px-3">Report</button>
               <button (click)="openDeleteDialog(user)" class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs sm:text-sm sm:px-3">Remove</button>
               <button (click)="openDialog(true, user)" class="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-xs sm:text-sm sm:px-3">Edit</button>
             </div>

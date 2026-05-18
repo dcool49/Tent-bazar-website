@@ -1,0 +1,115 @@
+<section class="pt-36 pb-12 bg-gradient-to-br from-orange-50 to-orange-100 min-h-screen">
+  <div class="max-w-3xl mx-auto px-4">
+
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-8">
+      <button (click)="goBack()" class="text-orange-500 hover:text-orange-600">
+        <i class="bi bi-arrow-left-circle-fill text-2xl"></i>
+      </button>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">Order Details</h1>
+        <p class="text-sm text-gray-500">Full information for your order</p>
+      </div>
+    </div>
+
+    <div *ngIf="order" class="space-y-5">
+
+      <!-- Order ID + Status -->
+      <div class="bg-white rounded-2xl shadow p-6">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-xs text-gray-400 uppercase tracking-wide mb-1">Order ID</p>
+            <p class="text-xl font-bold text-gray-800">#{{ order.orderId }}</p>
+          </div>
+          <span [ngClass]="getStatusClass(order.status)"
+            class="text-white text-sm font-semibold px-4 py-1.5 rounded-full">
+            {{ order.status }}
+          </span>
+        </div>
+        <div class="mt-4 flex items-center gap-2 text-sm text-gray-500">
+          <i class="bi bi-calendar3 text-orange-400"></i>
+          <span>Placed on <strong class="text-gray-700">{{ order.createdAt | date:'dd MMM yyyy, hh:mm a' }}</strong></span>
+        </div>
+      </div>
+
+      <!-- Delivery Address -->
+      <div class="bg-white rounded-2xl shadow p-6">
+        <h2 class="text-sm font-semibold text-orange-500 uppercase tracking-wide mb-4">
+          <i class="bi bi-geo-alt-fill mr-1"></i> Delivery Address
+        </h2>
+        <div class="text-gray-700 space-y-1 text-sm">
+          <p class="font-semibold text-base text-gray-800">{{ order.fullName || order.buyerId?.name }}</p>
+          <p>{{ order.addressLine }}</p>
+          <p>{{ order.city }}, {{ order.state }} - {{ order.pinCode }}</p>
+          <p *ngIf="order.phone || order.buyerId?.phone" class="flex items-center gap-2 pt-1">
+            <i class="bi bi-telephone text-orange-400"></i>
+            {{ order.phone || order.buyerId?.phone }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div class="bg-white rounded-2xl shadow p-6">
+        <h2 class="text-sm font-semibold text-orange-500 uppercase tracking-wide mb-4">
+          <i class="bi bi-box-seam-fill mr-1"></i> Products Ordered
+        </h2>
+        <div class="divide-y divide-gray-100">
+          <div *ngFor="let item of order.productDetails"
+            class="flex items-center justify-between py-3 gap-3">
+            <div class="relative w-14 h-14 rounded-lg shrink-0 border border-orange-100 overflow-hidden">
+              <div class="absolute inset-0 bg-orange-50 flex items-center justify-center">
+                <i class="bi bi-image text-orange-300 text-xl"></i>
+              </div>
+              <img *ngIf="item.productId?.image?.[0]?.img_name"
+                [src]="item.productId.image[0].img_name"
+                class="absolute inset-0 w-full h-full object-cover"
+                onerror="this.style.display='none'"
+                alt="product" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-medium text-gray-800 truncate">
+                {{ item.productId?.productName || item.productName || 'Product' }}
+              </p>
+              <p *ngIf="item.productId?.category || item.category"
+                class="text-xs text-gray-400 mt-0.5">
+                {{ item.productId?.category || item.category }}
+              </p>
+            </div>
+            <div class="text-right shrink-0">
+              <p class="text-sm font-semibold text-orange-600">Qty: {{ item.quantity }}</p>
+              <p *ngIf="item.price || item.productId?.price"
+                class="text-xs text-gray-500 mt-0.5">
+                ₹{{ item.price || item.productId?.price }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div *ngIf="order.totalAmount || order.total" class="bg-white rounded-2xl shadow p-6">
+        <h2 class="text-sm font-semibold text-orange-500 uppercase tracking-wide mb-4">
+          <i class="bi bi-receipt mr-1"></i> Order Summary
+        </h2>
+        <div class="flex justify-between text-sm text-gray-600 py-2">
+          <span>Total Items</span>
+          <span class="font-medium text-gray-800">{{ order.productDetails?.length || 0 }}</span>
+        </div>
+        <div class="border-t border-gray-100 my-2"></div>
+        <div class="flex justify-between text-base font-bold text-gray-800 py-1">
+          <span>Total Amount</span>
+          <span class="text-orange-600">₹{{ order.totalAmount || order.total }}</span>
+        </div>
+      </div>
+
+      <!-- Special Instructions -->
+      <div *ngIf="order.notes || order.specialInstructions" class="bg-white rounded-2xl shadow p-6">
+        <h2 class="text-sm font-semibold text-orange-500 uppercase tracking-wide mb-3">
+          <i class="bi bi-chat-left-text mr-1"></i> Special Instructions
+        </h2>
+        <p class="text-sm text-gray-600">{{ order.notes || order.specialInstructions }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>

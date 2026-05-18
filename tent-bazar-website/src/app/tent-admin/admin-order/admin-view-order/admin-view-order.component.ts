@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../services/data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { DeleteConfirmModalComponent } from '../../../data-model/delete-confirm-modal/delete-confirm-modal.component';
 import { ProductDetailsComponent } from '../../../product-details/product-details.component';
 
@@ -25,7 +26,7 @@ export class AdminViewOrderComponent implements OnInit {
   productSearchResults: any[] = [];
   searchingProducts = false;
 
-  constructor(public dataService: DataService,public dialog: MatDialog,private route: Router,){
+  constructor(public dataService: DataService,public dialog: MatDialog,private route: Router,private location: Location){
     if(this.dataService.selectedOrder){
       this.employeeId = this.dataService.selectedOrder?.empId?._id || '';
       this.selectedStatus = this.dataService.selectedOrder.status;
@@ -33,7 +34,6 @@ export class AdminViewOrderComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    console.log("order",this.dataService.selectedOrder)
     if(!this.dataService.selectedOrder){
       window.history.back();
     }else{
@@ -101,6 +101,10 @@ export class AdminViewOrderComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
       });
     }
+    goBack() {
+      this.location.back();
+    }
+
     urlRout(path: any) {
       this.route.navigate(['/admin-home/' + path])
     }
@@ -111,7 +115,6 @@ export class AdminViewOrderComponent implements OnInit {
       this.dataService.postAPICall(url, payload).subscribe({
         next: (res: any) => {
           this.orderData = res.data[0];
-          console.log("order",res.data)
         },
         error: (err) => {
           console.error(err);
@@ -126,11 +129,10 @@ orderUpdate(){
     productDetails: this.orderData.productDetails,
     status:this.selectedStatus
   }
-  console.log("payload",payload);
   const url = 'order/update';
   this.dataService.patchApiCall(url,payload).subscribe(
     (res: any) => {
-     this.urlRout('Orders')
+     this.goBack()
     },
     (err) => {
       console.error(err);

@@ -4,6 +4,7 @@ import { authGuard } from './guard/auth.guard';
 export const routes: Routes = [
   { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
   { path: 'my-orders', loadComponent: () => import('./user-orders/user-orders.component').then(m => m.UserOrdersComponent) },
+  { path: 'order-detail', loadComponent: () => import('./user-order-detail/user-order-detail.component').then(m => m.UserOrderDetailComponent) },
   { path: 'my-profile', loadComponent: () => import('./user-profile/user-profile.component').then(m => m.UserProfileComponent) },
   { path: 'about-us', loadComponent: () => import('./about-us/about-us.component').then(m => m.AboutUsComponent) },
   { path: 'sub-category', loadComponent: () => import('./sub-category/sub-category.component').then(m => m.SubCategoryComponent) },

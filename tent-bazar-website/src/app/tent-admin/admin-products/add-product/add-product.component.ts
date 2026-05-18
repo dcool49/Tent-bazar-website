@@ -28,6 +28,7 @@ export class AddProductComponent implements OnInit {
     product_discount_price: new FormControl('', [Validators.required]),
   });
   category: any;
+  submitted = false;
 
   constructor(
     private route: Router,
@@ -71,47 +72,48 @@ removeImage(index:number) {
 }
 
   uploadFile(): void {
-    if (!this.selectedFile) {
-      return;
-    }
+    this.submitted = true;
     if (!this.myForm.valid) {
-      return;
-    }
-    if(this.data.edit){
       return;
     }
 
     const formData = new FormData();
-    this.selectedFile.forEach((file)=>{
+    this.selectedFile?.forEach((file) => {
       formData.append('files', file, file?.name);
-    })
-    // if (this.selectedFile?.name) {
-    //   formData.append('files', this.selectedFile, this.selectedFile?.name); // 'file' is the key expected by the backend
-    // }
+    });
     formData.append('productName', this.myForm.get('productName')?.value);
     formData.append('category_id', this.myForm.get('category_id')?.value);
     formData.append('price', this.myForm.get('price')?.value);
     formData.append('summery', this.myForm.get('summery')?.value);
-    formData.append(
-      'product_selling_price',
-      this.myForm.get('product_selling_price')?.value
-    );
-    formData.append(
-      'product_discount_price',
-      this.myForm.get('product_discount_price')?.value
-    );
-    const url = 'product/add';
-    this.dataService.postAPICall(url, formData).subscribe(
-      (response) => {
-        console.log('File uploaded successfully:', response);
-        // Handle success (e.g., show a success message, clear selected file)
-        this.dialogRef.close('response');
-      },
-      (error) => {
-        console.error('Error uploading file:', error);
-        // Handle error
-      }
-    );
+    formData.append('product_selling_price', this.myForm.get('product_selling_price')?.value);
+    formData.append('product_discount_price', this.myForm.get('product_discount_price')?.value);
+
+    if (this.data.edit) {
+      const existingImages = this.previewUrl
+        .filter((url: string) => !url.startsWith('data:'))
+        .map((url: string) => ({ img_name: url }));
+      formData.append('existingImages', JSON.stringify(existingImages));
+
+      const url = 'product/update?_id=' + this.data.value._id;
+      this.dataService.putAPICall(url, formData).subscribe(
+        (response) => {
+          this.dialogRef.close('response');
+        },
+        (error) => {
+          console.error('Error updating product:', error);
+        }
+      );
+    } else {
+      const url = 'product/add';
+      this.dataService.postAPICall(url, formData).subscribe(
+        (response) => {
+          this.dialogRef.close('response');
+        },
+        (error) => {
+          console.error('Error uploading file:', error);
+        }
+      );
+    }
   }
 
   onNoClick(): void {

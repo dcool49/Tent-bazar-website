@@ -64,7 +64,6 @@ toggleSidebar() {
       if (this.remainingTime <= 0) {
         this.authService.logout();
         clearInterval(this.intervalId);
-        console.log('Timer finished!');
         this.route.navigate(['/admin-login'])
       }
     }, 1000); // Update every 1 second

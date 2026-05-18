@@ -23,6 +23,8 @@ import { ViewEmployeeComponent } from '../admin-employee/view-employee/view-empl
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddAdminUserComponent } from '../admin-users/add-admin-user/add-admin-user.component';
 import { AdminProfileComponent } from '../admin-profile/admin-profile.component';
+import { AdminUserReportComponent } from '../admin-users/admin-user-report/admin-user-report.component';
+import { AdminEmployeeReportComponent } from '../admin-employee/admin-employee-report/admin-employee-report.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { AdminProfileComponent } from '../admin-profile/admin-profile.component'
     AddEmployeeComponent,
     ViewEmployeeComponent,
     AddAdminUserComponent,
-    AdminProfileComponent
+    AdminProfileComponent,
+    AdminUserReportComponent,
+    AdminEmployeeReportComponent
   ],
   imports: [
     CommonModule,

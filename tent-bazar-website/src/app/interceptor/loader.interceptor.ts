@@ -10,7 +10,6 @@ export const loaderInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = localStorage.getItem('token') ||
     JSON.parse(localStorage.getItem('adminUser') || 'null')?.token;
-    console.log("token",token)
   if (token) {
     req = req.clone({ setHeaders: { authorization: `beerer ${token}` } });
   }
