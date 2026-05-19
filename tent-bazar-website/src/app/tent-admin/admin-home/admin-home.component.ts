@@ -21,34 +21,36 @@ import { AuthService } from '../../services/auth.service';
 export class AdminHomeComponent implements OnInit ,OnDestroy {
 activeTab = 0;
 isSidebarOpen = false;
-isAdmin = localStorage.getItem('role') === 'admin';
+role = localStorage.getItem('role') || 'employee';
+isAdmin = this.role === 'admin';
 constructor(private route:Router, private authService:AuthService){}
 
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }
 
-  allTabs = [
-    { label: 'Dashboard', icon: 'bi bi-speedometer2', adminOnly: false },
-    { label: 'Orders', icon: 'bi bi-box-seam', adminOnly: false },
-    { label: 'Users', icon: 'bi bi-people', adminOnly: false },
-    { label: 'Products', icon: 'bi bi-bag', adminOnly: false },
-    { label: 'Category', icon: 'bi bi-grid', adminOnly: false },
-    { label: 'Employees', icon: 'bi bi-person-badge', adminOnly: true },
-    { label: 'YouTube', icon: 'bi bi-youtube', adminOnly: true },
-    { label: 'Instagram', icon: 'bi bi-instagram', adminOnly: true },
-    { label: 'banner', icon: 'bi bi-image', adminOnly: true },
+  allTabs: { label: string; icon: string; route: string; roles: string[] }[] = [
+    { label: 'Dashboard',    icon: 'bi bi-speedometer2',  route: 'Dashboard',         roles: ['admin'] },
+    { label: 'My Dashboard', icon: 'bi bi-speedometer2',  route: 'EmployeeDashboard', roles: ['employee'] },
+    { label: 'Orders',       icon: 'bi bi-box-seam',      route: 'Orders',            roles: ['admin', 'employee'] },
+    { label: 'Users',        icon: 'bi bi-people',        route: 'Users',             roles: ['admin', 'employee'] },
+    { label: 'Products',     icon: 'bi bi-bag',           route: 'Products',          roles: ['admin', 'employee'] },
+    { label: 'Category',     icon: 'bi bi-grid',          route: 'Category',          roles: ['admin', 'employee'] },
+    { label: 'Employees',    icon: 'bi bi-person-badge',  route: 'Employees',         roles: ['admin'] },
+    { label: 'YouTube',      icon: 'bi bi-youtube',       route: 'YouTube',           roles: ['admin'] },
+    { label: 'Instagram',    icon: 'bi bi-instagram',     route: 'Instagram',         roles: ['admin'] },
+    { label: 'banner',       icon: 'bi bi-image',         route: 'banner',            roles: ['admin'] },
   ];
 
   get tabs() {
-    return this.allTabs.filter(tab => !tab.adminOnly || this.isAdmin);
+    return this.allTabs.filter(tab => tab.roles.includes(this.role));
   }
 
   setTab(i: number) {
     this.activeTab = i;
   }
-  urlRout(path: any) {
-    this.route.navigate(['/admin-home/' + path])
+  urlRout(route: string) {
+    this.route.navigate(['/admin-home/' + route]);
   }
 
   remainingTime: number = 12 * 60 * 60; // 24 hours in seconds

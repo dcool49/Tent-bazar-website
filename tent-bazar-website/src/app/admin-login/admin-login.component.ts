@@ -38,7 +38,8 @@ export class AdminLoginComponent {
           }
           this.authService.login();
           this.toastr.success('Welcome back!', 'Login Successful');
-          this.route.navigate(['/admin-home'])
+          const redirectPath = res.data[0].role === 'admin' ? '/admin-home/Dashboard' : '/admin-home/EmployeeDashboard';
+          this.route.navigate([redirectPath]);
         } else {
           this.toastr.error('Invalid credentials. Please try again.', 'Login Failed');
         }

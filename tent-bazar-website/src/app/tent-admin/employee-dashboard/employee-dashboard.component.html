@@ -1,0 +1,205 @@
+<div class="min-h-screen bg-gray-50 p-6">
+
+  <!-- Page Header -->
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800">Welcome, {{ empData?.name || 'Employee' }}</h1>
+      <p class="text-sm text-gray-500 mt-1">Here's a summary of your assigned orders and performance.</p>
+    </div>
+    <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-600 shadow-sm">
+      <i class="bi bi-person-badge text-indigo-500"></i>
+      <span class="capitalize">{{ empData?.role || 'Employee' }}</span>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex items-center justify-center py-24">
+    <div class="flex flex-col items-center gap-3">
+      <div class="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-sm text-gray-400">Loading your dashboard...</p>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!loading">
+
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+      <!-- Total Orders -->
+      <div class="bg-white rounded-2xl shadow-sm p-5 flex flex-col gap-4">
+        <div class="flex justify-between items-start">
+          <div class="bg-indigo-100 p-3 rounded-xl">
+            <i class="bi bi-box-seam text-indigo-600 text-xl"></i>
+          </div>
+          <span class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">
+            All Time
+          </span>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">My Total Orders</p>
+          <h3 class="text-2xl font-bold text-gray-800 mt-0.5">{{ totalOrders }}</h3>
+        </div>
+      </div>
+
+      <!-- Completed -->
+      <div class="bg-white rounded-2xl shadow-sm p-5 flex flex-col gap-4">
+        <div class="flex justify-between items-start">
+          <div class="bg-emerald-100 p-3 rounded-xl">
+            <i class="bi bi-check-circle text-emerald-600 text-xl"></i>
+          </div>
+          <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+            {{ completionRate }}% rate
+          </span>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Completed</p>
+          <h3 class="text-2xl font-bold text-gray-800 mt-0.5">{{ completedOrders }}</h3>
+        </div>
+      </div>
+
+      <!-- In Progress -->
+      <div class="bg-white rounded-2xl shadow-sm p-5 flex flex-col gap-4">
+        <div class="flex justify-between items-start">
+          <div class="bg-amber-100 p-3 rounded-xl">
+            <i class="bi bi-arrow-repeat text-amber-600 text-xl"></i>
+          </div>
+          <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-1 rounded-full">
+            Active
+          </span>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">In Progress</p>
+          <h3 class="text-2xl font-bold text-gray-800 mt-0.5">{{ inProgressOrders }}</h3>
+        </div>
+      </div>
+
+      <!-- Pending -->
+      <div class="bg-white rounded-2xl shadow-sm p-5 flex flex-col gap-4">
+        <div class="flex justify-between items-start">
+          <div class="bg-blue-100 p-3 rounded-xl">
+            <i class="bi bi-clock text-blue-500 text-xl"></i>
+          </div>
+          <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
+            Pending
+          </span>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">To Do</p>
+          <h3 class="text-2xl font-bold text-gray-800 mt-0.5">{{ pendingOrders }}</h3>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+
+      <!-- Monthly Orders Bar Chart -->
+      <div class="bg-white rounded-2xl shadow-sm p-6 lg:col-span-2">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-lg font-bold text-gray-800">Monthly Order Activity</h2>
+          <div class="flex items-center gap-1.5 text-sm">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+            <span class="text-gray-500">Orders Handled</span>
+          </div>
+        </div>
+        <div style="height: 240px;">
+          <canvas baseChart
+            [type]="'bar'"
+            [data]="barChartData"
+            [options]="barChartOptions">
+          </canvas>
+        </div>
+        <div *ngIf="orders.length === 0" class="flex items-center justify-center h-40 text-gray-400 text-sm">
+          No orders assigned yet.
+        </div>
+      </div>
+
+      <!-- Order Status Doughnut -->
+      <div class="bg-white rounded-2xl shadow-sm p-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-6">My Order Status</h2>
+        <div class="relative" style="height: 200px;">
+          <canvas baseChart
+            [type]="'doughnut'"
+            [data]="orderStatusData"
+            [options]="orderStatusOptions">
+          </canvas>
+          <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <span class="text-2xl font-bold text-gray-800">{{ totalOrdersCount }}</span>
+            <span class="text-xs text-gray-400">Total</span>
+          </div>
+        </div>
+        <div class="mt-6 space-y-3">
+          <div *ngFor="let entry of pieChartEntries" class="flex items-center justify-between text-sm">
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-3 h-3 rounded-full flex-shrink-0" [style.background-color]="entry.color"></span>
+              <span class="text-gray-600">{{ entry.label }}</span>
+            </div>
+            <span class="font-semibold text-gray-700">{{ entry.value }}
+              <span class="text-gray-400 font-normal">({{ entry.percent }})</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="bg-white rounded-2xl shadow-sm p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-bold text-gray-800">My Recent Orders</h2>
+        <a routerLink="../Orders" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">View All Orders</a>
+      </div>
+
+      <div *ngIf="recentOrders.length === 0" class="text-center py-12 text-gray-400">
+        <i class="bi bi-inbox text-4xl mb-3 block"></i>
+        <p class="text-sm">No orders assigned to you yet.</p>
+      </div>
+
+      <div *ngIf="recentOrders.length > 0" class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-100">
+              <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">Order ID</th>
+              <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">Customer</th>
+              <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">Product</th>
+              <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3 pr-4">Amount</th>
+              <th class="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider pb-3">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of recentOrders"
+                class="border-b border-gray-50 hover:bg-gray-50 transition cursor-pointer"
+                (click)="viewOrder(order)">
+              <td class="py-4 pr-4 text-sm font-medium text-gray-700">{{ order.id }}</td>
+              <td class="py-4 pr-4">
+                <div class="flex items-center gap-3">
+                  <div class="h-8 w-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
+                    [style.background-color]="order.color">
+                    {{ order.initials }}
+                  </div>
+                  <span class="text-sm font-medium text-gray-700">{{ order.customer }}</span>
+                </div>
+              </td>
+              <td class="py-4 pr-4 text-sm text-gray-600">{{ order.product }}</td>
+              <td class="py-4 pr-4 text-sm font-semibold text-gray-800">{{ order.amount }}</td>
+              <td class="py-4">
+                <span class="text-xs font-semibold px-3 py-1 rounded-full"
+                  [ngClass]="{
+                    'bg-emerald-50 text-emerald-600': order.status === 'Done',
+                    'bg-amber-50 text-amber-600': order.status === 'In-progress' || order.status === 'Hold',
+                    'bg-blue-50 text-blue-600': order.status === 'TO-DO',
+                    'bg-red-50 text-red-500': order.status === 'Cancle'
+                  }">
+                  {{ order.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>

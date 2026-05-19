@@ -9,6 +9,6 @@ export const roleGuard: CanActivateFn = () => {
     return true;
   }
 
-  router.navigate(['/admin-home/Dashboard']);
+  router.navigate(['/admin-home/EmployeeDashboard']);
   return false;
 };
