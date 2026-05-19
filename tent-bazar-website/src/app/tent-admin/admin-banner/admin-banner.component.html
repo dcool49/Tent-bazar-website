@@ -1,45 +1,84 @@
-<div class="p-6 bg-gray-100 min-h-screen">
-    <div class="flex items-center justify-between mb-6">
-    <h2 class="text-2xl font-bold">Banner Posts </h2>
-      <button (click)="openDialog(false,null)" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Add Banner URL
-      </button>
+<div class="p-6 bg-gray-50 min-h-screen">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-800">Banner Management</h2>
+      <p class="text-sm text-gray-500 mt-0.5">{{ BannerList?.length || 0 }} banners total</p>
     </div>
-  
-    <div class="overflow-x-auto bg-white rounded-xl shadow">
-      <table class="w-full border-collapse">
+    <button
+      (click)="openDialog(false, null)"
+      class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium flex items-center gap-2 whitespace-nowrap transition-colors self-start sm:self-auto"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+      </svg>
+      Add Banner
+    </button>
+  </div>
+
+  <!-- Table -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full">
         <thead>
-          <tr class="bg-gray-100 text-left">
-            <th class="p-3">#ID</th>
-            <th class="p-3">Title</th>
-            <th class="p-3">Banner URL</th>
-            <th class="p-3">Date Added</th>
-            <th class="p-3 text-center">Actions</th>
+          <tr class="bg-gray-50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            <th class="px-4 py-3">#</th>
+            <th class="px-4 py-3">Preview</th>
+            <th class="px-4 py-3">Title</th>
+            <th class="px-4 py-3">Date Added</th>
+            <th class="px-4 py-3 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Example row -->
-          <tr *ngFor="let res of BannerList;let i=index" class="border-b hover:bg-gray-50">
-            <td class="p-3">{{i+1}}</td>
-            <td class="p-3">{{res.bannerName}}</td>
-            <td class="p-3 text-blue-600">
-                <img [src]="res.bannerImage[0].img_name"/>
-              <!-- <a [href]="res.bannerImage[0].img_name" target="_blank" class="underline">View</a> -->
+        <tbody class="divide-y divide-gray-100">
+          <tr *ngFor="let res of BannerList; let i = index" class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-3 text-sm text-gray-500">{{ i + 1 }}</td>
+            <td class="px-4 py-3">
+              <img
+                [src]="res.bannerImage[0].img_name"
+                class="h-12 w-24 object-cover rounded-lg border border-gray-200"
+                alt="Banner preview"
+              />
             </td>
-            <td class="p-3">{{res.createdAt | date}}</td>
-            <td class="p-3 text-center space-x-2">
-               <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm" (click)="openDialog(true,res)">Edit</button> 
-              <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm" (click)="openDeleteDialog(res)" >Delete</button>
+            <td class="px-4 py-3 text-sm font-medium text-gray-800">{{ res.bannerName }}</td>
+            <td class="px-4 py-3 text-sm text-gray-500">{{ res.createdAt | date:'dd MMM yyyy' }}</td>
+            <td class="px-4 py-3">
+              <div class="flex items-center justify-center gap-1">
+                <!-- Edit -->
+                <button
+                  (click)="openDialog(true, res)"
+                  title="Edit"
+                  class="p-1.5 rounded-lg text-yellow-600 hover:bg-yellow-50 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5m-1.414-9.414a2 2 0 1 1 2.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                  </svg>
+                </button>
+                <!-- Delete -->
+                <button
+                  (click)="openDeleteDialog(res)"
+                  title="Delete"
+                  class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16"/>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="!BannerList?.length">
+            <td colspan="5" class="px-4 py-16 text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 0 1 2.828 0L16 16m-2-2 1.586-1.586a2 2 0 0 1 2.828 0L20 14m-6-6h.01M6 20h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/>
+              </svg>
+              <p class="text-gray-400 text-sm">No banners found</p>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-  
-  <!-- Add/Edit Modal -->
-  
-  
+</div>

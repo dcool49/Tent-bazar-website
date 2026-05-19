@@ -1,65 +1,86 @@
-<div class="p-6 bg-gray-100 min-h-screen">
-    <div class="flex items-center justify-between mb-6">
-    <h2 class="text-2xl font-bold">YouTube URLs </h2>
-    <button (click)="openDialog()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm flex items-center gap-2">
+<div class="p-6 bg-gray-50 min-h-screen">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-800">YouTube URLs</h2>
+      <p class="text-sm text-gray-500 mt-0.5">{{ youtubeList?.length || 0 }} videos total</p>
+    </div>
+    <button
+      (click)="openDialog()"
+      class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium flex items-center gap-2 whitespace-nowrap transition-colors self-start sm:self-auto"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
       </svg>
       Add YouTube URL
     </button>
   </div>
- 
 
-  <div class="overflow-x-auto bg-white rounded-xl shadow">
-    <table class="w-full border-collapse">
-      <thead>
-        <tr class="bg-gray-100 text-left">
-          <th class="p-3">#ID</th>
-          <th class="p-3">Title</th>
-          <th class="p-3">YouTube URL</th>
-          <th class="p-3">Date Added</th>
-          <th class="p-3 text-center">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Example row -->
-        <tr *ngFor="let res of youtubeList;let i=index" class="border-b hover:bg-gray-50">
-          <td class="p-3">{{i+1}}</td>
-          <td class="p-3">{{res.type}}</td>
-          <td class="p-3 text-blue-600">
-            <a [href]="res.url" target="_blank" class="underline">View</a>
-          </td>
-          <td class="p-3">{{res.createdAt | date}}</td>
-          <td class="p-3 text-center space-x-2">
-            <!-- <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm" onclick="openEditModal()">Edit</button> -->
-            <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm" (click)="openDeleteDialog(res)" >Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+  <!-- Table -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-gray-50 border-b border-gray-200 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            <th class="px-4 py-3">#</th>
+            <th class="px-4 py-3">Type</th>
+            <th class="px-4 py-3">URL</th>
+            <th class="px-4 py-3">Date Added</th>
+            <th class="px-4 py-3 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr *ngFor="let res of youtubeList; let i = index" class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-3 text-sm text-gray-500">{{ i + 1 }}</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                {{ res.type }}
+              </span>
+            </td>
+            <td class="px-4 py-3">
+              <a
+                [href]="res.url"
+                target="_blank"
+                class="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+                Watch Video
+              </a>
+            </td>
+            <td class="px-4 py-3 text-sm text-gray-500">{{ res.createdAt | date:'dd MMM yyyy' }}</td>
+            <td class="px-4 py-3">
+              <div class="flex items-center justify-center">
+                <button
+                  (click)="openDeleteDialog(res)"
+                  title="Delete"
+                  class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16"/>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
 
-<!-- Add/Edit Modal -->
-<div id="youtubeModal" class="fixed inset-0 hidden bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-xl shadow-lg w-96 p-6">
-    <h3 id="modalTitle" class="text-xl font-semibold mb-4">Add YouTube URL</h3>
-
-    <form id="youtubeForm">
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-        <input type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200" id="videoTitle" placeholder="Enter video title">
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-1">YouTube URL</label>
-        <input type="url" class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200" id="videoUrl" placeholder="https://www.youtube.com/...">
-      </div>
-
-      <div class="flex justify-end space-x-2">
-        <button type="button" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 text-sm" onclick="closeModal()">Cancel</button>
-        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Save</button>
-      </div>
-    </form>
+          <!-- Empty State -->
+          <tr *ngIf="!youtubeList?.length">
+            <td colspan="5" class="px-4 py-16 text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0 0 10 9.87v4.263a1 1 0 0 0 1.555.832l3.197-2.132a1 1 0 0 0 0-1.664z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+              </svg>
+              <p class="text-gray-400 text-sm">No YouTube videos added</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
