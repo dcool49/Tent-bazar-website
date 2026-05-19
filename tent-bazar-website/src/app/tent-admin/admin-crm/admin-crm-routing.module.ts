@@ -16,6 +16,7 @@ import { AdminProfileComponent } from '../admin-profile/admin-profile.component'
 import { AdminUserReportComponent } from '../admin-users/admin-user-report/admin-user-report.component';
 import { AdminEmployeeReportComponent } from '../admin-employee/admin-employee-report/admin-employee-report.component';
 import { EmployeeDashboardComponent } from '../employee-dashboard/employee-dashboard.component';
+import { EmployeeOrderListComponent } from '../employee-order-list/employee-order-list.component';
 import { roleGuard } from '../../guard/role.guard';
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'Dashboard', component: AdminDashboardComponent, canActivate: [roleGuard] },
       { path: 'EmployeeDashboard', component: EmployeeDashboardComponent },
       { path: 'Orders', component: AdminOrderComponent },
+      { path: 'EmployeeOrders', component: EmployeeOrderListComponent },
       { path: 'Users', component: AdminUsersComponent },
       { path: 'Products', component: AdminProductsComponent },
       { path: 'Category', component: AdminCategoryComponent },

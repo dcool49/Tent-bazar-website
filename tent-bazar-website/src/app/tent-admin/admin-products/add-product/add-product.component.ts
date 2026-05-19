@@ -40,7 +40,8 @@ export class AddProductComponent implements OnInit {
     this.category = this.data?.category;
     if(this.data.edit){
       this.myForm.patchValue(this.data.value);
-      this.previewUrl = this.data.value.image.map((image:any)=> image.img_name)
+      this.existingImagesData = this.data.value.image;
+      this.previewUrl = this.data.value.image.map((image:any)=> image.img_name);
     }
   }
 
@@ -49,6 +50,7 @@ export class AddProductComponent implements OnInit {
   }
   previewUrl: any = [];
   selectedFile: File[] | null = [];
+  existingImagesData: any[] = [];
 
   onFileSelected(event: any) {
   const file = event.target.files[0];
@@ -63,12 +65,26 @@ export class AddProductComponent implements OnInit {
   }
 }
 
-// Remove selected image
-removeImage(index:number) {
-  this.selectedFile?.splice(index,1);
-  this.previewUrl?.splice(index,1);
-  // Optionally reset the form control
-  this.myForm.get('image')?.reset();
+removeImage(index: number) {
+  const url = this.previewUrl[index];
+
+  if (this.data?.edit && !url.startsWith('data:')) {
+    const imgData = this.existingImagesData.find((img: any) => img.img_name === url);
+    if (imgData) {
+      const deleteUrl = `product/deleteimage?product_id=${this.data.value._id}&image_id=${imgData._id}`;
+      this.dataService.deleteAPICall(deleteUrl).subscribe({
+        next: () => {
+          this.existingImagesData = this.existingImagesData.filter((img: any) => img._id !== imgData._id);
+          this.previewUrl.splice(index, 1);
+        },
+        error: (error) => console.error('Error deleting image:', error),
+      });
+    }
+  } else {
+    const newFileIndex = this.previewUrl.slice(0, index).filter((u: string) => u.startsWith('data:')).length;
+    this.selectedFile?.splice(newFileIndex, 1);
+    this.previewUrl.splice(index, 1);
+  }
 }
 
   uploadFile(): void {
@@ -93,16 +109,30 @@ removeImage(index:number) {
         .filter((url: string) => !url.startsWith('data:'))
         .map((url: string) => ({ img_name: url }));
       formData.append('existingImages', JSON.stringify(existingImages));
+      formData.append('_id', this.data.value._id);
 
-      const url = 'product/update?_id=' + this.data.value._id;
-      this.dataService.putAPICall(url, formData).subscribe(
-        (response) => {
-          this.dialogRef.close('response');
-        },
-        (error) => {
-          console.error('Error updating product:', error);
-        }
-      );
+      const newFiles = this.selectedFile ?? [];
+      const updateProduct = () => {
+        const url = 'product/update';
+        this.dataService.putAPICall(url, formData).subscribe({
+          next: () => this.dialogRef.close('response'),
+          error: (error) => console.error('Error updating product:', error),
+        });
+      };
+
+      if (newFiles.length > 0) {
+        const imageFormData = new FormData();
+        imageFormData.append('_id', this.data.value._id);
+        newFiles.forEach((file) => {
+          imageFormData.append('files', file, file.name);
+        });
+        this.dataService.putAPICall('product/updateimage', imageFormData).subscribe({
+          next: () => updateProduct(),
+          error: (error) => console.error('Error updating image:', error),
+        });
+      } else {
+        updateProduct();
+      }
     } else {
       const url = 'product/add';
       this.dataService.postAPICall(url, formData).subscribe(

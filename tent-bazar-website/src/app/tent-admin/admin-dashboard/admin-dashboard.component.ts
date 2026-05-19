@@ -13,6 +13,11 @@ import { MatDialog } from '@angular/material/dialog';
 export class AdminDashboardComponent implements OnInit {
   data: any;
 
+  showDatePicker = false;
+  startDate = '';
+  endDate = '';
+  displayDateRange = '';
+
   widgetData = { orders: 0, users: 0, product: 0, employee: 0, category: 0 };
   totalOrdersCount = 0;
   pieChartEntries: { label: string; value: number; color: string; percent: string }[] = [];
@@ -72,11 +77,71 @@ export class AdminDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.setLastWeek();
+  }
+
+  toggleDatePicker() {
+    this.showDatePicker = !this.showDatePicker;
+  }
+
+  setCurrentWeek() {
+    const today = new Date();
+    const day = today.getDay();
+    const diffToMonday = day === 0 ? -6 : 1 - day;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + diffToMonday);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    this.startDate = this.formatDate(monday);
+    this.endDate = this.formatDate(sunday);
+    this.applyDateRange();
+  }
+
+  setLastWeek() {
+    const today = new Date();
+    const day = today.getDay();
+    const diffToLastMonday = day === 0 ? -13 : 1 - day - 7;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + diffToLastMonday);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    this.startDate = this.formatDate(monday);
+    this.endDate = this.formatDate(sunday);
+    this.applyDateRange();
+  }
+
+  setLast30Days() {
+    const today = new Date();
+    const start = new Date(today);
+    start.setDate(today.getDate() - 29);
+    this.startDate = this.formatDate(start);
+    this.endDate = this.formatDate(today);
+    this.applyDateRange();
+  }
+
+  applyDateRange() {
+    this.updateDisplayRange();
+    this.showDatePicker = false;
     this.getDashbordData();
   }
 
+  private formatDate(date: Date): string {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  private updateDisplayRange() {
+    if (!this.startDate || !this.endDate) return;
+    const opts: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+    const start = new Date(this.startDate + 'T00:00:00');
+    const end = new Date(this.endDate + 'T00:00:00');
+    this.displayDateRange = `${start.toLocaleDateString('en-US', opts)} – ${end.toLocaleDateString('en-US', opts)}`;
+  }
+
   getDashbordData() {
-    const url = 'dashboard/fetch';
+    const url = `dashboard/fetch?startDate=${this.startDate}&endDate=${this.endDate}`;
     this.dataService.getAPICall(url).subscribe(
       (res: any) => {
         this.data = res.data;

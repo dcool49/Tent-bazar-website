@@ -1,0 +1,192 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+
+  <!-- Page Header -->
+  <div class="mb-4">
+    <h2 class="text-2xl font-bold text-gray-800">My Orders</h2>
+    <p class="text-sm text-gray-500 mt-1">Orders assigned to you</p>
+  </div>
+
+  <!-- Filter Section -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-5">
+
+    <!-- Filter Header -->
+    <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z" />
+        </svg>
+        <span class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Filters</span>
+        <span *ngIf="hasActiveFilter" class="ml-1 px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs rounded-full font-medium">Active</span>
+      </div>
+
+      <!-- Date Range Toggle -->
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-medium text-gray-500">Date Range Filter</span>
+        <button
+          type="button"
+          (click)="toggleDateFilter()"
+          class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none"
+          [ngClass]="dateFilterEnabled ? 'bg-indigo-500' : 'bg-gray-300'"
+        >
+          <span
+            class="inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform"
+            [ngClass]="dateFilterEnabled ? 'translate-x-4' : 'translate-x-1'"
+          ></span>
+        </button>
+        <span class="text-xs font-medium" [ngClass]="dateFilterEnabled ? 'text-indigo-600' : 'text-gray-400'">
+          {{ dateFilterEnabled ? 'ON' : 'OFF' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Date Range Inputs -->
+    <div *ngIf="dateFilterEnabled" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3 p-3 bg-indigo-50 border border-indigo-100 rounded-lg">
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-gray-500">From Date</label>
+        <input
+          type="date"
+          [(ngModel)]="fromDate"
+          (change)="onFilterChange()"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 bg-white"
+        />
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-gray-500">To Date</label>
+        <input
+          type="date"
+          [(ngModel)]="toDate"
+          (change)="onFilterChange()"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 bg-white"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+      <!-- Customer Search -->
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-gray-500">Customer Name</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="Search customer..."
+            [(ngModel)]="searchCustomer"
+            (input)="applyClientSearch()"
+            class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400"
+          />
+        </div>
+      </div>
+
+      <!-- Status Filter -->
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-gray-500">Order Status</label>
+        <select
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 bg-white"
+          [(ngModel)]="StatusValue"
+          (change)="onFilterChange()"
+        >
+          <option value="">All Statuses</option>
+          <option *ngFor="let sts of statusList" [value]="sts">{{ sts }}</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Clear Filter -->
+    <div *ngIf="hasActiveFilter" class="mt-3 flex justify-end">
+      <button
+        (click)="clearFilter()"
+        class="flex items-center gap-1.5 px-4 py-1.5 bg-red-50 text-red-600 border border-red-200 rounded-lg text-sm font-medium hover:bg-red-100 transition"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        Clear Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex items-center justify-center py-20">
+    <div class="flex flex-col items-center gap-3">
+      <div class="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+      <p class="text-sm text-gray-400">Loading your orders...</p>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div *ngIf="!loading" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto">
+    <div class="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
+      <span class="text-sm font-semibold text-gray-700">
+        {{ orderData.length || 0 }} order{{ orderData.length !== 1 ? 's' : '' }} found
+      </span>
+    </div>
+    <table class="min-w-full text-sm text-left">
+      <thead class="bg-gray-50 border-b border-gray-100">
+        <tr>
+          <th class="px-5 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">#</th>
+          <th class="px-5 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Order ID</th>
+          <th class="px-5 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Customer</th>
+          <th class="px-5 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Products</th>
+          <th class="px-5 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Order Date</th>
+          <th class="px-5 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Status</th>
+          <th class="px-5 py-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-50">
+        <tr
+          *ngFor="let order of orderData; let i = index"
+          class="hover:bg-gray-50 transition"
+        >
+          <td class="px-5 py-3.5 text-gray-400 text-xs">{{ i + 1 }}</td>
+          <td class="px-5 py-3.5 font-mono font-medium text-gray-800 text-xs">#{{ order.orderId }}</td>
+          <td class="px-5 py-3.5 text-gray-700 font-medium">{{ order.buyerId?.name }}</td>
+          <td class="px-5 py-3.5 text-gray-600">
+            <span class="inline-flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+              {{ order.productDetails?.length }}
+            </span>
+          </td>
+          <td class="px-5 py-3.5 text-gray-500 text-xs">{{ order.createdAt | date }}</td>
+          <td class="px-5 py-3.5">
+            <span
+              [ngClass]="{
+                'bg-gray-100 text-gray-600':     order.status === 'TO-DO',
+                'bg-green-100 text-green-700':   order.status === 'Done',
+                'bg-red-100 text-red-600':       order.status === 'Cancle',
+                'bg-orange-100 text-orange-600': order.status === 'Hold',
+                'bg-yellow-100 text-yellow-700': order.status === 'In-progress'
+              }"
+              class="px-2.5 py-1 rounded-full text-xs font-medium"
+            >{{ order.status }}</span>
+          </td>
+          <td class="px-5 py-3.5">
+            <button
+              (click)="viewOrder(order)"
+              class="px-3 py-1.5 bg-indigo-50 text-indigo-600 border border-indigo-200 rounded-lg hover:bg-indigo-100 text-xs font-medium transition"
+            >
+              View / Edit
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!orderData || orderData.length === 0">
+          <td colspan="7" class="px-5 py-12 text-center">
+            <div class="flex flex-col items-center gap-2 text-gray-400">
+              <i class="bi bi-inbox text-4xl text-gray-300"></i>
+              <span class="text-sm">No orders assigned to you</span>
+              <button *ngIf="hasActiveFilter" (click)="clearFilter()" class="text-xs text-indigo-600 underline">Clear filters</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

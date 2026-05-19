@@ -141,7 +141,131 @@ orderUpdate(){
 }
 
 downloadPdf() {
-  window.print();
+  const order = this.orderData;
+  const orderId = this.dataService.selectedOrder?.orderId || '';
+  const date = order?.createdAt
+    ? new Date(order.createdAt).toLocaleString('en-IN', {
+        day: '2-digit', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', hour12: true
+      })
+    : '—';
+
+  const productRows = (order?.productDetails || []).map((prod: any, i: number) => `
+    <tr>
+      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#888;">${i + 1}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;font-weight:500;color:#222;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="${prod.productId?.image?.[0]?.img_name || ''}"
+               style="width:40px;height:40px;object-fit:cover;border-radius:8px;border:1px solid #eee;"
+               onerror="this.style.display='none'" />
+          <span>${prod.productId?.productName || '—'}</span>
+        </div>
+      </td>
+      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#555;">${this.getcatName(prod.productId?.category_id)}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;font-weight:600;color:#222;">&#8377; ${prod.productId?.price || '—'}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;text-align:center;color:#222;">${prod.quantity || 1}</td>
+      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;font-weight:600;color:#222;">&#8377; ${((prod.productId?.price || 0) * (prod.quantity || 1)).toFixed(2)}</td>
+    </tr>`).join('');
+
+  const totalAmount = (order?.productDetails || []).reduce(
+    (sum: number, prod: any) => sum + ((prod.productId?.price || 0) * (prod.quantity || 1)), 0
+  );
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Order #${orderId}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #fff; color: #333; padding: 32px; font-size: 14px; }
+    .header { border-bottom: 2px solid #4f46e5; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .header h1 { font-size: 22px; font-weight: 700; color: #1e1b4b; }
+    .header h1 span { color: #4f46e5; }
+    .header .meta { font-size: 12px; color: #666; margin-top: 4px; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #e0e7ff; color: #4f46e5; }
+    .section { background: #fafafa; border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+    .section h2 { font-size: 14px; font-weight: 700; color: #374151; margin-bottom: 14px; letter-spacing: 0.03em; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; }
+    .info-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: flex-start; }
+    .info-label { font-size: 11px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; }
+    .info-value { font-size: 13px; font-weight: 500; color: #111827; margin-top: 2px; }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { background: #f3f4f6; }
+    th { text-align: left; font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; padding: 10px 12px; border-bottom: 2px solid #e5e7eb; }
+    th:last-child, td:last-child { text-align: right; }
+    .total-row td { font-weight: 700; font-size: 15px; color: #111827; border-top: 2px solid #e5e7eb; padding: 14px 12px; }
+    .footer { margin-top: 28px; text-align: center; font-size: 11px; color: #9ca3af; border-top: 1px solid #e5e7eb; padding-top: 12px; }
+    @media print { body { padding: 16px; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>Order <span>#${orderId}</span></h1>
+      <div class="meta">Date: ${date}</div>
+    </div>
+    <div>
+      <span class="status-badge">${this.selectedStatus}</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Customer Details</h2>
+    <div class="info-row">
+      <div style="min-width:120px">
+        <div class="info-label">Customer Name</div>
+        <div class="info-value">${order?.buyerId?.name || '—'}</div>
+      </div>
+      <div style="min-width:140px">
+        <div class="info-label">Mobile</div>
+        <div class="info-value">${order?.buyerId?.mobile || '—'}</div>
+      </div>
+    </div>
+    <div class="info-row">
+      <div>
+        <div class="info-label">Delivery Address</div>
+        <div class="info-value">${order?.addressLine || '—'}${order?.city ? ', ' + order.city : ''}${order?.state ? ', ' + order.state : ''}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Products (${order?.productDetails?.length || 0})</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40px">#</th>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Unit Price</th>
+          <th style="text-align:center">Qty</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${productRows || `<tr><td colspan="6" style="padding:20px;text-align:center;color:#9ca3af;">No products</td></tr>`}
+        <tr class="total-row">
+          <td colspan="5" style="padding:14px 12px;border-top:2px solid #e5e7eb;font-weight:700;color:#111827;font-size:15px;">Grand Total</td>
+          <td style="padding:14px 12px;border-top:2px solid #e5e7eb;font-weight:700;color:#4f46e5;font-size:15px;text-align:right;">&#8377; ${totalAmount.toFixed(2)}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">Generated on ${new Date().toLocaleString('en-IN')} &nbsp;|&nbsp; Tent Bazar</div>
+</body>
+</html>`;
+
+  const printWindow = window.open('', '_blank', 'width=900,height=700');
+  if (printWindow) {
+    printWindow.document.write(html);
+    printWindow.document.close();
+    printWindow.onload = () => {
+      printWindow.focus();
+      printWindow.print();
+      printWindow.close();
+    };
+  }
 }
 
 toggleAddProduct() {

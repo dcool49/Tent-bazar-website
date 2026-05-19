@@ -32,7 +32,8 @@ toggleSidebar() {
   allTabs: { label: string; icon: string; route: string; roles: string[] }[] = [
     { label: 'Dashboard',    icon: 'bi bi-speedometer2',  route: 'Dashboard',         roles: ['admin'] },
     { label: 'My Dashboard', icon: 'bi bi-speedometer2',  route: 'EmployeeDashboard', roles: ['employee'] },
-    { label: 'Orders',       icon: 'bi bi-box-seam',      route: 'Orders',            roles: ['admin', 'employee'] },
+    { label: 'Orders',       icon: 'bi bi-box-seam',      route: 'Orders',            roles: ['admin'] },
+    { label: 'My Orders',    icon: 'bi bi-box-seam',      route: 'EmployeeOrders',    roles: ['employee'] },
     { label: 'Users',        icon: 'bi bi-people',        route: 'Users',             roles: ['admin', 'employee'] },
     { label: 'Products',     icon: 'bi bi-bag',           route: 'Products',          roles: ['admin', 'employee'] },
     { label: 'Category',     icon: 'bi bi-grid',          route: 'Category',          roles: ['admin', 'employee'] },

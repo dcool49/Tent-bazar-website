@@ -26,12 +26,14 @@ import { AdminProfileComponent } from '../admin-profile/admin-profile.component'
 import { AdminUserReportComponent } from '../admin-users/admin-user-report/admin-user-report.component';
 import { AdminEmployeeReportComponent } from '../admin-employee/admin-employee-report/admin-employee-report.component';
 import { EmployeeDashboardComponent } from '../employee-dashboard/employee-dashboard.component';
+import { EmployeeOrderListComponent } from '../employee-order-list/employee-order-list.component';
 
 @NgModule({
   declarations: [
     AdminCategoryComponent,
     AdminDashboardComponent,
     EmployeeDashboardComponent,
+    EmployeeOrderListComponent,
     AdminEmployeeComponent,
     AdminHomeComponent,
     AdminInstagramUrlComponent,
