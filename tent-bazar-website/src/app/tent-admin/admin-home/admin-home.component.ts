@@ -9,7 +9,9 @@ import { AdminProductsComponent } from '../admin-products/admin-products.compone
 import { AdminCategoryComponent } from '../admin-category/admin-category.component';
 import { AdminYoutubeUrlComponent } from '../admin-youtube-url/admin-youtube-url.component';
 import { AdminInstagramUrlComponent } from '../admin-instagram-url/admin-instagram-url.component';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -23,6 +25,7 @@ activeTab = 0;
 isSidebarOpen = false;
 role = localStorage.getItem('role') || 'employee';
 isAdmin = this.role === 'admin';
+private routerSub!: Subscription;
 constructor(private route:Router, private authService:AuthService){}
 
 toggleSidebar() {
@@ -57,8 +60,21 @@ toggleSidebar() {
   remainingTime: number = 12 * 60 * 60; // 24 hours in seconds
   intervalId: any;
 
+  private syncActiveTabFromUrl(url: string): void {
+    const segment = url.split('/').pop()?.split('?')[0] || '';
+    const filteredTabs = this.tabs;
+    const idx = filteredTabs.findIndex(
+      t => t.route.toLowerCase() === segment.toLowerCase()
+    );
+    if (idx !== -1) this.activeTab = idx;
+  }
+
   ngOnInit(): void {
     this.startTimer();
+    this.syncActiveTabFromUrl(this.route.url);
+    this.routerSub = this.route.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe((e: NavigationEnd) => this.syncActiveTabFromUrl(e.urlAfterRedirects));
   }
 
   startTimer(): void {
@@ -73,7 +89,8 @@ toggleSidebar() {
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.intervalId); // Clear interval on component destruction
+    clearInterval(this.intervalId);
+    this.routerSub?.unsubscribe();
   }
 
 }
