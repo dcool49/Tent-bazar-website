@@ -29,7 +29,7 @@ const routes: Routes = [
       { path: 'EmployeeDashboard', component: EmployeeDashboardComponent },
       { path: 'Orders', component: AdminOrderComponent },
       { path: 'EmployeeOrders', component: EmployeeOrderListComponent },
-      { path: 'Users', component: AdminUsersComponent },
+      { path: 'Users', component: AdminUsersComponent, canActivate: [roleGuard] },
       { path: 'Products', component: AdminProductsComponent },
       { path: 'Category', component: AdminCategoryComponent },
       { path: 'view-order', component: AdminViewOrderComponent },

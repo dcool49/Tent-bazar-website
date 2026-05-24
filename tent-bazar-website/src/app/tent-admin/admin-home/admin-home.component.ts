@@ -37,7 +37,7 @@ toggleSidebar() {
     { label: 'My Dashboard', icon: 'bi bi-speedometer2',  route: 'EmployeeDashboard', roles: ['employee'] },
     { label: 'Orders',       icon: 'bi bi-box-seam',      route: 'Orders',            roles: ['admin'] },
     { label: 'My Orders',    icon: 'bi bi-box-seam',      route: 'EmployeeOrders',    roles: ['employee'] },
-    { label: 'Users',        icon: 'bi bi-people',        route: 'Users',             roles: ['admin', 'employee'] },
+    { label: 'Users',        icon: 'bi bi-people',        route: 'Users',             roles: ['admin'] },
     { label: 'Products',     icon: 'bi bi-bag',           route: 'Products',          roles: ['admin', 'employee'] },
     { label: 'Category',     icon: 'bi bi-grid',          route: 'Category',          roles: ['admin', 'employee'] },
     { label: 'Employees',    icon: 'bi bi-person-badge',  route: 'Employees',         roles: ['admin'] },
