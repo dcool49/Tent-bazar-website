@@ -25,11 +25,18 @@ export class AdminViewOrderComponent implements OnInit {
   productSearch = '';
   productSearchResults: any[] = [];
   searchingProducts = false;
+  showUnsavedWarning = false;
+
+  private originalStatus: any;
+  private originalEmployeeId: any;
+  private originalProductDetails: any[] = [];
 
   constructor(public dataService: DataService,public dialog: MatDialog,private route: Router,private location: Location){
     if(this.dataService.selectedOrder){
       this.employeeId = this.dataService.selectedOrder?.empId?._id || '';
       this.selectedStatus = this.dataService.selectedOrder.status;
+      this.originalStatus = this.selectedStatus;
+      this.originalEmployeeId = this.employeeId;
       this.getCatList();
     }
   }
@@ -105,6 +112,36 @@ export class AdminViewOrderComponent implements OnInit {
       this.location.back();
     }
 
+    hasUnsavedChanges(): boolean {
+      if (this.selectedStatus !== this.originalStatus) return true;
+      if (this.employeeId !== this.originalEmployeeId) return true;
+      const current = this.orderData?.productDetails || [];
+      if (current.length !== this.originalProductDetails.length) return true;
+      for (let i = 0; i < current.length; i++) {
+        const orig = this.originalProductDetails[i];
+        if (current[i].productId?._id !== orig.productId?._id) return true;
+        if ((current[i].quantity || 1) !== (orig.quantity || 1)) return true;
+      }
+      return false;
+    }
+
+    onCancelClick() {
+      if (this.hasUnsavedChanges()) {
+        this.showUnsavedWarning = true;
+      } else {
+        this.location.back();
+      }
+    }
+
+    confirmCancel() {
+      this.showUnsavedWarning = false;
+      this.location.back();
+    }
+
+    dismissCancel() {
+      this.showUnsavedWarning = false;
+    }
+
     urlRout(path: any) {
       this.route.navigate(['/admin-home/' + path])
     }
@@ -115,6 +152,7 @@ export class AdminViewOrderComponent implements OnInit {
       this.dataService.postAPICall(url, payload).subscribe({
         next: (res: any) => {
           this.orderData = res.data[0];
+          this.originalProductDetails = JSON.parse(JSON.stringify(res.data[0]?.productDetails || []));
         },
         error: (err) => {
           console.error(err);
