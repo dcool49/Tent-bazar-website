@@ -16,7 +16,7 @@ export class EmployeeOrderListComponent implements OnInit {
   searchCustomer = '';
   fromDate = '';
   toDate = '';
-  dateFilterEnabled = false;
+  dateFilterEnabled = true;
   loading = true;
 
   private employeeId = '';
@@ -44,8 +44,11 @@ export class EmployeeOrderListComponent implements OnInit {
   buildPayload(): any {
     const payload: any = { empId: this.employeeId };
     if (this.StatusValue) payload['status'] = this.StatusValue;
-    if (this.dateFilterEnabled && this.fromDate) payload['fromDate'] = this.fromDate;
-    if (this.dateFilterEnabled && this.toDate) payload['toDate'] = this.toDate;
+    if (this.dateFilterEnabled && (this.fromDate || this.toDate)) {
+      payload['createdAt'] = {};
+      if (this.fromDate) payload['createdAt']['$gte'] = this.fromDate;
+      if (this.toDate) payload['createdAt']['$lte'] = this.toDate;
+    }
     return payload;
   }
 

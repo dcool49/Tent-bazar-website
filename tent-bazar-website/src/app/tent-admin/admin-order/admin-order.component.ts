@@ -18,7 +18,7 @@ export class AdminOrderComponent implements OnInit {
   searchCustomer: any;
   fromDate: string = '';
   toDate: string = '';
-  dateFilterEnabled: boolean = false;
+  dateFilterEnabled: boolean = true;
 
   constructor(private dataService: DataService, private route: Router) {}
 
@@ -43,8 +43,11 @@ export class AdminOrderComponent implements OnInit {
     const payload: any = {};
     if (this.employeeId) payload['employeeId'] = this.employeeId;
     if (this.StatusValue) payload['status'] = this.StatusValue;
-    if (this.dateFilterEnabled && this.fromDate) payload['fromDate'] = this.fromDate;
-    if (this.dateFilterEnabled && this.toDate) payload['toDate'] = this.toDate;
+    if (this.dateFilterEnabled && (this.fromDate || this.toDate)) {
+      payload['createdAt'] = {};
+      if (this.fromDate) payload['createdAt']['$gte'] = this.fromDate;
+      if (this.toDate) payload['createdAt']['$lte'] = this.toDate;
+    }
     return payload;
   }
 
