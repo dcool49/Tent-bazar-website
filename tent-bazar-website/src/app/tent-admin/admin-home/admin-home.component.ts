@@ -34,13 +34,13 @@ toggleSidebar() {
 
   allTabs: { label: string; icon: string; route: string; roles: string[] }[] = [
     { label: 'Dashboard',    icon: 'bi bi-speedometer2',  route: 'Dashboard',         roles: ['admin'] },
-    { label: 'My Dashboard', icon: 'bi bi-speedometer2',  route: 'EmployeeDashboard', roles: ['employee'] },
-    { label: 'Orders',       icon: 'bi bi-box-seam',      route: 'Orders',            roles: ['admin'] },
+    { label: 'My Dashboard', icon: 'bi bi-speedometer2',  route: 'EmployeeDashboard', roles: ['employee', 'manager'] },
+    { label: 'Orders',       icon: 'bi bi-box-seam',      route: 'Orders',            roles: ['admin', 'manager'] },
     { label: 'My Orders',    icon: 'bi bi-box-seam',      route: 'EmployeeOrders',    roles: ['employee'] },
     { label: 'Users',        icon: 'bi bi-people',        route: 'Users',             roles: ['admin'] },
-    { label: 'Products',     icon: 'bi bi-bag',           route: 'Products',          roles: ['admin', 'employee'] },
-    { label: 'Category',     icon: 'bi bi-grid',          route: 'Category',          roles: ['admin', 'employee'] },
-    { label: 'Employees',    icon: 'bi bi-person-badge',  route: 'Employees',         roles: ['admin'] },
+    { label: 'Products',     icon: 'bi bi-bag',           route: 'Products',          roles: ['admin', 'employee', 'manager'] },
+    { label: 'Category',     icon: 'bi bi-grid',          route: 'Category',          roles: ['admin', 'employee', 'manager'] },
+    { label: 'Employees',    icon: 'bi bi-person-badge',  route: 'Employees',         roles: ['admin', 'manager'] },
     { label: 'YouTube',      icon: 'bi bi-youtube',       route: 'YouTube',           roles: ['admin'] },
     { label: 'Instagram',    icon: 'bi bi-instagram',     route: 'Instagram',         roles: ['admin'] },
     { label: 'banner',       icon: 'bi bi-image',         route: 'banner',            roles: ['admin'] },

@@ -27,6 +27,7 @@ import { AdminUserReportComponent } from '../admin-users/admin-user-report/admin
 import { AdminEmployeeReportComponent } from '../admin-employee/admin-employee-report/admin-employee-report.component';
 import { EmployeeDashboardComponent } from '../employee-dashboard/employee-dashboard.component';
 import { EmployeeOrderListComponent } from '../employee-order-list/employee-order-list.component';
+import { AddOrderComponent } from '../admin-order/add-order/add-order.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { EmployeeOrderListComponent } from '../employee-order-list/employee-orde
     AddAdminUserComponent,
     AdminProfileComponent,
     AdminUserReportComponent,
-    AdminEmployeeReportComponent
+    AdminEmployeeReportComponent,
+    AddOrderComponent
   ],
   imports: [
     CommonModule,

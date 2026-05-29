@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class AdminEmployeeComponent implements OnInit {
   List: any;
   role='employee'
+  isManager = localStorage.getItem('role') === 'manager';
   addComponent = AddEmployeeComponent;
   selectedID: any;
   getListUrl = 'user/v2/fetch?passwordToShow=true'

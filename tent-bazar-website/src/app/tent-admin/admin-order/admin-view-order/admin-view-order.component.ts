@@ -20,7 +20,7 @@ export class AdminViewOrderComponent implements OnInit {
   employeeId:any;
   statusList =['TO-DO','In-progress','Done','Cancle','Hold'];
   selectedStatus:any;
-  isAdmin = localStorage.getItem('role') === 'admin';
+  canAssignEmployee = ['admin', 'manager'].includes(localStorage.getItem('role') || '');
   showAddProduct = false;
   productSearch = '';
   productSearchResults: any[] = [];

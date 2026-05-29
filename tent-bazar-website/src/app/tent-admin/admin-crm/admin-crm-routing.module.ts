@@ -12,12 +12,14 @@ import { AdminInstagramUrlComponent } from '../admin-instagram-url/admin-instagr
 import { AddProductComponent } from '../admin-products/add-product/add-product.component';
 import { AdminBannerComponent } from '../admin-banner/admin-banner.component';
 import { AdminViewOrderComponent } from '../admin-order/admin-view-order/admin-view-order.component';
+import { AddOrderComponent } from '../admin-order/add-order/add-order.component';
 import { AdminProfileComponent } from '../admin-profile/admin-profile.component';
 import { AdminUserReportComponent } from '../admin-users/admin-user-report/admin-user-report.component';
 import { AdminEmployeeReportComponent } from '../admin-employee/admin-employee-report/admin-employee-report.component';
 import { EmployeeDashboardComponent } from '../employee-dashboard/employee-dashboard.component';
 import { EmployeeOrderListComponent } from '../employee-order-list/employee-order-list.component';
 import { roleGuard } from '../../guard/role.guard';
+import { managerRoleGuard } from '../../guard/manager-role.guard';
 
 const routes: Routes = [
   {
@@ -27,20 +29,21 @@ const routes: Routes = [
       { path: '', redirectTo: 'Dashboard', pathMatch: 'full' },
       { path: 'Dashboard', component: AdminDashboardComponent, canActivate: [roleGuard] },
       { path: 'EmployeeDashboard', component: EmployeeDashboardComponent },
-      { path: 'Orders', component: AdminOrderComponent },
+      { path: 'Orders', component: AdminOrderComponent, canActivate: [managerRoleGuard] },
       { path: 'EmployeeOrders', component: EmployeeOrderListComponent },
       { path: 'Users', component: AdminUsersComponent, canActivate: [roleGuard] },
       { path: 'Products', component: AdminProductsComponent },
       { path: 'Category', component: AdminCategoryComponent },
       { path: 'view-order', component: AdminViewOrderComponent },
-      { path: 'Employees', component: AdminEmployeeComponent, canActivate: [roleGuard] },
+      { path: 'AddOrder', component: AddOrderComponent, canActivate: [managerRoleGuard] },
+      { path: 'Employees', component: AdminEmployeeComponent, canActivate: [managerRoleGuard] },
       { path: 'YouTube', component: AdminYoutubeUrlComponent, canActivate: [roleGuard] },
       { path: 'Instagram', component: AdminInstagramUrlComponent, canActivate: [roleGuard] },
       { path: 'AddProduct', component: AddProductComponent, canActivate: [roleGuard] },
       { path: 'banner', component: AdminBannerComponent, canActivate: [roleGuard] },
       { path: 'Profile', component: AdminProfileComponent, canActivate: [roleGuard] },
       { path: 'user-report/:userId', component: AdminUserReportComponent },
-      { path: 'employee-report/:empId', component: AdminEmployeeReportComponent, canActivate: [roleGuard] },
+      { path: 'employee-report/:empId', component: AdminEmployeeReportComponent, canActivate: [managerRoleGuard] },
       { path: '**', redirectTo: '' },
     ],
   },

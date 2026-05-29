@@ -125,6 +125,9 @@
       <span class="text-sm font-semibold text-gray-700">
         {{ orderData.length || 0 }} order{{ orderData.length !== 1 ? 's' : '' }} found
       </span>
+      <span class="text-xs text-gray-400" *ngIf="totalPages > 1">
+        Page {{ currentPage }} of {{ totalPages }}
+      </span>
     </div>
     <table class="min-w-full text-sm text-left">
       <thead class="bg-gray-50 border-b border-gray-100">
@@ -140,10 +143,10 @@
       </thead>
       <tbody class="divide-y divide-gray-50">
         <tr
-          *ngFor="let order of orderData; let i = index"
+          *ngFor="let order of pagedData; let i = index"
           class="hover:bg-gray-50 transition"
         >
-          <td class="px-5 py-3.5 text-gray-400 text-xs">{{ i + 1 }}</td>
+          <td class="px-5 py-3.5 text-gray-400 text-xs">{{ (currentPage - 1) * pageSize + i + 1 }}</td>
           <td class="px-5 py-3.5 font-mono font-medium text-gray-800 text-xs">#{{ order.orderId }}</td>
           <td class="px-5 py-3.5 text-gray-700 font-medium">{{ order.buyerId?.name }}</td>
           <td class="px-5 py-3.5 text-gray-600">
@@ -187,6 +190,30 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Pagination -->
+    <div *ngIf="totalPages > 1" class="px-5 py-3 border-t border-gray-100 flex items-center justify-between gap-2">
+      <span class="text-xs text-gray-500">Showing {{ (currentPage - 1) * pageSize + 1 }}–{{ currentPage * pageSize < orderData.length ? currentPage * pageSize : orderData.length }} of {{ orderData.length }}</span>
+      <div class="flex items-center gap-1">
+        <button
+          (click)="goToPage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+        >Prev</button>
+        <ng-container *ngFor="let p of pageNumbers">
+          <button
+            (click)="goToPage(p)"
+            [ngClass]="p === currentPage ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'"
+            class="px-2.5 py-1.5 rounded-lg text-xs font-medium border transition min-w-[32px]"
+          >{{ p }}</button>
+        </ng-container>
+        <button
+          (click)="goToPage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+          class="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+        >Next</button>
+      </div>
+    </div>
   </div>
 
 </div>

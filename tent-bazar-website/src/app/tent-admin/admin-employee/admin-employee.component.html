@@ -7,6 +7,7 @@
       <p class="text-sm text-gray-500 mt-0.5">{{ List?.length || 0 }} employees total</p>
     </div>
     <button
+      *ngIf="!isManager"
       (click)="openDialog(false, null)"
       class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium flex items-center gap-2 whitespace-nowrap transition-colors self-start sm:self-auto"
     >
@@ -60,6 +61,7 @@
                 </button>
                 <!-- Edit -->
                 <button
+                  *ngIf="!(isManager && (rel.role === 'admin' || rel.role === 'manager'))"
                   (click)="openDialog(true, rel)"
                   title="Edit"
                   class="p-1.5 rounded-lg text-yellow-600 hover:bg-yellow-50 transition-colors"
@@ -70,6 +72,7 @@
                 </button>
                 <!-- Report -->
                 <button
+                *ngIf="!(isManager && (rel.role === 'admin' || rel.role === 'manager'))"
                   (click)="viewReport(rel._id)"
                   title="Report"
                   class="p-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors"
@@ -80,6 +83,7 @@
                 </button>
                 <!-- Delete -->
                 <button
+                  *ngIf="!(isManager && (rel.role === 'admin' || rel.role === 'manager'))"
                   (click)="openDeleteDialog(rel)"
                   title="Remove"
                   class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors"

@@ -18,6 +18,8 @@ export class EmployeeOrderListComponent implements OnInit {
   toDate = '';
   dateFilterEnabled = true;
   loading = true;
+  pageSize = 10;
+  currentPage = 1;
 
   private employeeId = '';
 
@@ -56,7 +58,9 @@ export class EmployeeOrderListComponent implements OnInit {
     this.loading = true;
     this.dataService.postAPICall('order/fetch', this.buildPayload()).subscribe({
       next: (res: any) => {
-        this.allOrderData = res.data || [];
+        this.allOrderData = (res.data || []).sort((a: any, b: any) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
         this.applyClientSearch();
         this.loading = false;
       },
@@ -76,12 +80,30 @@ export class EmployeeOrderListComponent implements OnInit {
   applyClientSearch() {
     if (!this.searchCustomer) {
       this.orderData = this.allOrderData;
-      return;
+    } else {
+      const search = this.searchCustomer.toLowerCase();
+      this.orderData = this.allOrderData.filter((order: any) =>
+        order.buyerId?.name?.toLowerCase().includes(search)
+      );
     }
-    const search = this.searchCustomer.toLowerCase();
-    this.orderData = this.allOrderData.filter((order: any) =>
-      order.buyerId?.name?.toLowerCase().includes(search)
-    );
+    this.currentPage = 1;
+  }
+
+  get totalPages(): number {
+    return Math.ceil((this.orderData?.length || 0) / this.pageSize);
+  }
+
+  get pagedData(): any[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return (this.orderData || []).slice(start, start + this.pageSize);
+  }
+
+  get pageNumbers(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) this.currentPage = page;
   }
 
   clearFilter() {
