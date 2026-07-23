@@ -112,9 +112,14 @@ export class AdminProductsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe({
       next: (result) => {
-        if (result) this.getProductList();
+        if (result) this.filterByCat();
       },
     });
+  }
+
+  onCategoryChange() {
+    this.p = 1;
+    this.filterByCat();
   }
 
   filterByCat() {
@@ -143,7 +148,7 @@ export class AdminProductsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe({
       next: (result) => {
-        if (result) this.getProductList();
+        if (result) this.filterByCat();
       },
     });
   }

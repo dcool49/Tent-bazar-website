@@ -26,7 +26,7 @@
       <select
         class="w-full sm:w-44 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-400"
         [(ngModel)]="value"
-        (change)="filterByCat()"
+        (change)="onCategoryChange()"
       >
         <option value="">All Categories</option>
         <option *ngFor="let cat of category" [value]="cat._id">{{ cat.categoryName }}</option>
