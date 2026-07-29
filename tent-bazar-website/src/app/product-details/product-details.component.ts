@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { SeoService } from '../services/seo.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-product-details',
@@ -22,6 +22,7 @@ export class ProductDetailsComponent implements OnInit {
     private route: Router,
     private dataService: DataService,
     private seoService: SeoService,
+    private location: Location,
     @Optional() @Inject(MAT_DIALOG_DATA) dialogData: any,
   ) {
     this.adminView = !!dialogData?.adminView;
@@ -37,12 +38,15 @@ export class ProductDetailsComponent implements OnInit {
   urlRout(path: any) {
     this.route.navigate(['/' + path])
   }
+  goBack() {
+    this.location.back();
+  }
   getProductDetails() {
     const url = 'product/fetchbyid?_id=' + this.productId;
     this.dataService.getAPICall(url).subscribe({
       next: (res: any) => {
         this.productDetals = res?.data?.[0];
-        this.selectedImage = this.productDetals?.image?.[0].img_name;
+        this.selectedImage = this.productDetals?.image?.[0]?.img_name;
         if (this.productDetals && !this.adminView) {
           this.seoService.setPage({
             title: this.productDetals.productName,

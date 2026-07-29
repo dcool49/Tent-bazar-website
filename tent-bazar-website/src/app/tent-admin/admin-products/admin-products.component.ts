@@ -71,7 +71,7 @@ export class AdminProductsComponent implements OnInit {
   deleteProduct(id: any) {
     const url = 'product/delete?_id=' + id;
     this.dataService.deleteAPICall(url).subscribe({
-      next: () => { this.getProductList(); },
+      next: () => { this.filterByCat(); },
       error: (err) => { console.error(err); },
     });
   }

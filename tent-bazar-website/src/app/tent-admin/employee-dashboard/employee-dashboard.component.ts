@@ -15,7 +15,7 @@ export class EmployeeDashboardComponent implements OnInit {
   loading = true;
   totalOrdersCount = 0;
   pieChartEntries: { label: string; value: number; color: string; percent: string }[] = [];
-  recentOrders: { id: string; customer: string; initials: string; color: string; product: string; amount: string; status: string }[] = [];
+  recentOrders: { id: string; customer: string; initials: string; color: string; product: string; amount: string; status: string; raw: any }[] = [];
 
   readonly statusList = ['TO-DO', 'In-progress', 'Done', 'Cancle', 'Hold'];
 
@@ -161,12 +161,13 @@ export class EmployeeDashboardComponent implements OnInit {
         product: productName,
         amount: `₹${amount}`,
         status: order.status,
+        raw: order,
       };
     });
   }
 
   viewOrder(order: any): void {
-    this.dataService.selectedOrder = order;
+    this.dataService.selectedOrder = order.raw ?? order;
     this.router.navigate(['/admin-home/view-order']);
   }
 }

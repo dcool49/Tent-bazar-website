@@ -34,6 +34,7 @@
           name="q"
           placeholder="Search..."
           [(ngModel)]="searchName"
+          (ngModelChange)="onSearchNameChange()"
           class="px-2 py-1 text-sm text-black focus:outline-none w-40">
         <button
           type="submit"

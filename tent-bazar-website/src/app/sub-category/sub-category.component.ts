@@ -58,9 +58,23 @@ constructor(private route: Router, private dataService: DataService, private seo
     this.dataService.getAPICall(url).subscribe((res:any)=>{
       this.productList = res.data;
       this.configCartButton();
+      this.scrollToLastViewedProduct();
     },(err)=>{
       console.error(err);
     })
+  }
+
+  scrollToLastViewedProduct() {
+    const cameFromBackNavigation = sessionStorage.getItem('navTrigger') === 'popstate';
+    const productId = localStorage.getItem('productId');
+    if (!cameFromBackNavigation || !productId) return;
+    // Wait for the browser to actually paint the freshly rendered list
+    // (a single setTimeout can fire before layout has settled) before scrolling.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.getElementById('product-' + productId)?.scrollIntoView({ block: 'center' });
+      });
+    });
   }
 
   configCartButton(){

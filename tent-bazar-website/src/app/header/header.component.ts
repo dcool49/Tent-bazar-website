@@ -1,8 +1,9 @@
 import { Component, DoCheck, OnChanges, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';   // ⬅️ Needed for *ngIf, *ngFor
 import { RouterModule } from '@angular/router';   // ⬅️ Needed for routerLink, routerLinkActive
 import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,16 @@ export class HeaderComponent implements DoCheck {
   userInitial = '';
   isMenuOpen = false;
 
-  constructor(private route: Router) {}
+  constructor(private route: Router) {
+    this.route.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        if (!(event as NavigationEnd).urlAfterRedirects.startsWith('/product-search')) {
+          this.searchName = '';
+          localStorage.removeItem('searchName');
+        }
+      });
+  }
 
   ngDoCheck(): void {
     const localStorageData = JSON.parse(localStorage.getItem("addedProduct") as any);
@@ -47,6 +57,9 @@ export class HeaderComponent implements DoCheck {
 
   closeMenu() {
     this.isMenuOpen = false;
+  }
+  onSearchNameChange(){
+    localStorage.setItem("searchName", this.searchName);
   }
   searchProd(){
     localStorage.setItem("searchName",this.searchName);

@@ -1,14 +1,17 @@
 <section class="py-12 bg-gray-50 hero-top-section" [class.overflow-y-auto]="adminView" [style.max-height]="adminView ? '88vh' : null">
+  <div class="max-w-6xl mx-auto px-6 mb-6" *ngIf="!adminView">
+    <button (click)="goBack()" class="flex items-center gap-2 text-gray-600 hover:text-orange-600 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      Back
+    </button>
+  </div>
   <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
     
     <!-- Left: Product Image -->
     <div class="relative">
   <img [src]="selectedImage" [alt]="productDetals?.productName" class="rounded-lg shadow-md w-full object-cover">
-
-  <!-- Product Code -->
-  <span class="absolute top-3 left-3 bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-md shadow-md">
-    {{productDetals?.productName}}
-  </span>
 
   <!-- Separator -->
   <hr class="my-5 border-gray-200">
