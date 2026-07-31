@@ -20,6 +20,7 @@ export class AdminProductsComponent implements OnInit {
   p: number = 1;
   itemsPerPage: number = 10;
   value: any = '';
+  isEmployee = localStorage.getItem('role') === 'employee';
 
   pageChanged(event: any) {
     this.p = event;

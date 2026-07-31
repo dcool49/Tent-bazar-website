@@ -14,6 +14,7 @@ import { AddCategoryComponent } from './add-category/add-category.component';
 export class AdminCategoryComponent implements OnInit {
   categoryList: any;
   selectedID: any;
+  isEmployee = localStorage.getItem('role') === 'employee';
   constructor(
     private route: Router,
     private dataService: DataService,

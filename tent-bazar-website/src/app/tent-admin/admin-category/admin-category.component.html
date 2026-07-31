@@ -8,6 +8,7 @@
     </div>
 
     <button
+      *ngIf="!isEmployee"
       (click)="openDialog()"
       class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium flex items-center gap-2 whitespace-nowrap transition-colors self-start sm:self-auto"
     >
@@ -57,6 +58,7 @@
               <div class="flex items-center gap-1">
                 <!-- Edit -->
                 <button
+                  *ngIf="!isEmployee"
                   (click)="openDialogEdit(category)"
                   title="Edit"
                   class="p-1.5 rounded-lg text-yellow-600 hover:bg-yellow-50 transition-colors"
@@ -67,6 +69,7 @@
                 </button>
                 <!-- Delete -->
                 <button
+                  *ngIf="!isEmployee"
                   (click)="openDeleteDialog(category)"
                   title="Delete"
                   class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors"
